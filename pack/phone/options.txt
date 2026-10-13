@@ -1,5 +1,5 @@
 version:5023
-guiScale:3
+guiScale:4
 renderDistance:6
 simulationDistance:5
 graphicsPreset:"custom"

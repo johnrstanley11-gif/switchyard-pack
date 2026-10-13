@@ -4,7 +4,7 @@ A Tekkit Classic-inspired tech pack for **Minecraft 26.3 / NeoForge 26.3.0.65-be
 
 - Server: `mc.jorry.live` (already in the multiplayer list when you install the pack)
 - Website, downloads and how to join: https://mc.jorry.live
-- Current build: **26.3-0.1.0-test14**
+- Current build: **26.3-0.1.0-test15**
 
 This repository is here so you can see exactly what is in the pack before you install it: every mod, where it comes from,
 and the full source or patch of everything we built ourselves. Nothing here is needed to play; use the downloads on the site.
@@ -13,9 +13,9 @@ and the full source or patch of everything we built ourselves. Nothing here is n
 
 The pack files for this build are attached to the matching GitHub release and served from the website:
 
-- `Classic-Engineering-26.3-0.1.0-test14.mrpack` (27 MB)
-- `Classic-Engineering-26.3-0.1.0-test14-CurseForge.zip` (77 MB)
-- `Classic-Engineering-26.3-0.1.0-test14-Phone.mrpack` (26 MB)
+- `Classic-Engineering-26.3-0.1.0-test15.mrpack` (27 MB)
+- `Classic-Engineering-26.3-0.1.0-test15-CurseForge.zip` (77 MB)
+- `Classic-Engineering-26.3-0.1.0-test15-Phone.mrpack` (26 MB)
 
 Checksums: `pack/SHA256SUMS.txt`.
 

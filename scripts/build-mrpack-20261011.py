@@ -14,7 +14,7 @@ import zipfile
 
 PORT = Path(__file__).resolve().parents[1]
 PACK = PORT / "pack-26.3-private"
-VERSION = "26.3-0.1.0-test14"
+VERSION = "26.3-0.1.0-test15"
 NAME = "Classic Engineering"
 OUT = PACK / "dist" / ("Classic-Engineering-" + VERSION + ".mrpack")
 # slug -> (source folder under sources/, licence file names to carry)
