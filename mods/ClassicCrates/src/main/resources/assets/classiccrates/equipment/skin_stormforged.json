@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_stormforged"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_stormforged"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_stormforged"
+      }
+    ]
+  }
+}

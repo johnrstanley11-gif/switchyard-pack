@@ -1,0 +1,1037 @@
+diff --git a/build.gradle b/build.gradle
+index b303504..0defe45 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -4,17 +4,22 @@ plugins {
+     id 'java'
+     id 'maven-publish'
+     id 'signing'
+-    id 'net.neoforged.moddev' version '2.0.141'
++    id 'net.neoforged.moddev' version '2.0.148'
+ }
+ 
+ java {
+     toolchain {
+-        languageVersion = JavaLanguageVersion.of(21)
++        languageVersion = JavaLanguageVersion.of(25)
+     }
+     withSourcesJar()
+     withJavadocJar()
+ }
+ 
++tasks.withType(JavaCompile).configureEach {
++    // Port diagnostics: report every error instead of javac's default cap of 100.
++    options.compilerArgs.addAll(['-Xmaxerrs', '1000'])
++}
++
+ group = "io.codechicken"
+ base {
+     archivesName = 'EnderStorage'
+@@ -40,12 +45,20 @@ neoForge {
+     runs {
+         client {
+             client()
++            // Port testing: PORT_QUICKPLAY_WORLD=<save folder> opens that world directly.
++            if (System.getenv('PORT_QUICKPLAY_WORLD')) {
++                programArguments.addAll '--quickPlaySingleplayer', System.getenv('PORT_QUICKPLAY_WORLD')
++            }
+         }
+         server {
+             server()
++            programArgument('--nogui')
++            // Port testing: own folder so a private dev server and the dev client can run side by side.
++            gameDirectory = layout.projectDirectory.dir('run-server')
+         }
+         data {
+-            data()
++            // 26.x gathers client and server data in one run (GatherDataEvent.Client).
++            clientData()
+             programArguments.addAll '--mod', 'enderstorage', '--all', '--output', file("src/main/generated").absolutePath, '--existing', file("src/main/resources").absolutePath
+         }
+     }
+@@ -58,7 +71,7 @@ neoForge {
+ }
+ 
+ repositories {
+-    mavenLocal()
++    maven { url = uri('../../maven') }
+     maven { url = "https://maven.covers1624.net/" }
+     maven { url = "https://maven.blamejared.com/" }
+ }
+@@ -161,6 +174,7 @@ javadoc {
+ 
+ publishing {
+     repositories {
++        maven { name = 'Port'; url = uri('../../maven') }
+         if (System.getenv('MAVEN_PASS')) {
+             maven {
+                 url "https://nexus.covers1624.net/repository/maven-releases/"
+diff --git a/gradle.properties b/gradle.properties
+index 72a1548..a156c1a 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -1,6 +1,9 @@
+-mc_version=1.21.11
+-forge_version=21.11.42
+-ccl_version=4.7.0.+
++mc_version=26.3
++forge_version=26.3.0.65-beta
++ccl_version=4.7.0-port263.1
+ ccl_version_max=5.0.0
+-jei_version=27.9.0.38
+-mod_version=2.14.0
++jei_version=31.10.0.63
++mod_version=2.14.0-port263
++org.gradle.daemon=false
++org.gradle.workers.max=2
++org.gradle.jvmargs=-Xmx2G
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+index a9db115..3e390e6 100644
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,9 +1,11 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-9.6.1-bin.zip
++distributionUrl=https\://downloads.gradle.org/distributions/gradle-9.6.1-bin.zip
+ networkTimeout=10000
+ retries=0
+ retryBackOffMs=500
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
++
++distributionSha256Sum=9c0f7faeeb306cb14e4279a3e084ca6b596894089a0638e68a07c945a32c9e14
+diff --git a/src/main/generated/.cache/112c6c5586589447eb9bf3c2540f85adfbea77d4 b/src/main/generated/.cache/112c6c5586589447eb9bf3c2540f85adfbea77d4
+new file mode 100644
+index 0000000..ecf859c
+--- /dev/null
++++ b/src/main/generated/.cache/112c6c5586589447eb9bf3c2540f85adfbea77d4
+@@ -0,0 +1,7 @@
++// 26.3	2026-10-10T21:37:42.0517704	Registries for Reloadable (enderstorage[0]): [enderstorage]
++b673c25814beb84b79503882837661092a682cd6 data/enderstorage/recipe/ender_chest.json
++157a2f20f4706c756e9567034c3bafc2bb9a6771 data/enderstorage/recipe/ender_pouch.json
++23a78c3cba093b65eac6333451d943201f8f4fe5 data/enderstorage/recipe/ender_tank.json
++3c481bb6c2aa1f1b2fb41f9e9e6e38e45c3bdb98 data/enderstorage/recipe/recolour_ender_chest.json
++674e63c38e5902e1165a10dffc701fa502618a67 data/enderstorage/recipe/recolour_ender_pouch.json
++3a3e5f133c8be7f19b860e78615be7c88a679231 data/enderstorage/recipe/recolour_ender_tank.json
+diff --git a/src/main/generated/.cache/53c252d47159caa2725cf9322152d4faa8adddc2 b/src/main/generated/.cache/53c252d47159caa2725cf9322152d4faa8adddc2
+deleted file mode 100644
+index 64b6867..0000000
+--- a/src/main/generated/.cache/53c252d47159caa2725cf9322152d4faa8adddc2
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// 1.21.10	2025-11-01T05:18:59.649193434	Tags for minecraft:block mod id enderstorage
+-5b2130f55986594660c630dadb50eede58d67c12 data/minecraft/tags/block/mineable/pickaxe.json
+diff --git a/src/main/generated/.cache/abeef144278732cea2d82cd73e81bf44656e216c b/src/main/generated/.cache/abeef144278732cea2d82cd73e81bf44656e216c
+deleted file mode 100644
+index a65b320..0000000
+--- a/src/main/generated/.cache/abeef144278732cea2d82cd73e81bf44656e216c
++++ /dev/null
+@@ -1,7 +0,0 @@
+-// 1.21.10	2025-11-02T17:31:45.007560377	enderstorage Recipes.
+-fd4e91f80db1bacff6cb59abc25b7b35aa7e3d91 data/enderstorage/recipe/ender_chest.json
+-97bc8402e8cab0d031ef61e8f2572b3c5c5a4c00 data/enderstorage/recipe/ender_pouch.json
+-7676f726e26f7d9a15e8d19748a5cdc14f80b417 data/enderstorage/recipe/ender_tank.json
+-87e69e3098b99f159f035d53c75fcefe47f06e21 data/enderstorage/recipe/recolour_ender_chest.json
+-0cca6be6a44775be872a3b7f21475256d6b853fb data/enderstorage/recipe/recolour_ender_pouch.json
+-d731673c810f7ad214dd149dc3cbb3b6f4873071 data/enderstorage/recipe/recolour_ender_tank.json
+diff --git a/src/main/generated/.cache/91170f2f26a841a6ca23bdeb64c0ac20dec53a6e b/src/main/generated/.cache/ac24ab241f462d52ad313abefd105248a96b5774
+similarity index 98%
+rename from src/main/generated/.cache/91170f2f26a841a6ca23bdeb64c0ac20dec53a6e
+rename to src/main/generated/.cache/ac24ab241f462d52ad313abefd105248a96b5774
+index c508b13..50a3826 100644
+--- a/src/main/generated/.cache/91170f2f26a841a6ca23bdeb64c0ac20dec53a6e
++++ b/src/main/generated/.cache/ac24ab241f462d52ad313abefd105248a96b5774
+@@ -1,4 +1,4 @@
+-// 1.21.10	2025-11-02T15:28:54.752441199	Model Definitions - enderstorage
++// 26.3	2026-10-10T21:37:42.0533015	enderstorage-global/Model Definitions - enderstorage
+ c4901f45bd7487de548355a672a4323aa8d83068 assets/enderstorage/blockstates/ender_chest.json
+ e532f192a18828dfa3d2bcd782ef6b116a8cd3db assets/enderstorage/blockstates/ender_tank.json
+ 059211b1a9d0f1c8c3cfe56cb44a80312c2fab34 assets/enderstorage/items/ender_chest.json
+@@ -54,9 +54,9 @@ a5ad7b32224d2bd0ddfd87d1ec054c4f32ab2010 assets/enderstorage/models/ender_pouch_
+ 480c7b301c1d83feb74235d85a5537c48aaeb7a7 assets/enderstorage/models/ender_pouch_button_right_red.json
+ c23266a51bb6eb50d6ee13cb45658690466b7b29 assets/enderstorage/models/ender_pouch_button_right_white.json
+ 44b16aafa3e4588c3fb1f07f9aa9179685ff8bb9 assets/enderstorage/models/ender_pouch_button_right_yellow.json
+-e7a11368537d7afe885a6bba32574f8b7140b38e assets/enderstorage/models/item/ender_chest.json
+-e7a11368537d7afe885a6bba32574f8b7140b38e assets/enderstorage/models/item/ender_tank.json
+ 37965b95c13cb39b499b7925c76a2fbbeee31bce assets/enderstorage/models/items/ender_pouch_closed.json
+ 4f79a4c9572e3d1f01b41505c777038ea2c72b85 assets/enderstorage/models/items/ender_pouch_open.json
+ bca93d7cdab91d358aa60130acba6f555663a3b2 assets/enderstorage/models/items/ender_pouch_owned_closed.json
+ 9cc9edaa2b3e3572f77a34d3ec878c8e0ebd4f75 assets/enderstorage/models/items/ender_pouch_owned_open.json
++e7a11368537d7afe885a6bba32574f8b7140b38e assets/enderstorage/models/item/ender_chest.json
++e7a11368537d7afe885a6bba32574f8b7140b38e assets/enderstorage/models/item/ender_tank.json
+diff --git a/src/main/generated/.cache/e5a6881b85b647fdcdfb0e9072a195bac0335510 b/src/main/generated/.cache/e5a6881b85b647fdcdfb0e9072a195bac0335510
+new file mode 100644
+index 0000000..5ed4763
+--- /dev/null
++++ b/src/main/generated/.cache/e5a6881b85b647fdcdfb0e9072a195bac0335510
+@@ -0,0 +1,2 @@
++// 26.3	2026-10-10T21:37:42.0533015	enderstorage-global/Tags for minecraft:block mod id enderstorage
++5b2130f55986594660c630dadb50eede58d67c12 data/minecraft/tags/block/mineable/pickaxe.json
+diff --git a/src/main/generated/data/enderstorage/recipe/ender_chest.json b/src/main/generated/data/enderstorage/recipe/ender_chest.json
+index 55f0d8e..cbc8ebd 100644
+--- a/src/main/generated/data/enderstorage/recipe/ender_chest.json
++++ b/src/main/generated/data/enderstorage/recipe/ender_chest.json
+@@ -13,7 +13,6 @@
+     "BPB"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "enderstorage:ender_chest"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/enderstorage/recipe/ender_pouch.json b/src/main/generated/data/enderstorage/recipe/ender_pouch.json
+index c5bcdf0..b144cdb 100644
+--- a/src/main/generated/data/enderstorage/recipe/ender_pouch.json
++++ b/src/main/generated/data/enderstorage/recipe/ender_pouch.json
+@@ -12,7 +12,6 @@
+     "BWB"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "enderstorage:ender_pouch"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/enderstorage/recipe/ender_tank.json b/src/main/generated/data/enderstorage/recipe/ender_tank.json
+index 0673aac..9e12e97 100644
+--- a/src/main/generated/data/enderstorage/recipe/ender_tank.json
++++ b/src/main/generated/data/enderstorage/recipe/ender_tank.json
+@@ -13,7 +13,6 @@
+     "BPB"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "enderstorage:ender_tank"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/enderstorage/recipe/recolour_ender_chest.json b/src/main/generated/data/enderstorage/recipe/recolour_ender_chest.json
+index e808737..90d3ed5 100644
+--- a/src/main/generated/data/enderstorage/recipe/recolour_ender_chest.json
++++ b/src/main/generated/data/enderstorage/recipe/recolour_ender_chest.json
+@@ -1,7 +1,6 @@
+ {
+   "type": "enderstorage:recolour_recipe",
+   "result": {
+-    "count": 1,
+     "id": "enderstorage:ender_chest"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/enderstorage/recipe/recolour_ender_pouch.json b/src/main/generated/data/enderstorage/recipe/recolour_ender_pouch.json
+index 9393ef1..de092eb 100644
+--- a/src/main/generated/data/enderstorage/recipe/recolour_ender_pouch.json
++++ b/src/main/generated/data/enderstorage/recipe/recolour_ender_pouch.json
+@@ -1,7 +1,6 @@
+ {
+   "type": "enderstorage:recolour_recipe",
+   "result": {
+-    "count": 1,
+     "id": "enderstorage:ender_pouch"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/enderstorage/recipe/recolour_ender_tank.json b/src/main/generated/data/enderstorage/recipe/recolour_ender_tank.json
+index 92fa998..edaa9b3 100644
+--- a/src/main/generated/data/enderstorage/recipe/recolour_ender_tank.json
++++ b/src/main/generated/data/enderstorage/recipe/recolour_ender_tank.json
+@@ -1,7 +1,6 @@
+ {
+   "type": "enderstorage:recolour_recipe",
+   "result": {
+-    "count": 1,
+     "id": "enderstorage:ender_tank"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/codechicken/enderstorage/block/BlockEnderStorage.java b/src/main/java/codechicken/enderstorage/block/BlockEnderStorage.java
+index 81e08b8..b0e3048 100644
+--- a/src/main/java/codechicken/enderstorage/block/BlockEnderStorage.java
++++ b/src/main/java/codechicken/enderstorage/block/BlockEnderStorage.java
+@@ -13,6 +13,8 @@ import codechicken.lib.util.ItemUtils;
+ import com.mojang.serialization.MapCodec;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
++import net.minecraft.server.level.ServerLevel;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+ import net.minecraft.world.entity.LivingEntity;
+@@ -71,7 +73,7 @@ public abstract class BlockEnderStorage<T extends TileFrequencyOwner> extends Mo
+     }
+ 
+     @Override
+-    public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
++    public void playerDestroy(ServerLevel worldIn, ServerPlayer player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
+         super.playerDestroy(worldIn, player, pos, state, te, stack);
+         worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+     }
+@@ -172,7 +174,7 @@ public abstract class BlockEnderStorage<T extends TileFrequencyOwner> extends Mo
+     }
+ 
+     @Override
+-    public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, Direction side) {
++    protected boolean shouldRedstoneWireConnectTo(BlockState state, BlockGetter world, BlockPos pos, @Nullable Direction side) {
+         return world.getBlockEntity(pos) instanceof TileFrequencyOwner tile && tile.redstoneInteraction();
+     }
+ 
+@@ -193,8 +195,4 @@ public abstract class BlockEnderStorage<T extends TileFrequencyOwner> extends Mo
+         return tileentity != null && tileentity.triggerEvent(eventID, eventParam);
+     }
+ 
+-    @Override
+-    protected MapCodec<? extends BaseEntityBlock> codec() {
+-        throw new UnsupportedOperationException();
+-    }
+ }
+diff --git a/src/main/java/codechicken/enderstorage/client/gui/GuiEnderItemStorage.java b/src/main/java/codechicken/enderstorage/client/gui/GuiEnderItemStorage.java
+index a09053a..8e1e501 100644
+--- a/src/main/java/codechicken/enderstorage/client/gui/GuiEnderItemStorage.java
++++ b/src/main/java/codechicken/enderstorage/client/gui/GuiEnderItemStorage.java
+@@ -1,7 +1,7 @@
+ package codechicken.enderstorage.client.gui;
+ 
+ import codechicken.enderstorage.container.ContainerEnderItemStorage;
+-import net.minecraft.client.gui.GuiGraphics;
++import net.minecraft.client.gui.GuiGraphicsExtractor;
+ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+ import net.minecraft.client.renderer.RenderPipelines;
+ import net.minecraft.network.chat.Component;
+@@ -11,31 +11,25 @@ import net.minecraft.world.entity.player.Inventory;
+ public class GuiEnderItemStorage extends AbstractContainerScreen<ContainerEnderItemStorage> {
+ 
+     public GuiEnderItemStorage(ContainerEnderItemStorage container, Inventory playerInv, Component title) {
+-        super(container, playerInv, title);
+-
+-        if (container.chestInv.getSize() == 2) {
+-            imageHeight = 222;
+-        }
++        // imageHeight is final since 26.x, the large chest size is passed to the constructor instead.
++        super(container, playerInv, title, 176, container.chestInv.getSize() == 2 ? 222 : 166);
+     }
+ 
+-    @Override
+-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+-        renderBackground(graphics, mouseX, mouseY, partialTicks);
+-        super.render(graphics, mouseX, mouseY, partialTicks);
+-        renderTooltip(graphics, mouseX, mouseY);
+-    }
++    // The screen background, slots, carried item and tooltip are all extracted by AbstractContainerScreen since 26.x,
++    // the old render() override which called them in order is not needed.
+ 
+     @Override
+-    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+-        graphics.drawString(font, title.getVisualOrderText(), 8, 6, 0xFF404040, false);
+-        graphics.drawString(font, playerInventoryTitle.getVisualOrderText(), 8, imageHeight - 94, 0xFF404040, false);
++    protected void extractLabels(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
++        graphics.text(font, title.getVisualOrderText(), 8, 6, 0xFF404040, false);
++        graphics.text(font, playerInventoryTitle.getVisualOrderText(), 8, imageHeight - 94, 0xFF404040, false);
+         menu.chestInv.freq.ownerName().ifPresent(name -> {
+-            graphics.drawString(font, name.getVisualOrderText(), 170 - font.width(name), 6, 0xFF404040, false);
++            graphics.text(font, name.getVisualOrderText(), 170 - font.width(name), 6, 0xFF404040, false);
+         });
+     }
+ 
+     @Override
+-    protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
++    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
++        super.extractBackground(graphics, mouseX, mouseY, partialTicks);
+         Identifier texture = Identifier.withDefaultNamespace(menu.chestInv.getSize() == 0 ? "textures/gui/container/dispenser.png" : "textures/gui/container/generic_54.png");
+         int x = (width - imageWidth) / 2;
+         int y = (height - imageHeight) / 2;
+diff --git a/src/main/java/codechicken/enderstorage/client/render/RenderCustomEndPortal.java b/src/main/java/codechicken/enderstorage/client/render/RenderCustomEndPortal.java
+index e143f93..eee4a6b 100644
+--- a/src/main/java/codechicken/enderstorage/client/render/RenderCustomEndPortal.java
++++ b/src/main/java/codechicken/enderstorage/client/render/RenderCustomEndPortal.java
+@@ -1,21 +1,25 @@
+ package codechicken.enderstorage.client.render;
+ 
++import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
++
+ import codechicken.lib.math.MathHelper;
+-import com.mojang.blaze3d.pipeline.BlendFunction;
+-import com.mojang.blaze3d.pipeline.RenderPipeline;
+-import com.mojang.blaze3d.platform.DestFactor;
+-import com.mojang.blaze3d.platform.SourceFactor;
++import com.mojang.renderpearl.api.pipeline.BlendFunction;
++import com.mojang.renderpearl.api.pipeline.RenderPipeline;
++import com.mojang.renderpearl.api.pipeline.BlendFactor;
++import com.mojang.renderpearl.api.pipeline.ColorTargetState;
++import com.mojang.renderpearl.api.pipeline.DepthStencilState;
+ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+ import com.mojang.blaze3d.vertex.PoseStack;
+ import com.mojang.blaze3d.vertex.VertexConsumer;
+-import com.mojang.blaze3d.vertex.VertexFormat;
++import com.mojang.renderpearl.api.vertex.VertexFormat;
+ import net.covers1624.quack.util.CrashLock;
++import net.minecraft.client.renderer.BindGroupLayouts;
+ import net.minecraft.client.renderer.RenderPipelines;
+ import net.minecraft.client.renderer.SubmitNodeCollector;
+ import net.minecraft.client.renderer.blockentity.AbstractEndPortalRenderer;
+ import net.minecraft.client.renderer.rendertype.RenderSetup;
+ import net.minecraft.client.renderer.rendertype.RenderType;
+-import net.minecraft.client.renderer.state.CameraRenderState;
++import net.minecraft.client.renderer.state.level.CameraRenderState;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.resources.Identifier;
+ import net.neoforged.bus.api.IEventBus;
+@@ -31,28 +35,40 @@ public class RenderCustomEndPortal {
+ 
+     private static final CrashLock LOCK = new CrashLock("Already Initialized");
+ 
+-    public static final RenderPipeline SKY_PIPELINE = RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)
++    public static final RenderPipeline SKY_PIPELINE = RenderPipeline.builder(RenderPipelines.GLOBALS_SNIPPET)
++            // The projection + transform uniforms of the old MATRICES_PROJECTION_SNIPPET.
++            .withBindGroupLayout(BindGroupLayouts.PROJECTION)
++            .withBindGroupLayout(BindGroupLayouts.DYNAMIC_TRANSFORMS)
+             .withLocation(Identifier.fromNamespaceAndPath(MOD_ID, "pipeline/starfield_sky"))
+             .withVertexShader("core/position_tex_color")
+             .withFragmentShader("core/position_tex_color")
+-            .withSampler("Sampler0")
+-            .withBlend(new BlendFunction(
+-                    SourceFactor.SRC_ALPHA,
+-                    DestFactor.ONE_MINUS_SRC_ALPHA
+-            ))
+-            .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
++            .withBindGroupLayout(BindGroupLayouts.SAMPLER0)
++            .withColorTargetState(new ColorTargetState(new BlendFunction(
++                    BlendFactor.SRC_ALPHA,
++                    BlendFactor.ONE_MINUS_SRC_ALPHA
++            )))
++            // Pipelines have no depth test unless asked for since 26.x, the portal surface was always depth tested.
++            .withDepthStencilState(DepthStencilState.DEFAULT)
++            .withVertexBinding(0, DefaultVertexFormat.POSITION_TEX_COLOR)
++            .withPrimitiveTopology(PrimitiveTopology.QUADS)
+             .build();
+ 
+-    public static final RenderPipeline PORTAL_PIPELINE = RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)
++    public static final RenderPipeline PORTAL_PIPELINE = RenderPipeline.builder(RenderPipelines.GLOBALS_SNIPPET)
++            // The projection + transform uniforms of the old MATRICES_PROJECTION_SNIPPET.
++            .withBindGroupLayout(BindGroupLayouts.PROJECTION)
++            .withBindGroupLayout(BindGroupLayouts.DYNAMIC_TRANSFORMS)
+             .withLocation(Identifier.fromNamespaceAndPath(MOD_ID, "pipeline/portal_sky"))
+             .withVertexShader("core/position_tex_color")
+             .withFragmentShader("core/position_tex_color")
+-            .withSampler("Sampler0")
+-            .withBlend(new BlendFunction(
+-                    SourceFactor.ONE,
+-                    DestFactor.ONE
+-            ))
+-            .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
++            .withBindGroupLayout(BindGroupLayouts.SAMPLER0)
++            .withColorTargetState(new ColorTargetState(new BlendFunction(
++                    BlendFactor.ONE,
++                    BlendFactor.ONE
++            )))
++            // Pipelines have no depth test unless asked for since 26.x, the portal surface was always depth tested.
++            .withDepthStencilState(DepthStencilState.DEFAULT)
++            .withVertexBinding(0, DefaultVertexFormat.POSITION_TEX_COLOR)
++            .withPrimitiveTopology(PrimitiveTopology.QUADS)
+             .build();
+ 
+     private static final RenderType SKY_TYPE = RenderType.create(
+diff --git a/src/main/java/codechicken/enderstorage/client/render/entity/TankLayerRenderer.java b/src/main/java/codechicken/enderstorage/client/render/entity/TankLayerRenderer.java
+index 42fd470..9cc35f6 100644
+--- a/src/main/java/codechicken/enderstorage/client/render/entity/TankLayerRenderer.java
++++ b/src/main/java/codechicken/enderstorage/client/render/entity/TankLayerRenderer.java
+@@ -48,7 +48,7 @@ public class TankLayerRenderer extends RenderLayer<AvatarRenderState, PlayerMode
+         if (!UUIDS.contains(state.getRenderData(PLAYER_UUID))) return;
+ 
+         pose.pushPose();
+-        pose.mulPose(new Quaternionf().rotateX((float) (MathHelper.torad * 180)));
++        pose.rotate(new Quaternionf().rotateX((float) (MathHelper.torad * 180)));
+         pose.scale(0.5F, 0.5F, 0.5F);
+         if (state.isCrouching) {
+             pose.translate(0, -0.5, 0);
+@@ -56,8 +56,8 @@ public class TankLayerRenderer extends RenderLayer<AvatarRenderState, PlayerMode
+         if (state.isFallFlying) {
+             xRot = -45;
+         }
+-        pose.mulPose(new Quaternionf().rotateY((float) -(yRot * MathHelper.torad)));
+-        pose.mulPose(new Quaternionf().rotateX((float) (xRot * MathHelper.torad)));
++        pose.rotate(new Quaternionf().rotateY((float) -(yRot * MathHelper.torad)));
++        pose.rotate(new Quaternionf().rotateX((float) (xRot * MathHelper.torad)));
+         pose.translate(-0.5, 1, -0.5);
+ 
+         RenderTileEnderTank.RenderState tankState = new RenderTileEnderTank.RenderState();
+diff --git a/src/main/java/codechicken/enderstorage/client/render/item/EnderChestItemRender.java b/src/main/java/codechicken/enderstorage/client/render/item/EnderChestItemRender.java
+index 3d55a85..4a95487 100644
+--- a/src/main/java/codechicken/enderstorage/client/render/item/EnderChestItemRender.java
++++ b/src/main/java/codechicken/enderstorage/client/render/item/EnderChestItemRender.java
+@@ -33,7 +33,7 @@ public class EnderChestItemRender implements SpecialModelRenderer<RenderTileEnde
+     }
+ 
+     @Override
+-    public void submit(@Nullable RenderTileEnderChest.RenderState state, ItemDisplayContext displayCtx, PoseStack pose, SubmitNodeCollector collector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
++    public void submit(@Nullable RenderTileEnderChest.RenderState state, PoseStack pose, SubmitNodeCollector collector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+         if (state == null) return;
+ 
+         state.lightCoords = packedLight;
+@@ -41,17 +41,17 @@ public class EnderChestItemRender implements SpecialModelRenderer<RenderTileEnde
+         RenderTileEnderChest.doSubmit(state, pose, collector, null);
+     }
+ 
+-    public record Unbaked() implements SpecialModelRenderer.Unbaked {
++    public record Unbaked() implements SpecialModelRenderer.Unbaked<RenderTileEnderChest.RenderState> {
+ 
+         public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(Unbaked::new);
+ 
+         @Override
+-        public MapCodec<? extends SpecialModelRenderer.Unbaked> type() {
++        public MapCodec<Unbaked> type() {
+             return MAP_CODEC;
+         }
+ 
+         @Override
+-        public SpecialModelRenderer<?> bake(BakingContext context) {
++        public SpecialModelRenderer<RenderTileEnderChest.RenderState> bake(BakingContext context) {
+             return new EnderChestItemRender();
+         }
+     }
+diff --git a/src/main/java/codechicken/enderstorage/client/render/item/EnderTankItemRender.java b/src/main/java/codechicken/enderstorage/client/render/item/EnderTankItemRender.java
+index 0e6aba4..5017bc7 100644
+--- a/src/main/java/codechicken/enderstorage/client/render/item/EnderTankItemRender.java
++++ b/src/main/java/codechicken/enderstorage/client/render/item/EnderTankItemRender.java
+@@ -38,7 +38,7 @@ public class EnderTankItemRender implements SpecialModelRenderer<RenderState> {
+     }
+ 
+     @Override
+-    public void submit(@Nullable RenderState state, ItemDisplayContext displayCtx, PoseStack pose, SubmitNodeCollector collector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
++    public void submit(@Nullable RenderState state, PoseStack pose, SubmitNodeCollector collector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+         if (state == null) return;
+ 
+         state.lightCoords = packedLight;
+@@ -46,17 +46,17 @@ public class EnderTankItemRender implements SpecialModelRenderer<RenderState> {
+         RenderTileEnderTank.doSubmit(state, pose, collector, null);
+     }
+ 
+-    public record Unbaked() implements SpecialModelRenderer.Unbaked {
++    public record Unbaked() implements SpecialModelRenderer.Unbaked<RenderState> {
+ 
+         public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(Unbaked::new);
+ 
+         @Override
+-        public MapCodec<? extends SpecialModelRenderer.Unbaked> type() {
++        public MapCodec<Unbaked> type() {
+             return MAP_CODEC;
+         }
+ 
+         @Override
+-        public SpecialModelRenderer<?> bake(BakingContext context) {
++        public SpecialModelRenderer<RenderState> bake(BakingContext context) {
+             return new EnderTankItemRender();
+         }
+     }
+diff --git a/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderChest.java b/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderChest.java
+index bd1a1cb..58a0b51 100644
+--- a/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderChest.java
++++ b/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderChest.java
+@@ -25,7 +25,7 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+ import net.minecraft.client.renderer.rendertype.RenderType;
+ import net.minecraft.client.renderer.rendertype.RenderTypes;
+-import net.minecraft.client.renderer.state.CameraRenderState;
++import net.minecraft.client.renderer.state.level.CameraRenderState;
+ import net.minecraft.client.renderer.texture.OverlayTexture;
+ import net.minecraft.core.Direction;
+ import net.minecraft.resources.Identifier;
+@@ -84,22 +84,35 @@ public class RenderTileEnderChest implements BlockEntityRenderer<TileEnderChest,
+         pose.translate(0, 1.0, 1.0);
+         pose.scale(1.0F, -1.0F, -1.0F);
+         pose.translate(0.5, 0.5, 0.5);
+-        pose.mulPose(Axis.YP.rotationDegrees(state.rotation.toYRot()));
++        pose.rotate(Axis.YP.rotationDegrees(state.rotation.toYRot()));
+         pose.translate(-0.5, -0.5, -0.5);
+ 
+         // Render chest
++        EnderChestModel.State modelState = new EnderChestModel.State(state.lidAngle, state.frequency.hasOwner());
+         collector.submitModel(
+                 model,
+-                new EnderChestModel.State(state.lidAngle, state.frequency.hasOwner()),
++                modelState,
+                 pose,
+                 EnderChestModel.RENDER_TYPE,
+                 state.lightCoords,
+                 state.overlayCoords,
+                 -1,
+                 null,
+-                0,
+-                state.breakProgress
++                0
+         );
++        // The breaking overlay is its own submit since 26.x, the same way vanilla chests do it.
++        if (state.breakProgress != null) {
++            collector.order(1).submitCrumblingOverlay(
++                    model,
++                    modelState,
++                    pose,
++                    EnderChestModel.RENDER_TYPE,
++                    state.lightCoords,
++                    state.overlayCoords,
++                    -1,
++                    state.breakProgress
++            );
++        }
+         pose.popPose();
+ 
+         // Buttons
+diff --git a/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderTank.java b/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderTank.java
+index 73260a1..04b2a30 100644
+--- a/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderTank.java
++++ b/src/main/java/codechicken/enderstorage/client/render/tile/RenderTileEnderTank.java
+@@ -27,7 +27,7 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+ import net.minecraft.client.renderer.rendertype.RenderType;
+ import net.minecraft.client.renderer.rendertype.RenderTypes;
+-import net.minecraft.client.renderer.state.CameraRenderState;
++import net.minecraft.client.renderer.state.level.CameraRenderState;
+ import net.minecraft.client.renderer.texture.OverlayTexture;
+ import net.minecraft.core.Direction;
+ import net.minecraft.resources.Identifier;
+diff --git a/src/main/java/codechicken/enderstorage/init/DataGenerators.java b/src/main/java/codechicken/enderstorage/init/DataGenerators.java
+index f7b5969..fadc403 100644
+--- a/src/main/java/codechicken/enderstorage/init/DataGenerators.java
++++ b/src/main/java/codechicken/enderstorage/init/DataGenerators.java
+@@ -19,12 +19,16 @@ import net.minecraft.client.data.models.model.ItemModelUtils;
+ import net.minecraft.client.data.models.model.ModelLocationUtils;
+ import net.minecraft.client.data.models.model.ModelTemplates;
+ import net.minecraft.client.data.models.model.TextureMapping;
++import net.minecraft.advancements.Advancement;
+ import net.minecraft.client.renderer.item.ItemModel;
++import net.minecraft.client.resources.model.sprite.Material;
+ import net.minecraft.core.HolderLookup;
+ import net.minecraft.data.PackOutput;
++import net.minecraft.data.worldgen.BootstrapContext;
+ import net.minecraft.resources.Identifier;
+ import net.minecraft.tags.BlockTags;
+-import net.minecraft.world.item.ItemStack;
++import net.minecraft.world.item.ItemStackTemplate;
++import net.minecraft.world.item.crafting.Recipe;
+ import net.minecraft.world.item.Items;
+ import net.minecraft.world.level.ItemLike;
+ import net.minecraft.world.level.block.Blocks;
+@@ -33,6 +37,7 @@ import net.neoforged.fml.loading.FMLEnvironment;
+ import net.neoforged.neoforge.common.Tags;
+ import net.neoforged.neoforge.common.data.BlockTagsProvider;
+ import net.neoforged.neoforge.data.event.GatherDataEvent;
++import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
+ 
+ import java.util.HashMap;
+ import java.util.Map;
+@@ -53,13 +58,18 @@ public class DataGenerators {
+ 
+         if (FMLEnvironment.getDist().isClient()) {
+             modBus.addListener(DataGenerators::gatherDataGenerators);
++            modBus.addListener(DataGenerators::gatherRegistryEntries);
+         }
+     }
+ 
+     private static void gatherDataGenerators(GatherDataEvent.Client event) {
+         event.createProvider(Models::new);
+         event.createProvider(BlockTagGen::new);
+-        event.createProvider(Recipes::new);
++    }
++
++    // Recipes (and their unlock advancements) are data registries since 26.x, they are bootstrapped instead of written by a DataProvider.
++    private static void gatherRegistryEntries(GatherDataRegistryEntriesEvent event) {
++        event.add(RecipeProvider.asBootstrap(Recipes::new));
+     }
+ 
+     private static class Models extends ModelProvider {
+@@ -137,7 +147,7 @@ public class DataGenerators {
+         }
+ 
+         private Identifier customFlat(ItemModelGenerators itemModels, String path, String texture) {
+-            return ModelTemplates.FLAT_ITEM.create(modLocation(path), TextureMapping.layer0(modLocation(texture)), itemModels.modelOutput);
++            return ModelTemplates.FLAT_ITEM.create(modLocation(path), TextureMapping.layer0(new Material(modLocation(texture))), itemModels.modelOutput);
+         }
+     }
+ 
+@@ -150,20 +160,20 @@ public class DataGenerators {
+         @Override
+         protected void addTags(HolderLookup.Provider pProvider) {
+             tag(BlockTags.MINEABLE_WITH_PICKAXE)
+-                    .add(ENDER_CHEST_BLOCK.get())
+-                    .add(ENDER_TANK_BLOCK.get());
++                    .add(ENDER_CHEST_BLOCK.getKey())
++                    .add(ENDER_TANK_BLOCK.getKey());
+         }
+     }
+ 
+     private static class Recipes extends RecipeProvider {
+ 
+-        public Recipes(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+-            super(output, lookupProvider, MOD_ID);
++        public Recipes(BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
++            super(recipes, advancements, MOD_ID);
+         }
+ 
+         @Override
+         protected void registerRecipes() {
+-            customShaped(ENDER_POUCH, (group, category, pattern, stack, showNotification) -> new CreateRecipe(group, pattern, stack))
++            customShaped(ENDER_POUCH, (commonInfo, bookInfo, pattern, stack) -> new CreateRecipe(bookInfo.group(), pattern, stack))
+                     .key('P', Tags.Items.ENDER_PEARLS)
+                     .key('L', Tags.Items.LEATHERS)
+                     .key('B', Items.BLAZE_POWDER)
+@@ -172,7 +182,7 @@ public class DataGenerators {
+                     .patternLine("LPL")
+                     .patternLine("BWB");
+ 
+-            customShaped((ItemLike) ENDER_CHEST_ITEM, (group, category, pattern, stack, showNotification) -> new CreateRecipe(group, pattern, stack))
++            customShaped((ItemLike) ENDER_CHEST_ITEM, (commonInfo, bookInfo, pattern, stack) -> new CreateRecipe(bookInfo.group(), pattern, stack))
+                     .key('P', Tags.Items.ENDER_PEARLS)
+                     .key('O', Tags.Items.OBSIDIANS)
+                     .key('C', Tags.Items.CHESTS_WOODEN)
+@@ -181,7 +191,7 @@ public class DataGenerators {
+                     .patternLine("BWB")
+                     .patternLine("OCO")
+                     .patternLine("BPB");
+-            customShaped((ItemLike) ENDER_TANK_ITEM, (group, category, pattern, stack, showNotification) -> new CreateRecipe(group, pattern, stack))
++            customShaped((ItemLike) ENDER_TANK_ITEM, (commonInfo, bookInfo, pattern, stack) -> new CreateRecipe(bookInfo.group(), pattern, stack))
+                     .key('P', Tags.Items.ENDER_PEARLS)
+                     .key('O', Tags.Items.OBSIDIANS)
+                     .key('C', Items.CAULDRON)
+@@ -191,9 +201,9 @@ public class DataGenerators {
+                     .patternLine("OCO")
+                     .patternLine("BPB");
+ 
+-            special(Identifier.fromNamespaceAndPath(MOD_ID, "recolour_ender_pouch"), () -> new ReColourRecipe(new ItemStack(ENDER_POUCH.get())));
+-            special(Identifier.fromNamespaceAndPath(MOD_ID, "recolour_ender_chest"), () -> new ReColourRecipe(new ItemStack(ENDER_CHEST_ITEM.get())));
+-            special(Identifier.fromNamespaceAndPath(MOD_ID, "recolour_ender_tank"), () -> new ReColourRecipe(new ItemStack(ENDER_TANK_ITEM.get())));
++            special(Identifier.fromNamespaceAndPath(MOD_ID, "recolour_ender_pouch"), () -> new ReColourRecipe(new ItemStackTemplate(ENDER_POUCH.get())));
++            special(Identifier.fromNamespaceAndPath(MOD_ID, "recolour_ender_chest"), () -> new ReColourRecipe(new ItemStackTemplate(ENDER_CHEST_ITEM.get())));
++            special(Identifier.fromNamespaceAndPath(MOD_ID, "recolour_ender_tank"), () -> new ReColourRecipe(new ItemStackTemplate(ENDER_TANK_ITEM.get())));
+         }
+     }
+ }
+diff --git a/src/main/java/codechicken/enderstorage/init/EnderStorageModContent.java b/src/main/java/codechicken/enderstorage/init/EnderStorageModContent.java
+index 0c64dcb..d5b60f4 100644
+--- a/src/main/java/codechicken/enderstorage/init/EnderStorageModContent.java
++++ b/src/main/java/codechicken/enderstorage/init/EnderStorageModContent.java
+@@ -91,10 +91,10 @@ public class EnderStorageModContent {
+     );
+ 
+     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CreateRecipe>> CREATE_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("create_recipe",
+-            CreateRecipe.Serializer::new
++            CreateRecipe.Serializer::create
+     );
+     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ReColourRecipe>> RECOLOUR_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("recolour_recipe",
+-            ReColourRecipe.Serializer::new
++            ReColourRecipe.Serializer::create
+     );
+ 
+     public static void init(IEventBus modBus) {
+diff --git a/src/main/java/codechicken/enderstorage/item/ItemEnderStorage.java b/src/main/java/codechicken/enderstorage/item/ItemEnderStorage.java
+index 8ecffeb..66ed4a1 100644
+--- a/src/main/java/codechicken/enderstorage/item/ItemEnderStorage.java
++++ b/src/main/java/codechicken/enderstorage/item/ItemEnderStorage.java
+@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.item.TooltipFlag;
+ import net.minecraft.world.item.component.TooltipDisplay;
++import net.minecraft.world.item.context.BlockPlaceContext;
+ import net.minecraft.world.level.Level;
+ import net.minecraft.world.level.block.Block;
+ import net.minecraft.world.level.block.state.BlockState;
+@@ -27,16 +28,18 @@ public class ItemEnderStorage extends BlockItem {
+         return Frequency.getComponentOrEmpty(stack);
+     }
+ 
++    // BlockItem's per-instance updateCustomBlockEntityTag hook is a static helper since 26.x.
++    // placeBlock is the last overridable step before setPlacedBy (the tiles' onPlaced needs the frequency),
++    // so the frequency is applied right after the block is set. Stored block entity data on the stack is now
++    // applied after it instead of before it.
+     @Override
+-    protected boolean updateCustomBlockEntityTag(BlockPos pos, Level world, @Nullable Player player, ItemStack stack, BlockState state) {
+-        boolean flag = super.updateCustomBlockEntityTag(pos, world, player, stack, state);
+-        TileFrequencyOwner tile = (TileFrequencyOwner) world.getBlockEntity(pos);
+-        if (tile != null) {
+-            tile.setFreq(getFreq(stack));
+-            return true;
+-        }
++    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
++        if (!super.placeBlock(context, state)) return false;
+ 
+-        return flag;
++        if (context.getLevel().getBlockEntity(context.getClickedPos()) instanceof TileFrequencyOwner tile) {
++            tile.setFreq(getFreq(context.getItemInHand()));
++        }
++        return true;
+     }
+ 
+     @Override
+diff --git a/src/main/java/codechicken/enderstorage/recipe/CreateRecipe.java b/src/main/java/codechicken/enderstorage/recipe/CreateRecipe.java
+index ec78d1e..e44cb5d 100644
+--- a/src/main/java/codechicken/enderstorage/recipe/CreateRecipe.java
++++ b/src/main/java/codechicken/enderstorage/recipe/CreateRecipe.java
+@@ -6,24 +6,63 @@ import codechicken.lib.colour.EnumColour;
+ import com.mojang.serialization.Codec;
+ import com.mojang.serialization.MapCodec;
+ import com.mojang.serialization.codecs.RecordCodecBuilder;
+-import net.minecraft.core.HolderLookup;
+ import net.minecraft.network.RegistryFriendlyByteBuf;
+ import net.minecraft.network.codec.ByteBufCodecs;
+ import net.minecraft.network.codec.StreamCodec;
+ import net.minecraft.world.item.ItemStack;
++import net.minecraft.world.item.ItemStackTemplate;
++import net.minecraft.world.item.Items;
+ import net.minecraft.world.item.crafting.*;
++import net.minecraft.world.item.crafting.display.RecipeDisplay;
++import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
++import net.minecraft.world.item.crafting.display.SlotDisplay;
++import net.minecraft.world.level.Level;
++
++import java.util.List;
+ 
+ /**
+  * Created by covers1624 on 1/11/19.
++ * <p>
++ * A shaped recipe which colours its result from the wool used.
++ * Since 26.x ShapedRecipe pins its serializer type and hides its result, so this is a
++ * {@link NormalCraftingRecipe} carrying the same pattern/result itself instead of a ShapedRecipe subclass.
+  */
+-public class CreateRecipe extends ShapedRecipe {
++public class CreateRecipe extends NormalCraftingRecipe {
++
++    public final ShapedRecipePattern pattern;
++    private final ItemStackTemplate result;
++
++    public CreateRecipe(String group, ShapedRecipePattern pattern, ItemStackTemplate result) {
++        super(new Recipe.CommonInfo(true), new CraftingRecipe.CraftingBookInfo(CraftingBookCategory.MISC, group));
++        this.pattern = pattern;
++        this.result = result;
++    }
++
++    @Override
++    public boolean matches(CraftingInput input, Level level) {
++        return pattern.matches(input);
++    }
+ 
+-    public CreateRecipe(String group, ShapedRecipePattern pattern, ItemStack result) {
+-        super(group, CraftingBookCategory.MISC, pattern, result.copy(), true);
++    @Override
++    protected PlacementInfo createPlacementInfo() {
++        return PlacementInfo.createFromOptionals(pattern.ingredients());
+     }
+ 
+     @Override
+-    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider registries) {
++    public List<RecipeDisplay> display() {
++        return List.of(
++                new ShapedCraftingRecipeDisplay(
++                        pattern.width(),
++                        pattern.height(),
++                        pattern.ingredients().stream().map(e -> e.map(Ingredient::display).orElse(SlotDisplay.Empty.INSTANCE)).toList(),
++                        new SlotDisplay.ItemStackSlotDisplay(result),
++                        new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)
++                )
++        );
++    }
++
++    @Override
++    public ItemStack assemble(CraftingInput inv) {
+         EnumColour colour = EnumColour.WHITE;
+         // Create recipe only has a single wool.
+         // We find it and set the colour to that.
+@@ -41,38 +80,33 @@ public class CreateRecipe extends ShapedRecipe {
+             }
+         }
+         Frequency frequency = new Frequency(colour, colour, colour);
+-        return frequency.putComponent(super.assemble(inv, registries));
++        return frequency.putComponent(result.create());
+     }
+ 
+     @Override
+-    public RecipeSerializer<? extends ShapedRecipe> getSerializer() {
++    public RecipeSerializer<CreateRecipe> getSerializer() {
+         return EnderStorageModContent.CREATE_RECIPE_SERIALIZER.get();
+     }
+ 
+-    public static class Serializer implements RecipeSerializer<CreateRecipe> {
++    public static class Serializer {
+ 
+         private static final MapCodec<CreateRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+-                        Codec.STRING.optionalFieldOf("group", "").forGetter(e -> e.group),
++                        Codec.STRING.optionalFieldOf("group", "").forGetter(NormalCraftingRecipe::group),
+                         ShapedRecipePattern.MAP_CODEC.forGetter(e -> e.pattern),
+-                        ItemStack.STRICT_CODEC.fieldOf("result").forGetter(e -> e.result)
++                        ItemStackTemplate.CODEC.fieldOf("result").forGetter(e -> e.result)
+                 ).apply(builder, CreateRecipe::new)
+         );
+ 
+         private static final StreamCodec<RegistryFriendlyByteBuf, CreateRecipe> STREAM_CODEC = StreamCodec.composite(
+-                ByteBufCodecs.STRING_UTF8, e -> e.group,
++                ByteBufCodecs.STRING_UTF8, NormalCraftingRecipe::group,
+                 ShapedRecipePattern.STREAM_CODEC, e -> e.pattern,
+-                ItemStack.STREAM_CODEC, e -> e.result,
++                ItemStackTemplate.STREAM_CODEC, e -> e.result,
+                 CreateRecipe::new
+         );
+ 
+-        @Override
+-        public MapCodec<CreateRecipe> codec() {
+-            return CODEC;
+-        }
+-
+-        @Override
+-        public StreamCodec<RegistryFriendlyByteBuf, CreateRecipe> streamCodec() {
+-            return STREAM_CODEC;
++        // RecipeSerializer is a record of the two codecs since 26.x.
++        public static RecipeSerializer<CreateRecipe> create() {
++            return new RecipeSerializer<>(CODEC, STREAM_CODEC);
+         }
+     }
+ }
+diff --git a/src/main/java/codechicken/enderstorage/recipe/ReColourRecipe.java b/src/main/java/codechicken/enderstorage/recipe/ReColourRecipe.java
+index 7456381..ea6e2ad 100644
+--- a/src/main/java/codechicken/enderstorage/recipe/ReColourRecipe.java
++++ b/src/main/java/codechicken/enderstorage/recipe/ReColourRecipe.java
+@@ -7,11 +7,11 @@ import com.mojang.serialization.Codec;
+ import com.mojang.serialization.MapCodec;
+ import com.mojang.serialization.codecs.RecordCodecBuilder;
+ import net.covers1624.quack.collection.ColUtils;
+-import net.minecraft.core.HolderLookup;
+ import net.minecraft.network.RegistryFriendlyByteBuf;
+ import net.minecraft.network.codec.ByteBufCodecs;
+ import net.minecraft.network.codec.StreamCodec;
+ import net.minecraft.world.item.ItemStack;
++import net.minecraft.world.item.ItemStackTemplate;
+ import net.minecraft.world.item.crafting.*;
+ import net.minecraft.world.level.Level;
+ import org.jetbrains.annotations.Nullable;
+@@ -26,17 +26,17 @@ import java.util.Objects;
+ public class ReColourRecipe implements CraftingRecipe {
+ 
+     protected final String group;
+-    protected final ItemStack result;
++    protected final ItemStackTemplate result;
+     protected final Ingredient ingredient;
+ 
+-    public ReColourRecipe(ItemStack result) {
++    public ReColourRecipe(ItemStackTemplate result) {
+         this("", result);
+     }
+ 
+-    public ReColourRecipe(String group, ItemStack result) {
++    public ReColourRecipe(String group, ItemStackTemplate result) {
+         this.group = group;
+         this.result = result;
+-        ingredient = Ingredient.of(result.getItem());
++        ingredient = Ingredient.of(result.item().value());
+     }
+ 
+     @Override
+@@ -66,16 +66,16 @@ public class ReColourRecipe implements CraftingRecipe {
+     }
+ 
+     @Override
+-    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider registries) {
++    public ItemStack assemble(CraftingInput inv) {
+         ItemWithPos chestPos = findChest(inv);
+-        if (chestPos == null) return result.copy(); // This should not happen...
++        if (chestPos == null) return result.create(); // This should not happen...
+ 
+         EnumColour[] colours = findDyes(inv, chestPos, null);
+-        if (colours == null) return result.copy(); // This should also not happen...
++        if (colours == null) return result.create(); // This should also not happen...
+ 
+         return Frequency.getComponentOrEmpty(chestPos.stack)
+                 .withColours(colours)
+-                .putComponent(result.copy());
++                .putComponent(result.create());
+     }
+ 
+     @Override
+@@ -83,6 +83,12 @@ public class ReColourRecipe implements CraftingRecipe {
+         return true;
+     }
+ 
++    @Override
++    public boolean showNotification() {
++        // Was the Recipe interface default before 26.x.
++        return true;
++    }
++
+     @Override
+     public RecipeSerializer<? extends CraftingRecipe> getSerializer() {
+         return EnderStorageModContent.RECOLOUR_RECIPE_SERIALIZER.get();
+@@ -148,28 +154,23 @@ public class ReColourRecipe implements CraftingRecipe {
+ 
+     private record ItemWithPos(int x, int y, ItemStack stack) { }
+ 
+-    public static class Serializer implements RecipeSerializer<ReColourRecipe> {
++    public static class Serializer {
+ 
+         private static final MapCodec<ReColourRecipe> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
+                         Codec.STRING.optionalFieldOf("group", "").forGetter(e -> e.group),
+-                        ItemStack.STRICT_CODEC.fieldOf("result").forGetter(e -> e.result)
++                        ItemStackTemplate.CODEC.fieldOf("result").forGetter(e -> e.result)
+                 ).apply(builder, ReColourRecipe::new)
+         );
+ 
+         private static final StreamCodec<RegistryFriendlyByteBuf, ReColourRecipe> STREAM_CODEC = StreamCodec.composite(
+                 ByteBufCodecs.STRING_UTF8, e -> e.group,
+-                ItemStack.STREAM_CODEC, e -> e.result,
++                ItemStackTemplate.STREAM_CODEC, e -> e.result,
+                 ReColourRecipe::new
+         );
+ 
+-        @Override
+-        public MapCodec<ReColourRecipe> codec() {
+-            return CODEC;
+-        }
+-
+-        @Override
+-        public StreamCodec<RegistryFriendlyByteBuf, ReColourRecipe> streamCodec() {
+-            return STREAM_CODEC;
++        // RecipeSerializer is a record of the two codecs since 26.x.
++        public static RecipeSerializer<ReColourRecipe> create() {
++            return new RecipeSerializer<>(CODEC, STREAM_CODEC);
+         }
+     }
+ }
+diff --git a/src/main/java/codechicken/enderstorage/tile/TileEnderChest.java b/src/main/java/codechicken/enderstorage/tile/TileEnderChest.java
+index 83537ed..3036da8 100644
+--- a/src/main/java/codechicken/enderstorage/tile/TileEnderChest.java
++++ b/src/main/java/codechicken/enderstorage/tile/TileEnderChest.java
+@@ -53,9 +53,9 @@ public class TileEnderChest extends TileFrequencyOwner {
+         a_lidAngle = MathHelper.approachLinear(a_lidAngle, c_numOpen > 0 ? 1 : 0, 0.1);
+ 
+         if (b_lidAngle >= 0.5 && a_lidAngle < 0.5) {
+-            level.playSound(null, getBlockPos(), EnderStorageConfig.useVanillaEnderChestSounds ? ENDER_CHEST_CLOSE : CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
++            level.playSound(null, getBlockPos(), EnderStorageConfig.useVanillaEnderChestSounds ? ENDER_CHEST_CLOSE : CHEST_CLOSE, SoundSource.BLOCKS, 0.5F, level.getRandom().nextFloat() * 0.1F + 0.9F);
+         } else if (b_lidAngle == 0 && a_lidAngle > 0) {
+-            level.playSound(null, getBlockPos(), EnderStorageConfig.useVanillaEnderChestSounds ? ENDER_CHEST_OPEN : CHEST_OPEN, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
++            level.playSound(null, getBlockPos(), EnderStorageConfig.useVanillaEnderChestSounds ? ENDER_CHEST_OPEN : CHEST_OPEN, SoundSource.BLOCKS, 0.5F, level.getRandom().nextFloat() * 0.1F + 0.9F);
+         }
+     }
+ 
+diff --git a/src/main/java/codechicken/enderstorage/tile/TileEnderTank.java b/src/main/java/codechicken/enderstorage/tile/TileEnderTank.java
+index fad1ba9..e8183bd 100644
+--- a/src/main/java/codechicken/enderstorage/tile/TileEnderTank.java
++++ b/src/main/java/codechicken/enderstorage/tile/TileEnderTank.java
+@@ -159,7 +159,7 @@ public class TileEnderTank extends TileFrequencyOwner {
+             pressure_state.invert();
+             return true;
+         }
+-        return FluidUtil.interactWithFluidHandler(player, hand, getBlockPos(), getFluidHandler());
++        return FluidUtil.interactWithFluidHandler(player, hand, getBlockPos(), getFluidHandler(), null);
+     }
+ 
+     @Override
+diff --git a/src/main/resources/META-INF/neoforge.mods.toml b/src/main/resources/META-INF/neoforge.mods.toml
+index 9d8e5ed..924d844 100644
+--- a/src/main/resources/META-INF/neoforge.mods.toml
++++ b/src/main/resources/META-INF/neoforge.mods.toml
+@@ -26,7 +26,7 @@ Stores your stuff in the END!
+ [[dependencies.enderstorage]]
+     modId="minecraft"
+     type="required"
+-    versionRange="[1.21.11]"
++    versionRange="[26.3]"
+     ordering="NONE"
+     side="BOTH"
+ [[dependencies.enderstorage]]

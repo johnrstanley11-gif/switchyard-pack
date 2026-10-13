@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.7",
+  "package": "classic.spruceneedles.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "LeavesBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

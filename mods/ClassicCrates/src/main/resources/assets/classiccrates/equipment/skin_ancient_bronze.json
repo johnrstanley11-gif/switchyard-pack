@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_ancient_bronze"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_ancient_bronze"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_ancient_bronze"
+      }
+    ]
+  }
+}

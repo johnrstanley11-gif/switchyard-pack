@@ -1,0 +1,1768 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/aurora_prismatic/helmet",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_aurora_prismatic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/aurora_prismatic/chestplate",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_aurora_prismatic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/aurora_prismatic/leggings",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_aurora_prismatic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/aurora_prismatic/boots",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_aurora_prismatic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/aurora_prismatic/elytra",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_aurora_prismatic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/aurora_prismatic/sword",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/aurora_prismatic/pickaxe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/aurora_prismatic/axe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/aurora_prismatic/shovel",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/aurora_prismatic/hoe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/aurora_prismatic/mace",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/aurora_prismatic/trident",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/aurora_prismatic/fishing_rod",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/aurora_prismatic/bow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/aurora_prismatic/crossbow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Aurora Prismatic Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/aurora_prismatic/shield",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/helmet",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_dragonbone_sovereign"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/chestplate",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_dragonbone_sovereign"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/leggings",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_dragonbone_sovereign"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/boots",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_dragonbone_sovereign"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/elytra",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_dragonbone_sovereign"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/sword",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/pickaxe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/axe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/shovel",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/hoe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/mace",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/trident",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/fishing_rod",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/bow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/crossbow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Dragonbone Sovereign Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/dragonbone_sovereign/shield",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/sculk_heart/helmet",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_sculk_heart"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/sculk_heart/chestplate",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_sculk_heart"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/sculk_heart/leggings",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_sculk_heart"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/sculk_heart/boots",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_sculk_heart"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/sculk_heart/elytra",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_sculk_heart"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/sculk_heart/sword",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/sculk_heart/pickaxe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/sculk_heart/axe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/sculk_heart/shovel",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/sculk_heart/hoe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/sculk_heart/mace",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/sculk_heart/trident",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/sculk_heart/fishing_rod",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/sculk_heart/bow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/sculk_heart/crossbow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sculk Heart Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/sculk_heart/shield",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/stained_glass_saint/helmet",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_stained_glass_saint"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/stained_glass_saint/chestplate",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_stained_glass_saint"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/stained_glass_saint/leggings",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_stained_glass_saint"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/stained_glass_saint/boots",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_stained_glass_saint"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/stained_glass_saint/elytra",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_stained_glass_saint"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/stained_glass_saint/sword",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/stained_glass_saint/pickaxe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/stained_glass_saint/axe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/stained_glass_saint/shovel",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/stained_glass_saint/hoe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/stained_glass_saint/mace",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/stained_glass_saint/trident",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/stained_glass_saint/fishing_rod",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/stained_glass_saint/bow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/stained_glass_saint/crossbow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Stained Glass Saint Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/stained_glass_saint/shield",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/bismuth_hopper/helmet",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_bismuth_hopper"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/bismuth_hopper/chestplate",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_bismuth_hopper"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/bismuth_hopper/leggings",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_bismuth_hopper"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/bismuth_hopper/boots",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_bismuth_hopper"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/bismuth_hopper/elytra",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_bismuth_hopper"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/bismuth_hopper/sword",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/bismuth_hopper/pickaxe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/bismuth_hopper/axe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/bismuth_hopper/shovel",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/bismuth_hopper/hoe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/bismuth_hopper/mace",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/bismuth_hopper/trident",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/bismuth_hopper/fishing_rod",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/bismuth_hopper/bow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/bismuth_hopper/crossbow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Bismuth Hopper Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/bismuth_hopper/shield",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/royal_peacock/helmet",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_royal_peacock"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/royal_peacock/chestplate",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_royal_peacock"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/royal_peacock/leggings",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_royal_peacock"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/royal_peacock/boots",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_royal_peacock"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/royal_peacock/elytra",
+                  "rarity": "legendary",
+                  "equipment_asset": "classiccrates:skin_royal_peacock"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/royal_peacock/sword",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/royal_peacock/pickaxe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/royal_peacock/axe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/royal_peacock/shovel",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/royal_peacock/hoe",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/royal_peacock/mace",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/royal_peacock/trident",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/royal_peacock/fishing_rod",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/royal_peacock/bow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/royal_peacock/crossbow",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Peacock Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/royal_peacock/shield",
+                  "rarity": "legendary"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

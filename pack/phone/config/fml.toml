@@ -1,0 +1,2 @@
+#Phone build: NeoForge's early loading window cannot create a GL context on Android launchers, so it is off.
+earlyWindowControl = false

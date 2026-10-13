@@ -1,0 +1,13 @@
+Classic Engineering 26.3 - notices
+
+This pack bundles builds of open-source mods that were ported or patched for Minecraft 26.3 / NeoForge 26.3.0.65-beta by
+the Switchyard server team. They are NOT official releases of those mods; do not report problems with them to the
+original authors. Each mod keeps its own licence (see the licenses folder and MOD-CREDITS.json).
+
+Sodium: the bundled jar is Sodium 0.9.2 with two small patches (included in the licenses folder) so that it starts on
+NeoForge 26.3.0.65-beta. Sodium is licensed under the Polyform Shield License 1.0.0:
+https://github.com/CaffeineMC/sodium/blob/dev/LICENSE.md
+Iris is the unmodified official release (LGPL-3.0).
+
+Source code and patches for every modified mod are available from the server team on request (Switchyard forums or
+Discord), as required by the LGPL/GPL-licensed mods among them.

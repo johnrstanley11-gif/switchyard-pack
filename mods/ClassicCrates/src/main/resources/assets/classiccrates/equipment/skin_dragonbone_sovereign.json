@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_dragonbone_sovereign"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_dragonbone_sovereign"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_dragonbone_sovereign"
+      }
+    ]
+  }
+}

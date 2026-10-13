@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_glitch_signal"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_glitch_signal"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_glitch_signal"
+      }
+    ]
+  }
+}

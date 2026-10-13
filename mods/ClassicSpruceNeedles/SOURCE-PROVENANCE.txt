@@ -1,0 +1,19 @@
+CLASSIC SPRUCE NEEDLES - SOURCE PROVENANCE (11 October 2026)
+Our own small mod for the private Minecraft 26.3 pack. It exists because the user chose (11 Oct 2026) to leave
+VanillaBackport and Platform out of the 26.3 pack: all VanillaBackport gameplay content is native in 26.3 except the
+falling spruce needle particles (reports/VanillaBackport/DECISION.md).
+Taken from VanillaBackport 1.1.7.10, author commit adb579d205a05bcc7d1f34ce402cea6f1335a760 (sources/VanillaBackport):
+- common/src/main/resources/assets/minecraft/textures/particle/needle_0..11.png, byte-identical, moved to this mod's
+  namespace (classic_spruce_needles:needle_N).
+- particles/tinted_needles.json sprite list (same twelve sprites, new namespace).
+- tag spawn_falling_needles = [minecraft:spruce_leaves] (was minecraft:spawn_falling_needles).
+- Behaviour of FallingLeavesModule + LeavesBlockMixin: on a leaves block's client animate tick, with chance
+  falling_leaves_frequency (default 0.01), if the block below has no full top face, spawn one tinted needle below the
+  block, coloured with the block's tint. Client config keys falling_leaves / falling_leaves_frequency keep the
+  author's names, defaults and range.
+- Particle physics: the author's FallingLeavesParticle.TintedLeavesProvider parameters (0.07, 10, swirl, no flow-away,
+  scale 2, start velocity 0.021) are exactly those of native 26.3 FallingLeavesParticle.TintedLeavesProvider, which is
+  used directly.
+Not carried over: resource-pack custom leaf colours (LeafColorReloadListener), the VanillaBackport creative tab and
+filters, its other config toggles, the two embedded Freshly Animated compatibility packs.
+Particle id changed from minecraft:tinted_needles to classic_spruce_needles:tinted_needles.

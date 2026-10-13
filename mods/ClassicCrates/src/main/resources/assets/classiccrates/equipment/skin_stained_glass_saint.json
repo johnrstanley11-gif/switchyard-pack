@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_stained_glass_saint"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_stained_glass_saint"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_stained_glass_saint"
+      }
+    ]
+  }
+}

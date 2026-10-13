@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_abyssal_tide"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_abyssal_tide"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_abyssal_tide"
+      }
+    ]
+  }
+}

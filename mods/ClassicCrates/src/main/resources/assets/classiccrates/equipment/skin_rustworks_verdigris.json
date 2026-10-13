@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_rustworks_verdigris"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_rustworks_verdigris"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_rustworks_verdigris"
+      }
+    ]
+  }
+}

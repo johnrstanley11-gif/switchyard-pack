@@ -1,0 +1,9 @@
+Genuine owned Classic Castle Guard 1.1.0 full source, Classic Engineering, MIT.
+Immutable author baseline: claude-session/removed-sources/ClassicCastleGuard/author-1.1.0-20261011T200417002996Z
+Includes all5 Java classes/resources/license/build report and original builder.
+Original source fingerprint: 88281d910427d24646fb63260a98de7553998804cc67300f061ddde17fb215ed
+Original binary SHA256: 80603f52a73ad0b0ca08e4d49f040610ca374ba49710b44059328147c47b1b46
+No original GHA binary is used at runtime or as a substituted stub. Build against
+the actual complete reconstructed GHA private 26.3 source port jar.
+Production target descriptors/targetPos field match the frozen real AEM source.
+Mixin application and real behavior need combined private server tests.

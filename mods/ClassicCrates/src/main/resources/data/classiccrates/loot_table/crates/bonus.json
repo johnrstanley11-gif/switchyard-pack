@@ -1,0 +1,395 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Ruby Sword Skin",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skin/ruby_sword"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Amethyst Sword Skin",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skin/amethyst_sword"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Emerald Sword Skin",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skin/emerald_sword"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sunfire Sword Skin",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skin/sunfire_sword"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frost Sword Skin",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skin/frost_sword"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Shadow Sword Skin",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skin/shadow_sword"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 2,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Crimson Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skin/dyed_elytra",
+                  "equipment_asset": "classiccrates:dyed_elytra",
+                  "dyed_color": 14164028
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 2,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Royal Blue Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skin/dyed_elytra",
+                  "equipment_asset": "classiccrates:dyed_elytra",
+                  "dyed_color": 3955967
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 2,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skin/dyed_elytra",
+                  "equipment_asset": "classiccrates:dyed_elytra",
+                  "dyed_color": 3194976
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 2,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Golden Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skin/dyed_elytra",
+                  "equipment_asset": "classiccrates:dyed_elytra",
+                  "dyed_color": 16762928
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 2,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Void Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skin/dyed_elytra",
+                  "equipment_asset": "classiccrates:dyed_elytra",
+                  "dyed_color": 5255280
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 2,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Snow Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skin/dyed_elytra",
+                  "equipment_asset": "classiccrates:dyed_elytra",
+                  "dyed_color": 16054527
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Flame Trail",
+                  "trail": {
+                    "type": "minecraft:flame"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hearts Trail",
+                  "trail": {
+                    "type": "minecraft:heart"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Music Trail",
+                  "trail": {
+                    "type": "minecraft:note"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Sparkle Trail",
+                  "trail": {
+                    "type": "minecraft:end_rod"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Cherry Blossom Trail",
+                  "trail": {
+                    "type": "minecraft:cherry_leaves"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Soul Flame Trail",
+                  "trail": {
+                    "type": "minecraft:soul_fire_flame"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Runes Trail",
+                  "trail": {
+                    "type": "minecraft:enchant"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 3,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Snow Trail",
+                  "trail": {
+                    "type": "minecraft:snowflake"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:golden_apple",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:experience_bottle",
+          "weight": 8,
+          "modifier": [
+            {
+              "type": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 4,
+                "max": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:name_tag",
+          "weight": 4
+        }
+      ]
+    }
+  ]
+}

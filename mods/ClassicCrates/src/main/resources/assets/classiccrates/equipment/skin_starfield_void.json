@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_starfield_void"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_starfield_void"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_starfield_void"
+      }
+    ]
+  }
+}

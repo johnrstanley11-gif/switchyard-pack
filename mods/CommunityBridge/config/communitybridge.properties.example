@@ -1,0 +1,17 @@
+# Copy to the Minecraft server's config/communitybridge.properties, then restart.
+# Bridge is disabled unless explicitly enabled. Never commit a real bearer token.
+enabled=false
+websiteUrl=https://jorry.live/switchyard
+# Must match an entry in website SERVER_IDS (default main).
+serverId=main
+# Must exactly match website SERVER_API_TOKEN: generate at least 32 random bytes.
+apiToken=
+# HTTP is allowed only to loopback unless this development-only flag is true.
+allowInsecureHttp=false
+# Heartbeats are every 60 seconds; HTTP/connect timeout is 8/4 seconds.
+commandPollSeconds=10
+maxOutboxEvents=5000
+# Delivery IDs are never silently evicted. At this limit new delivery is held.
+maxJournalEntries=50000
+# Allowed first words of reward commands; only trusted administrators edit rewards.
+allowedCommandRoots=crates,give,lp

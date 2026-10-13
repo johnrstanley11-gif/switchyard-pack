@@ -1,0 +1,1899 @@
+diff --git a/build.gradle b/build.gradle
+index 78d80c4..56b68ed 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -4,17 +4,22 @@ plugins {
+     id 'java-library'
+     id 'maven-publish'
+     id 'signing'
+-    id 'net.neoforged.moddev' version '2.0.141'
++    id 'net.neoforged.moddev' version '2.0.148'
+ }
+ 
+ java {
+     toolchain {
+-        languageVersion = JavaLanguageVersion.of(21)
++        languageVersion = JavaLanguageVersion.of(25)
+     }
+     withSourcesJar()
+     withJavadocJar()
+ }
+ 
++tasks.withType(JavaCompile).configureEach {
++    // Port diagnostics: report every error instead of javac's default cap of 100.
++    options.compilerArgs.addAll(['-Xmaxerrs', '1000'])
++}
++
+ group = 'io.codechicken'
+ base {
+     archivesName = 'CBMultipart'
+@@ -37,19 +42,38 @@ neoForge {
+     runs {
+         client {
+             client()
++            // Port testing: PORT_QUICKPLAY_WORLD=<save folder> opens that world directly.
++            if (System.getenv('PORT_QUICKPLAY_WORLD')) {
++                programArguments.addAll '--quickPlaySingleplayer', System.getenv('PORT_QUICKPLAY_WORLD')
++            }
++            // Port testing: PORT_QUICKPLAY_SERVER=host:port joins that (private test) server directly.
++            if (System.getenv('PORT_QUICKPLAY_SERVER')) {
++                programArguments.addAll '--quickPlayMultiplayer', System.getenv('PORT_QUICKPLAY_SERVER')
++            }
+         }
+         server {
+             server()
++            programArgument('--nogui')
++            // Port testing: own folder so a private dev server and the dev client can run side by side.
++            gameDirectory = layout.projectDirectory.dir('run-server')
+         }
+         data {
+-            data()
++            // 26.x gathers client and server data in one run (GatherDataEvent.Client).
++            clientData()
+             programArguments.addAll '--mod', 'cb_multipart', '--mod', 'cb_microblock', '--all', '--flat', '--output', file("src/main/generated").absolutePath, '--existing', file("src/main/resources").absolutePath
+         }
+     }
++
++    // Dev runs only see the mod when its source set is declared (both mod ids live in this one source set).
++    mods {
++        cb_multipart {
++            sourceSet sourceSets.main
++        }
++    }
+ }
+ 
+ repositories {
+-    mavenLocal()
++    maven { url = uri('../../maven') }
+     maven { url = "https://maven.covers1624.net/" }
+     // TODO CCL exports a JEI dep, somehow.
+     maven { url "https://maven.blamejared.com/" }
+@@ -168,6 +192,7 @@ javadoc {
+ 
+ publishing {
+     repositories {
++        maven { name = 'Port'; url = uri('../../maven') }
+         if (System.getenv('MAVEN_PASS')) {
+             maven {
+                 url "https://nexus.covers1624.net/repository/maven-releases/"
+diff --git a/gradle.properties b/gradle.properties
+index 6783fb2..54ac3c3 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -1,6 +1,9 @@
+-mc_version=1.21.11
+-forge_version=21.11.42
+-mod_version=3.6.0
++mc_version=26.3
++forge_version=26.3.0.65-beta
++mod_version=3.6.0-port263
+ 
+-ccl_version=4.7.0.+
++ccl_version=4.7.0-port263.1
+ ccl_version_max=5.0.0
++org.gradle.daemon=false
++org.gradle.workers.max=2
++org.gradle.jvmargs=-Xmx2G
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+index 9355b41..4420b73 100644
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,7 +1,9 @@
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-8.10-bin.zip
++distributionUrl=https\://downloads.gradle.org/distributions/gradle-8.10-bin.zip
+ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
++
++distributionSha256Sum=9c0f7faeeb306cb14e4279a3e084ca6b596894089a0638e68a07c945a32c9e14
+diff --git a/src/main/generated/.cache/0de934c9dc739912a7796bb96ce495194ead3b88 b/src/main/generated/.cache/0de934c9dc739912a7796bb96ce495194ead3b88
+deleted file mode 100644
+index 7d2367b..0000000
+--- a/src/main/generated/.cache/0de934c9dc739912a7796bb96ce495194ead3b88
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// 1.21.11	2026-07-19T23:27:04.489240678	Model Definitions - cb_multipart
+-bb7897816c8f57b978f136f74ea6a9b994fdddc5 assets/cb_multipart/blockstates/multipart.json
+diff --git a/src/main/generated/.cache/aab3a7f0de60640b65238dc4366f832493b95f69 b/src/main/generated/.cache/33650ebae60260b618736ff3894a17d919edc033
+similarity index 92%
+rename from src/main/generated/.cache/aab3a7f0de60640b65238dc4366f832493b95f69
+rename to src/main/generated/.cache/33650ebae60260b618736ff3894a17d919edc033
+index c16d713..1d89c00 100644
+--- a/src/main/generated/.cache/aab3a7f0de60640b65238dc4366f832493b95f69
++++ b/src/main/generated/.cache/33650ebae60260b618736ff3894a17d919edc033
+@@ -1,4 +1,4 @@
+-// 1.21.11	2026-07-19T23:20:04.446869069	Model Definitions - cb_microblock
++// 26.3	2026-10-10T21:58:34.8353053	cb_microblock-global/Model Definitions - cb_microblock
+ 431322231a7e2f7a92fa0a67eef27cf87bb43100 assets/cb_microblock/items/diamond_saw.json
+ 2a709fb14897dcf639534decc48c0948fbf508dc assets/cb_microblock/items/gold_saw.json
+ 87515d0cd2fced7d2bec6d79b3b40cb811b8396c assets/cb_microblock/items/iron_saw.json
+diff --git a/src/main/generated/.cache/b4943f8e0ec1cfdd900bf3c07fb5fb175ecab28f b/src/main/generated/.cache/b4943f8e0ec1cfdd900bf3c07fb5fb175ecab28f
+new file mode 100644
+index 0000000..a5c48f4
+--- /dev/null
++++ b/src/main/generated/.cache/b4943f8e0ec1cfdd900bf3c07fb5fb175ecab28f
+@@ -0,0 +1,8 @@
++// 26.3	2026-10-10T21:58:34.8368318	Registries for Reloadable (cb_microblock[0]): [cb_microblock]
++1f346712d06ff8f907df2cd376c2d897610772af data/cb_microblock/recipe/diamond_saw.json
++052c789d0577176b1348f226ab7776e2ff828df4 data/cb_microblock/recipe/gold_saw.json
++23e0c2c2cbd994a08b749427ac7c7b73777c0dff data/cb_microblock/recipe/iron_saw.json
++f7c5d8e9dfade8c3c89eb6a280924b0c95b14ca1 data/cb_microblock/recipe/microblock.json
++b7c03dd70b071b314f170a673c37e9a60808ed65 data/cb_microblock/recipe/netherite_saw.json
++e6a337f6e31235c95189b1174364970ca7376367 data/cb_microblock/recipe/stone_rod.json
++129b0d9a16dd740870665f894490d5fac993807a data/cb_microblock/recipe/stone_saw.json
+diff --git a/src/main/generated/.cache/c4d221b18810d6dc4a0110586659b26ac8834a06 b/src/main/generated/.cache/c4d221b18810d6dc4a0110586659b26ac8834a06
+deleted file mode 100644
+index b6921e5..0000000
+--- a/src/main/generated/.cache/c4d221b18810d6dc4a0110586659b26ac8834a06
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// 1.21.11	2026-07-19T23:20:04.446723204	Tags for minecraft:item mod id cb_microblock
+-8d28864c67fe7828067aa17fbabaf0d1c7a743d1 data/c/tags/item/rods/stone.json
+diff --git a/src/main/generated/.cache/da5e9777dea24949e2fc5cd1079816fe534682cc b/src/main/generated/.cache/da5e9777dea24949e2fc5cd1079816fe534682cc
+deleted file mode 100644
+index 0344f7a..0000000
+--- a/src/main/generated/.cache/da5e9777dea24949e2fc5cd1079816fe534682cc
++++ /dev/null
+@@ -1,8 +0,0 @@
+-// 1.21.11	2026-07-19T23:20:04.445897899	cb_microblock Recipes.
+-fd2763cd348160c2f3c1ce14dc4fef61a0efc119 data/cb_microblock/recipe/diamond_saw.json
+-7c5a85bc20a46ed4e758c4bfc600f0b03d76d828 data/cb_microblock/recipe/gold_saw.json
+-d5611fcb051f4f24127077bb9ecd1440712c72c0 data/cb_microblock/recipe/iron_saw.json
+-81a245dcb7e18d2e7b81d16ff2137888b7c53670 data/cb_microblock/recipe/microblock.json
+-16373ab4893ada239add383ed4305a5780f767ee data/cb_microblock/recipe/netherite_saw.json
+-6717a169bc1dde31e9f16ce6f63d2af8313a6fa7 data/cb_microblock/recipe/stone_rod.json
+-e38ce0b49371c5bcb89fc81d6b9f3850ca038740 data/cb_microblock/recipe/stone_saw.json
+diff --git a/src/main/generated/.cache/e05752bdf7069d57f12be8e166f1babcc05f3565 b/src/main/generated/.cache/e05752bdf7069d57f12be8e166f1babcc05f3565
+new file mode 100644
+index 0000000..3ddfe35
+--- /dev/null
++++ b/src/main/generated/.cache/e05752bdf7069d57f12be8e166f1babcc05f3565
+@@ -0,0 +1,2 @@
++// 26.3	2026-10-10T21:58:34.8368318	cb_microblock-global/Tags for minecraft:item mod id cb_microblock
++8d28864c67fe7828067aa17fbabaf0d1c7a743d1 data/c/tags/item/rods/stone.json
+diff --git a/src/main/generated/.cache/e9a56fa48c6fff7991f483689f5bc4987bac44c9 b/src/main/generated/.cache/e9a56fa48c6fff7991f483689f5bc4987bac44c9
+new file mode 100644
+index 0000000..5115f4a
+--- /dev/null
++++ b/src/main/generated/.cache/e9a56fa48c6fff7991f483689f5bc4987bac44c9
+@@ -0,0 +1,2 @@
++// 26.3	2026-10-10T21:58:34.8368318	cb_multipart-global/Model Definitions - cb_multipart
++bb7897816c8f57b978f136f74ea6a9b994fdddc5 assets/cb_multipart/blockstates/multipart.json
+diff --git a/src/main/generated/data/cb_microblock/recipe/diamond_saw.json b/src/main/generated/data/cb_microblock/recipe/diamond_saw.json
+index 127c087..7b7db32 100644
+--- a/src/main/generated/data/cb_microblock/recipe/diamond_saw.json
++++ b/src/main/generated/data/cb_microblock/recipe/diamond_saw.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:gems/diamond",
+     "R": "#c:rods/stone",
+@@ -11,7 +10,6 @@
+     "SMR"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "cb_microblock:diamond_saw"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/cb_microblock/recipe/gold_saw.json b/src/main/generated/data/cb_microblock/recipe/gold_saw.json
+index 446dcef..bd5e265 100644
+--- a/src/main/generated/data/cb_microblock/recipe/gold_saw.json
++++ b/src/main/generated/data/cb_microblock/recipe/gold_saw.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/gold",
+     "R": "#c:rods/stone",
+@@ -11,7 +10,6 @@
+     "SMR"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "cb_microblock:gold_saw"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/cb_microblock/recipe/iron_saw.json b/src/main/generated/data/cb_microblock/recipe/iron_saw.json
+index 06fc6f6..a6f4c5d 100644
+--- a/src/main/generated/data/cb_microblock/recipe/iron_saw.json
++++ b/src/main/generated/data/cb_microblock/recipe/iron_saw.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/iron",
+     "R": "#c:rods/stone",
+@@ -11,7 +10,6 @@
+     "SMR"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "cb_microblock:iron_saw"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/cb_microblock/recipe/microblock.json b/src/main/generated/data/cb_microblock/recipe/microblock.json
+index 4ab3587..1776062 100644
+--- a/src/main/generated/data/cb_microblock/recipe/microblock.json
++++ b/src/main/generated/data/cb_microblock/recipe/microblock.json
+@@ -1,4 +1,3 @@
+ {
+-  "type": "cb_microblock:microblock",
+-  "category": "misc"
++  "type": "cb_microblock:microblock"
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/cb_microblock/recipe/netherite_saw.json b/src/main/generated/data/cb_microblock/recipe/netherite_saw.json
+index af4c0dc..b7a0b12 100644
+--- a/src/main/generated/data/cb_microblock/recipe/netherite_saw.json
++++ b/src/main/generated/data/cb_microblock/recipe/netherite_saw.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/netherite",
+     "R": "#c:rods/stone",
+@@ -11,7 +10,6 @@
+     "SMR"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "cb_microblock:netherite_saw"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/cb_microblock/recipe/stone_rod.json b/src/main/generated/data/cb_microblock/recipe/stone_rod.json
+index a80303f..6159586 100644
+--- a/src/main/generated/data/cb_microblock/recipe/stone_rod.json
++++ b/src/main/generated/data/cb_microblock/recipe/stone_rod.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "S": "#c:cobblestones"
+   },
+@@ -9,7 +8,6 @@
+     "S"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "cb_microblock:stone_rod"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/generated/data/cb_microblock/recipe/stone_saw.json b/src/main/generated/data/cb_microblock/recipe/stone_saw.json
+index aba8110..25e52e3 100644
+--- a/src/main/generated/data/cb_microblock/recipe/stone_saw.json
++++ b/src/main/generated/data/cb_microblock/recipe/stone_saw.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "minecraft:flint",
+     "R": "#c:rods/stone",
+@@ -11,7 +10,6 @@
+     "SMR"
+   ],
+   "result": {
+-    "count": 1,
+     "id": "cb_microblock:stone_saw"
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/codechicken/microblock/api/BlockMicroMaterial.java b/src/main/java/codechicken/microblock/api/BlockMicroMaterial.java
+index 0d93dde..b0d7a97 100644
+--- a/src/main/java/codechicken/microblock/api/BlockMicroMaterial.java
++++ b/src/main/java/codechicken/microblock/api/BlockMicroMaterial.java
+@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableSet;
+ import net.covers1624.quack.collection.FastStream;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.particle.ParticleEngine;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.registries.BuiltInRegistries;
+@@ -21,7 +21,7 @@ import net.minecraft.resources.Identifier;
+ import net.minecraft.world.entity.Entity;
+ import net.minecraft.world.entity.player.Player;
+ import net.minecraft.world.item.ItemStack;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.minecraft.world.level.BlockGetter;
+ import net.minecraft.world.level.Explosion;
+ import net.minecraft.world.level.Level;
+@@ -107,7 +107,7 @@ public class BlockMicroMaterial extends MicroMaterial {
+         cons.accept(new MicroMaterialClient() {
+ 
+             @Override
+-            public void collectParts(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, ImmutableSet<MaskedCuboid> renderCuboids, List<BlockModelPart> parts) {
++            public void collectParts(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, ImmutableSet<MaskedCuboid> renderCuboids, List<BlockStateModelPart> parts) {
+                 MicroblockRender.collectParts(level, pos, state, renderCuboids, parts);
+             }
+ 
+@@ -152,7 +152,9 @@ public class BlockMicroMaterial extends MicroMaterial {
+             }
+ 
+             private TextureAtlasSprite getSprite(Level level, BlockPos pos) {
+-                return Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state, level, pos);
++                var models = Minecraft.getInstance().getModelManager().getBlockStateModelSet();
++                // Only a client level can be asked for model data.
++                return (level instanceof BlockAndTintGetter tintGetter ? models.getParticleMaterial(state, tintGetter, pos) : models.getParticleMaterial(state)).sprite();
+             }
+         });
+     }
+@@ -172,9 +174,9 @@ public class BlockMicroMaterial extends MicroMaterial {
+         String path = blockKey.getPath();
+         if (!state.getProperties().isEmpty()) {
+             // Stable sort all keys based off their name, otherwise they may differ on the server/client.
+-            path += "//" + FastStream.of(state.getValues().entrySet())
+-                    .sorted(Comparator.comparing(e -> e.getKey().getName()))
+-                    .map(e -> e.getKey().getName() + "." + e.getKey().getName(unsafeCast(e.getValue())))
++            path += "//" + FastStream.of(state.getValues().toList())
++                    .sorted(Comparator.comparing(e -> e.property().getName()))
++                    .map(e -> e.property().getName() + "." + e.property().getName(unsafeCast(e.value())))
+                     .join("/");
+         }
+         return Identifier.fromNamespaceAndPath(blockKey.getNamespace(), path);
+diff --git a/src/main/java/codechicken/microblock/api/MicroMaterialClient.java b/src/main/java/codechicken/microblock/api/MicroMaterialClient.java
+index 06c2000..a8edb3d 100644
+--- a/src/main/java/codechicken/microblock/api/MicroMaterialClient.java
++++ b/src/main/java/codechicken/microblock/api/MicroMaterialClient.java
+@@ -6,10 +6,10 @@ import codechicken.microblock.util.MaskedCuboid;
+ import codechicken.multipart.util.PartRayTraceResult;
+ import com.google.common.collect.ImmutableSet;
+ import net.minecraft.client.particle.ParticleEngine;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.world.entity.Entity;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import org.jetbrains.annotations.Nullable;
+ 
+ import java.util.List;
+@@ -32,7 +32,7 @@ public abstract class MicroMaterialClient {
+      * @param renderCuboids The cuboids and their masks we wish to render.
+      * @param parts         The parts.
+      */
+-    public abstract void collectParts(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, ImmutableSet<MaskedCuboid> renderCuboids, List<BlockModelPart> parts);
++    public abstract void collectParts(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, ImmutableSet<MaskedCuboid> renderCuboids, List<BlockStateModelPart> parts);
+ 
+     // TODO
+ //    public void submitDynamic(MicroblockPart part, ItemDisplayContext displayCtx, PoseStack poseStack, SubmitNodeCollector collector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) { }
+diff --git a/src/main/java/codechicken/microblock/client/MicroblockItemRenderer.java b/src/main/java/codechicken/microblock/client/MicroblockItemRenderer.java
+index b29345c..f4cd820 100644
+--- a/src/main/java/codechicken/microblock/client/MicroblockItemRenderer.java
++++ b/src/main/java/codechicken/microblock/client/MicroblockItemRenderer.java
+@@ -1,5 +1,7 @@
+ package codechicken.microblock.client;
+ 
++import codechicken.multipart.client.MultipartTintRegistry;
++import com.mojang.blaze3d.vertex.QuadInstance;
+ import codechicken.lib.vec.Cuboid6;
+ import codechicken.lib.vec.Vector3;
+ import codechicken.microblock.api.MicroMaterialClient;
+@@ -11,14 +13,13 @@ import com.mojang.serialization.MapCodec;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.color.block.BlockColors;
+ import net.minecraft.client.renderer.SubmitNodeCollector;
+-import net.minecraft.client.renderer.block.model.BakedQuad;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
++import net.minecraft.client.resources.model.geometry.BakedQuad;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+ import net.minecraft.client.renderer.special.SpecialModelRenderer;
+ import net.minecraft.resources.Identifier;
+ import net.minecraft.util.ARGB;
+ import net.minecraft.world.item.ItemDisplayContext;
+ import net.minecraft.world.item.ItemStack;
+-import net.neoforged.neoforge.client.RenderTypeHelper;
+ import org.joml.Vector3fc;
+ import org.jspecify.annotations.Nullable;
+ 
+@@ -48,7 +49,7 @@ public class MicroblockItemRenderer implements SpecialModelRenderer<MicroMateria
+     }
+ 
+     @Override
+-    public void submit(@Nullable MicroMaterialComponent component, ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector collector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
++    public void submit(@Nullable MicroMaterialComponent component, PoseStack poseStack, SubmitNodeCollector collector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+         if (component == null || component.factory() == null) return;
+ 
+         var clientMaterial = MicroMaterialClient.get(component.material());
+@@ -61,35 +62,29 @@ public class MicroblockItemRenderer implements SpecialModelRenderer<MicroMateria
+         var offset = Vector3.CENTER.copy().subtract(part.getBounds().center());
+         poseStack.translate(offset.x, offset.y, offset.z);
+ 
+-        var ourState = CBMultipartModContent.MULTIPART_BLOCK.get().defaultBlockState();
+-        BlockColors blockColors = Minecraft.getInstance().getBlockColors();
+-
+         var cuboids = part.getRenderCuboids(true);
+-        List<BlockModelPart> list = new ArrayList<>();
++        List<BlockStateModelPart> list = new ArrayList<>();
+         clientMaterial.collectParts(null, null, cuboids, list);
+         for (var modelPart : list) {
+-            // The state used for getRenderType here is not important, all MicroMaterial instances should
+-            // wrap BlockModelPart capturing the real block state.
+-            // In-world rendering would pass in our own BlockMultipart state anyway.
+-            var renderType = modelPart.getRenderType(ourState);
+-            collector.submitCustomGeometry(poseStack, RenderTypeHelper.getEntityRenderType(renderType), (pose, consumer) -> {
++            collector.submitCustomGeometry(poseStack, MicroblockRender.entityRenderType(modelPart), (pose, consumer) -> {
++                QuadInstance instance = new QuadInstance();
++                instance.setLightCoords(packedLight);
++                instance.setOverlayCoords(packedOverlay);
+                 int lastTint = -1;
+                 int lastTintIndex = -1;
+                 for (var side : Sides.SIDES_AND_NULL) {
+                     for (BakedQuad quad : modelPart.getQuads(side)) {
+-                        float r = 1.0F;
+-                        float g = 1.0F;
+-                        float b = 1.0F;
+-                        if (quad.isTinted()) {
+-                            if (lastTintIndex != quad.tintIndex()) {
+-                                lastTint = blockColors.getColor(ourState, null, null, quad.tintIndex());
+-                                lastTintIndex = quad.tintIndex();
++                        int colour = -1;
++                        if (quad.materialInfo().isTinted()) {
++                            int tintIndex = quad.materialInfo().tintIndex();
++                            if (lastTintIndex != tintIndex) {
++                                lastTint = MultipartTintRegistry.getColor(tintIndex);
++                                lastTintIndex = tintIndex;
+                             }
+-                            r = ARGB.redFloat(lastTint);
+-                            g = ARGB.greenFloat(lastTint);
+-                            b = ARGB.blueFloat(lastTint);
++                            colour = ARGB.opaque(lastTint);
+                         }
+-                        consumer.putBulkData(pose, quad, r, g, b, 1.0F, packedLight, packedOverlay);
++                        instance.setColor(colour);
++                        consumer.putBakedQuad(pose, quad, instance);
+                     }
+                 }
+             });
+@@ -100,18 +95,18 @@ public class MicroblockItemRenderer implements SpecialModelRenderer<MicroMateria
+         poseStack.popPose();
+     }
+ 
+-    public record Unbaked() implements SpecialModelRenderer.Unbaked {
++    public record Unbaked() implements SpecialModelRenderer.Unbaked<MicroMaterialComponent> {
+ 
+         public static final Identifier TYPE = Identifier.fromNamespaceAndPath(MOD_ID, "microblock");
+         public static final MapCodec<Unbaked> CODEC = MapCodec.unit(Unbaked::new);
+ 
+         @Override
+-        public SpecialModelRenderer<?> bake(BakingContext context) {
++        public SpecialModelRenderer<MicroMaterialComponent> bake(BakingContext context) {
+             return new MicroblockItemRenderer();
+         }
+ 
+         @Override
+-        public MapCodec<? extends SpecialModelRenderer.Unbaked> type() {
++        public MapCodec<Unbaked> type() {
+             return CODEC;
+         }
+     }
+diff --git a/src/main/java/codechicken/microblock/client/MicroblockPartRenderer.java b/src/main/java/codechicken/microblock/client/MicroblockPartRenderer.java
+index 95dee7f..cc28631 100644
+--- a/src/main/java/codechicken/microblock/client/MicroblockPartRenderer.java
++++ b/src/main/java/codechicken/microblock/client/MicroblockPartRenderer.java
+@@ -3,10 +3,10 @@ package codechicken.microblock.client;
+ import codechicken.microblock.api.MicroMaterialClient;
+ import codechicken.microblock.part.MicroblockPart;
+ import codechicken.multipart.api.part.render.StaticPartRenderer;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.util.RandomSource;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.neoforged.neoforge.model.data.ModelData;
+ 
+ import java.util.List;
+@@ -17,7 +17,7 @@ import java.util.List;
+ public class MicroblockPartRenderer implements StaticPartRenderer<MicroblockPart> {
+ 
+     @Override
+-    public void collectParts(ModelData modelData, BlockAndTintGetter level, BlockPos pos, RandomSource rand, List<BlockModelPart> parts) {
++    public void collectParts(ModelData modelData, BlockAndTintGetter level, BlockPos pos, RandomSource rand, List<BlockStateModelPart> parts) {
+         var microblockData = modelData.get(MicroblockModelData.TYPE);
+         if (microblockData == null) return;
+ 
+diff --git a/src/main/java/codechicken/microblock/client/MicroblockPlacementOutlineRenderer.java b/src/main/java/codechicken/microblock/client/MicroblockPlacementOutlineRenderer.java
+index 646faad..38f8e37 100644
+--- a/src/main/java/codechicken/microblock/client/MicroblockPlacementOutlineRenderer.java
++++ b/src/main/java/codechicken/microblock/client/MicroblockPlacementOutlineRenderer.java
+@@ -1,5 +1,9 @@
+ package codechicken.microblock.client;
+ 
++import codechicken.multipart.client.MultipartTintRegistry;
++import net.minecraft.util.LightCoordsUtil;
++import net.minecraft.client.renderer.Sheets;
++import com.mojang.blaze3d.vertex.QuadInstance;
+ import codechicken.lib.render.buffer.TransformingVertexConsumer;
+ import codechicken.lib.vec.Line3;
+ import codechicken.lib.vec.Matrix4;
+@@ -10,19 +14,17 @@ import codechicken.multipart.util.Sides;
+ import com.mojang.blaze3d.vertex.PoseStack;
+ import com.mojang.blaze3d.vertex.VertexConsumer;
+ import net.minecraft.client.Minecraft;
+-import net.minecraft.client.renderer.LightTexture;
+-import net.minecraft.client.renderer.MultiBufferSource;
+-import net.minecraft.client.renderer.block.model.BakedQuad;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
++import net.minecraft.client.renderer.SubmitNodeCollector;
++import net.minecraft.client.resources.model.geometry.BakedQuad;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+ import net.minecraft.client.renderer.rendertype.RenderTypes;
+-import net.minecraft.client.renderer.state.BlockOutlineRenderState;
+-import net.minecraft.client.renderer.state.LevelRenderState;
++import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
++import net.minecraft.client.renderer.state.level.LevelRenderState;
+ import net.minecraft.client.renderer.texture.OverlayTexture;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.util.ARGB;
+ import net.neoforged.neoforge.client.CustomBlockOutlineRenderer;
+-import net.neoforged.neoforge.client.RenderTypeHelper;
+ import org.jspecify.annotations.Nullable;
+ 
+ import java.util.List;
+@@ -44,31 +46,31 @@ public class MicroblockPlacementOutlineRenderer implements CustomBlockOutlineRen
+         this.preview = preview;
+     }
+ 
++    // The outline hook is called once with the level's submit collector since 26.x (no buffer source, no per-pass call).
+     @Override
+-    public boolean render(BlockOutlineRenderState renderState, MultiBufferSource.BufferSource buffers, PoseStack poseStack, boolean translucentPass, LevelRenderState levelRenderState) {
+-        if (renderState.isTranslucent() != translucentPass) return true;
+-
++    public boolean render(BlockOutlineRenderState renderState, SubmitNodeCollector collector, PoseStack poseStack, LevelRenderState levelRenderState) {
+         var camera = levelRenderState.cameraRenderState.pos;
+         poseStack.pushPose();
+         poseStack.translate(-camera.x, -camera.y, -camera.z);
+-        renderPlacementGrid(poseStack.last(), buffers);
+-        renderPlacementPreview(poseStack, buffers);
++        // The grid is submitted before the preview (and one order earlier) so transparency with the preview works.
++        renderPlacementGrid(poseStack.last(), collector);
++        renderPlacementPreview(poseStack, collector);
+         poseStack.popPose();
+ 
+         return true;
+     }
+ 
+-    private void renderPlacementGrid(PoseStack.Pose pose, MultiBufferSource.BufferSource buffers) {
++    private void renderPlacementGrid(PoseStack.Pose pose, SubmitNodeCollector collector) {
+         Matrix4 mat = new Matrix4(pose);
+         transformFace(hit, side, mat);
+-        VertexConsumer cons = new TransformingVertexConsumer(buffers.getBuffer(RenderTypes.lines()), mat);
+         // TODO high contrast?
+         var lineWidth = Minecraft.getInstance().getWindow().getAppropriateLineWidth();
+-        for (Line3 line : lines) {
+-            bufferLinePair(cons, line.pt1, line.pt2, 0F, 0F, 0F, 0.4f, lineWidth);
+-        }
+-        // Explicit end batch so transparency with the placement preview works.
+-        buffers.endBatch(RenderTypes.lines());
++        collector.cc$submitCustomGeometry(mat, RenderTypes.lines(), (m, type, buffer) -> {
++            VertexConsumer cons = new TransformingVertexConsumer(buffer, m);
++            for (Line3 line : lines) {
++                bufferLinePair(cons, line.pt1, line.pt2, 0F, 0F, 0F, 0.4f, lineWidth);
++            }
++        });
+     }
+ 
+     private void bufferLinePair(VertexConsumer builder, Vector3 v1, Vector3 v2, float r, float g, float b, float a, float lineWidth) {
+@@ -87,44 +89,43 @@ public class MicroblockPlacementOutlineRenderer implements CustomBlockOutlineRen
+         mat.translate(0, rHit.y - 0.002, 0);
+     }
+ 
+-    private void renderPlacementPreview(PoseStack poseStack, MultiBufferSource.BufferSource buffers) {
++    private void renderPlacementPreview(PoseStack poseStack, SubmitNodeCollector collector) {
+         if (preview == null) return;
+ 
+         poseStack.pushPose();
+         poseStack.translate(preview.pos.getX(), preview.pos.getY(), preview.pos.getZ());
+ 
+-        var renderType = RenderTypeHelper.getEntityRenderType(ChunkSectionLayer.TRANSLUCENT);
+-        renderPreviewParts(poseStack.last(), buffers.getBuffer(renderType), preview.parts);
+-        buffers.endBatch(renderType);
++        var parts = preview.parts;
++        collector.order(1).submitCustomGeometry(poseStack, Sheets.translucentBlockItemSheet(), (pose, consumer) -> renderPreviewParts(pose, consumer, parts));
+ 
+         poseStack.popPose();
+     }
+ 
+-    private static void renderPreviewParts(PoseStack.Pose pose, VertexConsumer consumer, List<BlockModelPart> parts) {
+-        var blockColors = Minecraft.getInstance().getBlockColors();
+-        var ourState = CBMultipartModContent.MULTIPART_BLOCK.get().defaultBlockState();
++    private static void renderPreviewParts(PoseStack.Pose pose, VertexConsumer consumer, List<BlockStateModelPart> parts) {
++        QuadInstance instance = new QuadInstance();
++        instance.setLightCoords(LightCoordsUtil.FULL_BRIGHT);
++        instance.setOverlayCoords(OverlayTexture.NO_OVERLAY);
+         int lastTint = -1;
+         int lastTintIndex = -1;
+         for (var modelPart : parts) {
+             for (var side : Sides.SIDES_AND_NULL) {
+                 for (BakedQuad quad : modelPart.getQuads(side)) {
+-                    float r = 1.0F;
+-                    float g = 1.0F;
+-                    float b = 1.0F;
+-                    if (quad.isTinted()) {
+-                        if (lastTintIndex != quad.tintIndex()) {
+-                            lastTint = blockColors.getColor(ourState, null, null, quad.tintIndex());
+-                            lastTintIndex = quad.tintIndex();
++                    int rgb = 0xFFFFFF;
++                    if (quad.materialInfo().isTinted()) {
++                        int tintIndex = quad.materialInfo().tintIndex();
++                        if (lastTintIndex != tintIndex) {
++                            lastTint = MultipartTintRegistry.getColor(tintIndex);
++                            lastTintIndex = tintIndex;
+                         }
+-                        r = ARGB.redFloat(lastTint);
+-                        g = ARGB.greenFloat(lastTint);
+-                        b = ARGB.blueFloat(lastTint);
++                        rgb = lastTint & 0xFFFFFF;
+                     }
+-                    consumer.putBulkData(pose, quad, r, g, b, 0.4f, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
++                    // 40% alpha ghost of the part.
++                    instance.setColor(ARGB.color(102, rgb));
++                    consumer.putBakedQuad(pose, quad, instance);
+                 }
+             }
+         }
+     }
+ 
+-    public record PlacementPreview(BlockPos pos, List<BlockModelPart> parts) { }
++    public record PlacementPreview(BlockPos pos, List<BlockStateModelPart> parts) { }
+ }
+diff --git a/src/main/java/codechicken/microblock/client/MicroblockRender.java b/src/main/java/codechicken/microblock/client/MicroblockRender.java
+index e2d5cb6..c94fd96 100644
+--- a/src/main/java/codechicken/microblock/client/MicroblockRender.java
++++ b/src/main/java/codechicken/microblock/client/MicroblockRender.java
+@@ -1,5 +1,7 @@
+ package codechicken.microblock.client;
+ 
++import net.minecraft.client.renderer.rendertype.RenderType;
++import net.minecraft.client.renderer.Sheets;
+ import codechicken.lib.model.*;
+ import codechicken.lib.vec.Vector3;
+ import codechicken.microblock.api.MicroMaterialClient;
+@@ -19,11 +21,10 @@ import com.google.common.collect.ImmutableSet;
+ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+ import net.covers1624.quack.util.CrashLock;
+ import net.minecraft.client.Minecraft;
+-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+-import net.minecraft.client.renderer.block.model.BakedQuad;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
+-import net.minecraft.client.renderer.block.model.BlockStateModel;
+-import net.minecraft.client.renderer.state.BlockOutlineRenderState;
++import net.minecraft.client.resources.model.geometry.BakedQuad;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
++import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+ import net.minecraft.resources.Identifier;
+@@ -31,8 +32,7 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+ import net.minecraft.util.RandomSource;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.entity.player.Player;
+-import net.minecraft.world.level.BlockAndTintGetter;
+-import net.minecraft.world.level.EmptyBlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.phys.shapes.Shapes;
+ import net.neoforged.bus.api.EventPriority;
+@@ -57,7 +57,7 @@ public class MicroblockRender {
+     private static final CrashLock LOCK = new CrashLock("Already Initialized");
+     private static final ThreadLocal<MicroblockQuadPipeline> PIPELINES = ThreadLocal.withInitial(MicroblockQuadPipeline::new);
+ 
+-    private static final Cache<CacheKey, List<BlockModelPart>> CACHE = CacheBuilder.newBuilder()
++    private static final Cache<CacheKey, List<BlockStateModelPart>> CACHE = CacheBuilder.newBuilder()
+             .expireAfterAccess(30, TimeUnit.MINUTES)
+             .build();
+ 
+@@ -99,8 +99,8 @@ public class MicroblockRender {
+ 
+         PlacementPreview preview = null;
+         if (placement != null && materialClient != null) {
+-            List<BlockModelPart> parts = new ArrayList<>();
+-            materialClient.collectParts(player.level(), placement.pos, placement.part.getRenderCuboids(true), parts);
++            List<BlockStateModelPart> parts = new ArrayList<>();
++            materialClient.collectParts(event.getLevel(), placement.pos, placement.part.getRenderCuboids(true), parts);
+             preview = new PlacementPreview(placement.pos, parts);
+         }
+ 
+@@ -121,12 +121,11 @@ public class MicroblockRender {
+ 
+     }
+ 
+-    public static void collectParts(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, BlockState state, ImmutableSet<MaskedCuboid> renderCuboids, List<BlockModelPart> partsOutput) {
++    public static void collectParts(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, BlockState state, ImmutableSet<MaskedCuboid> renderCuboids, List<BlockStateModelPart> partsOutput) {
+         MicroblockQuadPipeline pipeline = PIPELINES.get();
+         RandomSource randy = RandomSource.create();
+ 
+-        BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+-        var model = dispatcher.getBlockModel(state);
++        var model = Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(state);
+ 
+         long seed = 42L;
+         if (level != null) {
+@@ -165,8 +164,17 @@ public class MicroblockRender {
+         }
+     }
+ 
++    /**
++     * The entity sheet to draw a model part with outside of chunk rendering (items, previews).
++     * Parts no longer report a render layer; like vanilla's own block-as-item rendering,
++     * pick the translucent sheet when the part has translucent quads and cutout otherwise.
++     */
++    public static RenderType entityRenderType(BlockStateModelPart part) {
++        return (part.materialFlags() & BakedQuad.FLAG_TRANSLUCENT) != 0 ? Sheets.translucentBlockItemSheet() : Sheets.cutoutBlockItemSheet();
++    }
++
+     private static BlockAndTintGetter levelOrEmpty(@Nullable BlockAndTintGetter level) {
+-        return level != null ? level : EmptyBlockAndTintGetter.INSTANCE;
++        return level != null ? level : BlockAndTintGetter.EMPTY;
+     }
+ 
+     private static BlockPos posOrZero(@Nullable BlockPos pos) {
+@@ -177,13 +185,13 @@ public class MicroblockRender {
+ 
+     private static final class MicroblockQuadPipeline {
+ 
+-        private final List<BlockModelPart> collector = new ObjectArrayList<>();
++        private final List<BlockStateModelPart> collector = new ObjectArrayList<>();
+         private final Quad mutableQuad = new Quad();
+         private final QuadClamper clamper = new QuadClamper();
+         private final QuadFaceStripper faceStripper = new QuadFaceStripper();
+         private final QuadReInterpolator reInterpolator = new QuadReInterpolator();
+ 
+-        public void transform(BlockStateModel model, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, BlockState state, RandomSource randy, Iterable<MaskedCuboid> renderCuboids, List<BlockModelPart> output) {
++        public void transform(BlockStateModel model, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, BlockState state, RandomSource randy, Iterable<MaskedCuboid> renderCuboids, List<BlockStateModelPart> output) {
+             collector.clear();
+             model.collectParts(levelOrEmpty(level), posOrZero(pos), state, randy, collector);
+             for (var modelPart : collector) {
+@@ -198,13 +206,13 @@ public class MicroblockRender {
+             collector.clear();
+         }
+ 
+-        private List<BakedQuad> transformPart(BlockModelPart modelPart, BlockState state, Iterable<MaskedCuboid> renderCuboids) {
++        private List<BakedQuad> transformPart(BlockStateModelPart modelPart, BlockState state, Iterable<MaskedCuboid> renderCuboids) {
+             ImmutableList.Builder<BakedQuad> quads = ImmutableList.builder();
+             for (var side : Sides.SIDES_AND_NULL) {
+                 for (var quad : modelPart.getQuads(side)) {
+                     int tintIndex = -1;
+-                    if (quad.isTinted()) {
+-                        tintIndex = MultipartTintRegistry.getOrRegisterPassthroughTint(state, quad.tintIndex());
++                    if (quad.materialInfo().isTinted()) {
++                        tintIndex = MultipartTintRegistry.getOrRegisterPassthroughTint(state, quad.materialInfo().tintIndex());
+                     }
+                     transformQuad(quad, tintIndex, renderCuboids, quads);
+                 }
+diff --git a/src/main/java/codechicken/microblock/init/CBMicroblockModContent.java b/src/main/java/codechicken/microblock/init/CBMicroblockModContent.java
+index 55c69a7..a73554f 100644
+--- a/src/main/java/codechicken/microblock/init/CBMicroblockModContent.java
++++ b/src/main/java/codechicken/microblock/init/CBMicroblockModContent.java
+@@ -27,6 +27,7 @@ import net.minecraft.network.chat.Component;
+ import net.minecraft.resources.Identifier;
+ import net.minecraft.world.item.CreativeModeTab;
+ import net.minecraft.world.item.CreativeModeTabs;
++import net.minecraft.world.item.DyeColor;
+ import net.minecraft.world.item.Item;
+ import net.minecraft.world.item.ToolMaterial;
+ import net.minecraft.world.item.crafting.CustomRecipe;
+@@ -109,7 +110,7 @@ public class CBMicroblockModContent {
+     public static final DeferredHolder<MultipartType<?>, EdgeMicroFactory> EDGE_MICROBLOCK_PART = MULTIPART_TYPES.register("edge", EdgeMicroFactory::new);
+     public static final DeferredHolder<MultipartType<?>, PostMicroblockFactory> POST_MICROBLOCK_PART = MULTIPART_TYPES.register("post", PostMicroblockFactory::new);
+ 
+-    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<? extends CustomRecipe>> MICRO_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("microblock", () -> new CustomRecipe.Serializer<>(e -> new MicroRecipe()));
++    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MicroRecipe>> MICRO_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("microblock", MicroRecipe::createSerializer);
+ 
+     public static boolean netheriteSawCutsEverything;
+ 
+@@ -254,22 +255,22 @@ public class CBMicroblockModContent {
+             registerMaterial(r, new BlockMicroMaterial(Blocks.SANDSTONE));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_SANDSTONE));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_SANDSTONE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WHITE_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.ORANGE_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.MAGENTA_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_BLUE_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.YELLOW_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIME_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PINK_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GRAY_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_GRAY_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CYAN_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PURPLE_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLUE_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BROWN_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GREEN_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.RED_WOOL));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLACK_WOOL));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.WHITE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.ORANGE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.MAGENTA)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.LIGHT_BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.YELLOW)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.LIME)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.PINK)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.LIGHT_GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.CYAN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.PURPLE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.BROWN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.GREEN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.RED)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.WOOL.pick(DyeColor.BLACK)));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.GOLD_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.IRON_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.BRICKS));
+@@ -296,22 +297,22 @@ public class CBMicroblockModContent {
+             registerMaterial(r, new BlockMicroMaterial(Blocks.GLOWSTONE));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.CARVED_PUMPKIN));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.JACK_O_LANTERN));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WHITE_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.ORANGE_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.MAGENTA_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_BLUE_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.YELLOW_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIME_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PINK_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GRAY_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_GRAY_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CYAN_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PURPLE_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLUE_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BROWN_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GREEN_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.RED_STAINED_GLASS));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLACK_STAINED_GLASS));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.WHITE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.ORANGE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.MAGENTA)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.LIGHT_BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.YELLOW)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.LIME)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.PINK)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.LIGHT_GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.CYAN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.PURPLE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.BROWN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.GREEN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.RED)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.STAINED_GLASS.pick(DyeColor.BLACK)));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.STONE_BRICKS));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.MOSSY_STONE_BRICKS));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.CRACKED_STONE_BRICKS));
+@@ -334,22 +335,22 @@ public class CBMicroblockModContent {
+             registerMaterial(r, new BlockMicroMaterial(Blocks.QUARTZ_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_QUARTZ_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.QUARTZ_PILLAR));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WHITE_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.ORANGE_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.MAGENTA_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_BLUE_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.YELLOW_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIME_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PINK_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GRAY_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_GRAY_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CYAN_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PURPLE_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLUE_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BROWN_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GREEN_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.RED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLACK_TERRACOTTA));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.WHITE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.ORANGE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.MAGENTA)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.LIGHT_BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.YELLOW)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.LIME)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.PINK)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.LIGHT_GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.CYAN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.PURPLE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.BROWN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.GREEN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.RED)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.DYED_TERRACOTTA.pick(DyeColor.BLACK)));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.SLIME_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.PRISMARINE));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.PRISMARINE_BRICKS));
+@@ -374,54 +375,54 @@ public class CBMicroblockModContent {
+             registerMaterial(r, new BlockMicroMaterial(Blocks.NETHER_WART_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.RED_NETHER_BRICKS));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.BONE_BLOCK));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WHITE_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.ORANGE_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.MAGENTA_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.YELLOW_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIME_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PINK_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GRAY_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_GRAY_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CYAN_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PURPLE_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLUE_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BROWN_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GREEN_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.RED_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLACK_GLAZED_TERRACOTTA));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WHITE_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.ORANGE_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.MAGENTA_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_BLUE_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.YELLOW_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIME_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PINK_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GRAY_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_GRAY_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CYAN_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PURPLE_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLUE_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BROWN_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GREEN_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.RED_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLACK_CONCRETE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WHITE_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.ORANGE_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.MAGENTA_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_BLUE_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.YELLOW_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIME_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PINK_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GRAY_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.LIGHT_GRAY_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CYAN_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.PURPLE_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLUE_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BROWN_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.GREEN_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.RED_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.BLACK_CONCRETE_POWDER)); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.WHITE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.ORANGE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.MAGENTA)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.LIGHT_BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.YELLOW)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.LIME)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.PINK)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.LIGHT_GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.CYAN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.PURPLE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.BROWN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.GREEN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.RED)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.GLAZED_TERRACOTTA.pick(DyeColor.BLACK)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.WHITE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.ORANGE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.MAGENTA)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.LIGHT_BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.YELLOW)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.LIME)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.PINK)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.LIGHT_GRAY)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.CYAN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.PURPLE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.BLUE)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.BROWN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.GREEN)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.RED)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE.pick(DyeColor.BLACK)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.WHITE))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.ORANGE))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.MAGENTA))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.LIGHT_BLUE))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.YELLOW))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.LIME))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.PINK))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.GRAY))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.LIGHT_GRAY))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.CYAN))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.PURPLE))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.BLUE))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.BROWN))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.GREEN))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.RED))); //TODO Gravity -> Concrete?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CONCRETE_POWDER.pick(DyeColor.BLACK))); //TODO Gravity -> Concrete?
+             registerMaterial(r, new BlockMicroMaterial(Blocks.DRIED_KELP_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.DEAD_TUBE_CORAL_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.DEAD_BRAIN_CORAL_BLOCK));
+@@ -472,40 +473,40 @@ public class CBMicroblockModContent {
+             registerMaterial(r, new BlockMicroMaterial(Blocks.TINTED_GLASS));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.SCULK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.SCULK_CATALYST));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.OXIDIZED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WEATHERED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.EXPOSED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK)); //TODO Oxidization (normal -> exposed -> weathered -> oxidized)
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.weathering().oxidized()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.weathering().weathered()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.weathering().exposed()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.weathering().unaffected())); //TODO Oxidization (normal -> exposed -> weathered -> oxidized)
+             registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_ORE));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.DEEPSLATE_COPPER_ORE));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.OXIDIZED_CUT_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WEATHERED_CUT_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.EXPOSED_CUT_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER)); //TODO Oxidization (normal -> exposed -> weathered -> oxidized)
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.OXIDIZED_CHISELED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WEATHERED_CHISELED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.EXPOSED_CHISELED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER)); //TODO Oxidization (normal -> exposed -> weathered -> oxidized)
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_COPPER_BLOCK));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_WEATHERED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_EXPOSED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_OXIDIZED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_OXIDIZED_CUT_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_WEATHERED_CUT_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_EXPOSED_CUT_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_CUT_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_OXIDIZED_CHISELED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_WEATHERED_CHISELED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_EXPOSED_CHISELED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_CHISELED_COPPER));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true))); //TODO Do these even make sense?
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.EXPOSED_COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WEATHERED_COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.OXIDIZED_COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_EXPOSED_COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_WEATHERED_COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
+-            registerMaterial(r, new BlockMicroMaterial(Blocks.WAXED_OXIDIZED_COPPER_BULB.defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.weathering().oxidized()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.weathering().weathered()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.weathering().exposed()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.weathering().unaffected())); //TODO Oxidization (normal -> exposed -> weathered -> oxidized)
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.weathering().oxidized()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.weathering().weathered()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.weathering().exposed()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.weathering().unaffected())); //TODO Oxidization (normal -> exposed -> weathered -> oxidized)
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.waxed().unaffected()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.waxed().weathered()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.waxed().exposed()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BLOCK.waxed().oxidized()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.waxed().oxidized()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.waxed().weathered()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.waxed().exposed()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CUT_COPPER.waxed().unaffected()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.waxed().oxidized()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.waxed().weathered()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.waxed().exposed()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.CHISELED_COPPER.waxed().unaffected()));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.weathering().unaffected().defaultBlockState().setValue(CopperBulbBlock.LIT, true))); //TODO Do these even make sense?
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.weathering().exposed().defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.weathering().weathered().defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.weathering().oxidized().defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.waxed().unaffected().defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.waxed().exposed().defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.waxed().weathered().defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
++            registerMaterial(r, new BlockMicroMaterial(Blocks.COPPER_BULB.waxed().oxidized().defaultBlockState().setValue(CopperBulbBlock.LIT, true)));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.DRIPSTONE_BLOCK));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.ROOTED_DIRT));
+             registerMaterial(r, new BlockMicroMaterial(Blocks.MUD));
+diff --git a/src/main/java/codechicken/microblock/init/DataGenerators.java b/src/main/java/codechicken/microblock/init/DataGenerators.java
+index 089cb84..23cc20a 100644
+--- a/src/main/java/codechicken/microblock/init/DataGenerators.java
++++ b/src/main/java/codechicken/microblock/init/DataGenerators.java
+@@ -16,7 +16,11 @@ import net.minecraft.world.item.Items;
+ import net.neoforged.bus.api.IEventBus;
+ import net.neoforged.neoforge.common.Tags;
+ import net.neoforged.neoforge.common.data.ItemTagsProvider;
++import net.minecraft.advancements.Advancement;
++import net.minecraft.data.worldgen.BootstrapContext;
++import net.minecraft.world.item.crafting.Recipe;
+ import net.neoforged.neoforge.data.event.GatherDataEvent;
++import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
+ 
+ import java.util.concurrent.CompletableFuture;
+ 
+@@ -35,12 +39,17 @@ public class DataGenerators {
+         LOCK.lock();
+ 
+         modBus.addListener(DataGenerators::registerDataGens);
++        modBus.addListener(DataGenerators::gatherRegistryEntries);
+     }
+ 
+     private static void registerDataGens(GatherDataEvent.Client event) {
+         event.createProvider(Models::new);
+         event.createProvider(ItemTags::new);
+-        event.createProvider(Recipes::new);
++    }
++
++    // Recipes (and their unlock advancements) are data registries since 26.x, they are bootstrapped instead of written by a DataProvider.
++    private static void gatherRegistryEntries(GatherDataRegistryEntriesEvent event) {
++        event.add(RecipeProvider.asBootstrap(Recipes::new));
+     }
+ 
+     private static class Models extends ModelProvider {
+@@ -74,14 +83,14 @@ public class DataGenerators {
+         @Override
+         protected void addTags(HolderLookup.Provider pProvider) {
+             tag(STONE_ROD)
+-                    .add(STONE_ROD_ITEM.get());
++                    .add(STONE_ROD_ITEM.getKey());
+         }
+     }
+ 
+     private static class Recipes extends RecipeProvider {
+ 
+-        public Recipes(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+-            super(output, registries, MOD_ID);
++        public Recipes(BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
++            super(recipes, advancements, MOD_ID);
+         }
+ 
+         @Override
+diff --git a/src/main/java/codechicken/microblock/item/SawComponent.java b/src/main/java/codechicken/microblock/item/SawComponent.java
+index a379984..9afb2da 100644
+--- a/src/main/java/codechicken/microblock/item/SawComponent.java
++++ b/src/main/java/codechicken/microblock/item/SawComponent.java
+@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
+ import com.mojang.serialization.codecs.RecordCodecBuilder;
+ import net.minecraft.core.HolderGetter;
+ import net.minecraft.core.HolderSet;
+-import net.minecraft.core.RegistryCodecs;
++import net.minecraft.core.registries.codec.RegistryCodecs;
+ import net.minecraft.core.registries.BuiltInRegistries;
+ import net.minecraft.core.registries.Registries;
+ import net.minecraft.network.RegistryFriendlyByteBuf;
+@@ -78,7 +78,7 @@ public record SawComponent(List<Rule> rules, boolean defaultAllowCut) {
+     public record Rule(HolderSet<Block> blocks, boolean allowCut) {
+         //region Codecs
+         public static final Codec<Rule> CODEC = RecordCodecBuilder.create(rule -> rule.group(
+-                        RegistryCodecs.homogeneousList(Registries.BLOCK).fieldOf("blocks").forGetter(Rule::blocks),
++                        RegistryCodecs.holderSet(Registries.BLOCK).fieldOf("blocks").forGetter(Rule::blocks),
+                         Codec.BOOL.fieldOf("allowCut").forGetter(Rule::allowCut)
+                 ).apply(rule, Rule::new)
+         );
+diff --git a/src/main/java/codechicken/microblock/item/SawItem.java b/src/main/java/codechicken/microblock/item/SawItem.java
+index 1fa05cc..2940104 100644
+--- a/src/main/java/codechicken/microblock/item/SawItem.java
++++ b/src/main/java/codechicken/microblock/item/SawItem.java
+@@ -4,7 +4,10 @@ import codechicken.microblock.init.CBMicroblockModContent;
+ import codechicken.microblock.init.CBMicroblockTags;
+ import codechicken.microblock.recipe.MicroRecipe;
+ import net.minecraft.world.item.Item;
++import net.minecraft.world.item.ItemInstance;
++import org.jetbrains.annotations.Nullable;
+ import net.minecraft.world.item.ItemStack;
++import net.minecraft.world.item.ItemStackTemplate;
+ import net.minecraft.world.item.ToolMaterial;
+ 
+ /**
+@@ -24,16 +27,21 @@ public class SawItem extends Item {
+         ));
+     }
+ 
++    // Crafting remainders are ItemStackTemplates (null for none) since 26.x.
+     @Override
+-    public ItemStack getCraftingRemainder(ItemStack stack) {
++    public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance instance) {
++        // Only a live stack has damage to advance. A template (recipe display) is its own remainder.
++        if (!(instance instanceof ItemStack stack)) {
++            return instance instanceof ItemStackTemplate template ? template : super.getCraftingRemainder(instance);
++        }
+         if (stack.isDamageableItem()) {
+             if (stack.getDamageValue() + 1 >= stack.getMaxDamage()) {
+-                return ItemStack.EMPTY;
++                return null;
+             }
+             ItemStack newStack = stack.copy();
+             newStack.setDamageValue(stack.getDamageValue() + 1);
+-            return newStack;
++            return ItemStackTemplate.fromNonEmptyStack(newStack);
+         }
+-        return stack;
++        return ItemStackTemplate.fromNonEmptyStack(stack);
+     }
+ }
+diff --git a/src/main/java/codechicken/microblock/recipe/MicroRecipe.java b/src/main/java/codechicken/microblock/recipe/MicroRecipe.java
+index a24959c..3a99ef6 100644
+--- a/src/main/java/codechicken/microblock/recipe/MicroRecipe.java
++++ b/src/main/java/codechicken/microblock/recipe/MicroRecipe.java
+@@ -8,9 +8,9 @@ import codechicken.microblock.item.ItemMicroBlock;
+ import codechicken.microblock.item.MicroMaterialComponent;
+ import codechicken.microblock.item.SawComponent;
+ import codechicken.microblock.util.MicroMaterialRegistry;
+-import net.minecraft.core.HolderLookup;
++import com.mojang.serialization.MapCodec;
++import net.minecraft.network.codec.StreamCodec;
+ import net.minecraft.world.item.ItemStack;
+-import net.minecraft.world.item.crafting.CraftingBookCategory;
+ import net.minecraft.world.item.crafting.CraftingInput;
+ import net.minecraft.world.item.crafting.CustomRecipe;
+ import net.minecraft.world.item.crafting.RecipeSerializer;
+@@ -26,8 +26,15 @@ public class MicroRecipe extends CustomRecipe {
+ 
+     private static final int[] splitMap = { 3, 3, -1, 2 };
+ 
++    // CustomRecipe has no book category argument since 26.x (it always reports MISC, as this recipe did).
+     public MicroRecipe() {
+-        super(CraftingBookCategory.MISC);
++    }
++
++    private static final MicroRecipe INSTANCE = new MicroRecipe();
++
++    // RecipeSerializer is a record of the two codecs since 26.x, CustomRecipe.Serializer no longer exists.
++    public static RecipeSerializer<MicroRecipe> createSerializer() {
++        return new RecipeSerializer<>(MapCodec.unit(INSTANCE), StreamCodec.unit(INSTANCE));
+     }
+ 
+     @Override
+@@ -41,7 +48,7 @@ public class MicroRecipe extends CustomRecipe {
+     }
+ 
+     @Override
+-    public ItemStack assemble(CraftingInput inv, HolderLookup.Provider registries) {
++    public ItemStack assemble(CraftingInput inv) {
+         return getAssemblyResult(inv);
+     }
+ 
+diff --git a/src/main/java/codechicken/multipart/api/RedstoneInteractions.java b/src/main/java/codechicken/multipart/api/RedstoneInteractions.java
+index bff05f1..c2493d2 100644
+--- a/src/main/java/codechicken/multipart/api/RedstoneInteractions.java
++++ b/src/main/java/codechicken/multipart/api/RedstoneInteractions.java
+@@ -64,7 +64,7 @@ public class RedstoneInteractions {
+         if ((vMask & mask) > 0) {
+             int m = world.getSignal(pos, Direction.from3DDataValue(side ^ 1));
+             if (m < 15 && block == Blocks.REDSTONE_WIRE) {
+-                m = Math.max(m, state.getValue(RedStoneWireBlock.POWER));
++                m = Math.max(m, state.getValue(RedstoneWireBlock.POWER));
+             } //painful vanilla kludge
+             return m;
+         }
+@@ -225,7 +225,7 @@ public class RedstoneInteractions {
+ 
+         // For all other blocks, rely on canConnectRedstone logic. Side is respective to the wire
+         // attempting the connection, not the target side. Therefore, it is flipped
+-        if (power || block.canConnectRedstone(state, world, pos, Direction.from3DDataValue(side).getOpposite())) {
++        if (power || state.shouldRedstoneWireConnectTo(world, pos, Direction.from3DDataValue(side).getOpposite())) {
+             return 0x1F;
+         }
+         return 0;
+diff --git a/src/main/java/codechicken/multipart/api/RegisterMultipartRenderersEvent.java b/src/main/java/codechicken/multipart/api/RegisterMultipartRenderersEvent.java
+index 056ee24..249d346 100644
+--- a/src/main/java/codechicken/multipart/api/RegisterMultipartRenderersEvent.java
++++ b/src/main/java/codechicken/multipart/api/RegisterMultipartRenderersEvent.java
+@@ -5,7 +5,7 @@ import codechicken.multipart.api.part.render.DynamicPartRenderer;
+ import codechicken.multipart.api.part.render.OutlinePartRenderer;
+ import codechicken.multipart.api.part.render.PartParticleHandler;
+ import codechicken.multipart.api.part.render.StaticPartRenderer;
+-import net.minecraft.client.renderer.block.model.BlockStateModel;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+ import net.neoforged.bus.api.Event;
+ import net.neoforged.fml.event.IModBusEvent;
+diff --git a/src/main/java/codechicken/multipart/api/part/MultiPart.java b/src/main/java/codechicken/multipart/api/part/MultiPart.java
+index b2ad1e0..0e8d6ee 100644
+--- a/src/main/java/codechicken/multipart/api/part/MultiPart.java
++++ b/src/main/java/codechicken/multipart/api/part/MultiPart.java
+@@ -561,8 +561,8 @@ public interface MultiPart {
+         builder.params.params.putAll(forBlock.params.params);
+         builder.dynamicDrops.putAll(forBlock.dynamicDrops);
+         // Parts don't get these as context.
+-        builder.params.withOptionalParameter(LootContextParams.BLOCK_STATE, null);
+-        builder.params.withOptionalParameter(LootContextParams.BLOCK_ENTITY, null);
++        builder.params.set(LootContextParams.BLOCK_STATE, null);
++        builder.params.set(LootContextParams.BLOCK_ENTITY, null);
+         builder.withParameter(MultipartLootContextParams.MULTI_PART, part);
+         return builder;
+     }
+diff --git a/src/main/java/codechicken/multipart/api/part/render/BlockStatePartBakedModelRenderer.java b/src/main/java/codechicken/multipart/api/part/render/BlockStatePartBakedModelRenderer.java
+index 2a04378..c3cc4f7 100644
+--- a/src/main/java/codechicken/multipart/api/part/render/BlockStatePartBakedModelRenderer.java
++++ b/src/main/java/codechicken/multipart/api/part/render/BlockStatePartBakedModelRenderer.java
+@@ -4,13 +4,13 @@ import codechicken.multipart.api.part.BlockStateModelPart;
+ import codechicken.multipart.util.ProxyBlockAndTintGetter;
+ import codechicken.multipart.util.WrappedBlockModelPart;
+ import net.minecraft.client.Minecraft;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
+-import net.minecraft.client.renderer.block.model.BlockStateModel;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.util.RandomSource;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.neoforged.neoforge.model.data.ModelData;
+ 
++import java.util.ArrayList;
+ import java.util.List;
+ 
+ /**
+@@ -22,19 +22,22 @@ import java.util.List;
+ public class BlockStatePartBakedModelRenderer<T extends BlockStateModelPart> implements StaticPartRenderer<T> {
+ 
+     @Override
+-    public void collectParts(ModelData modelData, BlockAndTintGetter level, BlockPos pos, RandomSource rand, List<BlockModelPart> parts) {
++    public void collectParts(ModelData modelData, BlockAndTintGetter level, BlockPos pos, RandomSource rand, List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> parts) {
+         var data = modelData.get(BlockStateModelPart.BlockStateModelPartData.TYPE);
+         if (data == null) return;
+ 
+         var state = data.state();
+-        var model = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
++        var model = Minecraft.getInstance().getModelManager().getBlockStateModelSet().get(state);
+         // TODO we can likely cache the list used for this collectParts call somewhere if we use an instance class?
+         // TODO we need to rewrite tint...
+-        var modelParts = model.collectParts(
++        // The list-returning collectParts convenience is gone in 26.x.
++        List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> modelParts = new ArrayList<>();
++        model.collectParts(
+                 new ProxyBlockAndTintGetter(level, pos, state, modelData),
+                 pos,
+                 state,
+-                rand
++                rand,
++                modelParts
+         );
+         for (var modelPart : modelParts) {
+             parts.add(new WrappedBlockModelPart(modelPart, state));
+diff --git a/src/main/java/codechicken/multipart/api/part/render/DynamicPartRenderer.java b/src/main/java/codechicken/multipart/api/part/render/DynamicPartRenderer.java
+index 0008ac4..ec4f381 100644
+--- a/src/main/java/codechicken/multipart/api/part/render/DynamicPartRenderer.java
++++ b/src/main/java/codechicken/multipart/api/part/render/DynamicPartRenderer.java
+@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
+ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+ import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
+-import net.minecraft.client.renderer.state.CameraRenderState;
++import net.minecraft.client.renderer.state.level.CameraRenderState;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.world.phys.Vec3;
+ import org.jspecify.annotations.Nullable;
+diff --git a/src/main/java/codechicken/multipart/api/part/render/OutlinePartRenderer.java b/src/main/java/codechicken/multipart/api/part/render/OutlinePartRenderer.java
+index 51685dd..03c1951 100644
+--- a/src/main/java/codechicken/multipart/api/part/render/OutlinePartRenderer.java
++++ b/src/main/java/codechicken/multipart/api/part/render/OutlinePartRenderer.java
+@@ -5,7 +5,7 @@ import codechicken.multipart.api.part.MultiPart;
+ import codechicken.multipart.util.PartRayTraceResult;
+ import net.minecraft.client.Camera;
+ import net.minecraft.client.renderer.LevelRenderer;
+-import net.minecraft.client.renderer.state.LevelRenderState;
++import net.minecraft.client.renderer.state.level.LevelRenderState;
+ import net.minecraft.world.phys.shapes.CollisionContext;
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ import net.neoforged.neoforge.client.CustomBlockOutlineRenderer;
+diff --git a/src/main/java/codechicken/multipart/api/part/render/StaticPartRenderer.java b/src/main/java/codechicken/multipart/api/part/render/StaticPartRenderer.java
+index de96fc4..b74cd91 100644
+--- a/src/main/java/codechicken/multipart/api/part/render/StaticPartRenderer.java
++++ b/src/main/java/codechicken/multipart/api/part/render/StaticPartRenderer.java
+@@ -2,11 +2,11 @@ package codechicken.multipart.api.part.render;
+ 
+ import codechicken.multipart.api.RegisterMultipartRenderersEvent;
+ import codechicken.multipart.api.part.MultiPart;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
+-import net.minecraft.client.renderer.block.model.BlockStateModel;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.util.RandomSource;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.neoforged.neoforge.model.data.ModelData;
+ 
+@@ -32,7 +32,7 @@ public interface StaticPartRenderer<P extends MultiPart> {
+      * @param rand      The {@link RandomSource} for this block position.
+      * @param parts     The output collector.
+      */
+-    void collectParts(ModelData modelData, BlockAndTintGetter level, BlockPos pos, RandomSource rand, List<BlockModelPart> parts);
++    void collectParts(ModelData modelData, BlockAndTintGetter level, BlockPos pos, RandomSource rand, List<BlockStateModelPart> parts);
+ 
+     @FunctionalInterface
+     interface Factory<P extends MultiPart> {
+diff --git a/src/main/java/codechicken/multipart/block/BlockMultipart.java b/src/main/java/codechicken/multipart/block/BlockMultipart.java
+index 0b95ab7..ac1cabb 100644
+--- a/src/main/java/codechicken/multipart/block/BlockMultipart.java
++++ b/src/main/java/codechicken/multipart/block/BlockMultipart.java
+@@ -329,7 +329,7 @@ public class BlockMultipart extends Block implements EntityBlock {
+     }
+ 
+     @Override
+-    public boolean canConnectRedstone(BlockState state, BlockGetter world, BlockPos pos, @Nullable Direction side) {
++    protected boolean shouldRedstoneWireConnectTo(BlockState state, BlockGetter world, BlockPos pos, @Nullable Direction side) {
+         TileMultipart tile = getTile(world, pos);
+         if (tile != null) {
+             return side != null && tile.canConnectRedstone(side.ordinal() ^ 1);// 'side' is respect to connecting block, we want with respect to this block
+diff --git a/src/main/java/codechicken/multipart/block/BlockMultipartClientExtensions.java b/src/main/java/codechicken/multipart/block/BlockMultipartClientExtensions.java
+index 9799070..09d26f3 100644
+--- a/src/main/java/codechicken/multipart/block/BlockMultipartClientExtensions.java
++++ b/src/main/java/codechicken/multipart/block/BlockMultipartClientExtensions.java
+@@ -3,6 +3,8 @@ package codechicken.multipart.block;
+ import codechicken.multipart.util.PartRayTraceResult;
+ import net.minecraft.client.particle.ParticleEngine;
+ import net.minecraft.core.BlockPos;
++import net.minecraft.core.Direction;
++import net.minecraft.client.Minecraft;
+ import net.minecraft.world.level.Level;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.phys.HitResult;
+@@ -15,8 +17,9 @@ import org.jspecify.annotations.Nullable;
+ public class BlockMultipartClientExtensions implements IClientBlockExtensions {
+ 
+     @Override
+-    public boolean addHitEffects(BlockState state, Level level, @Nullable HitResult target, ParticleEngine manager) {
+-        if (!(target instanceof PartRayTraceResult hit)) return true;
++    public boolean addHitEffects(BlockState state, Level level, BlockPos pos, Direction face, ParticleEngine manager) {
++        // The hook no longer receives the hit result, the part being hit is the client's crosshair target.
++        if (!(Minecraft.getInstance().hitResult instanceof PartRayTraceResult hit) || !hit.getBlockPos().equals(pos)) return true;
+ 
+         TileMultipart tile = BlockMultipart.getTile(level, hit.getBlockPos());
+         if (tile == null) return true;
+diff --git a/src/main/java/codechicken/multipart/block/TileMultipart.java b/src/main/java/codechicken/multipart/block/TileMultipart.java
+index 7a8aef3..a7e8ba6 100644
+--- a/src/main/java/codechicken/multipart/block/TileMultipart.java
++++ b/src/main/java/codechicken/multipart/block/TileMultipart.java
+@@ -752,7 +752,7 @@ public class TileMultipart extends BlockEntity implements IChunkLoadTile {
+ 
+     public static void dropItem(ItemStack stack, Level level, Vector3 pos) {
+         ItemEntity item = new ItemEntity(level, pos.x, pos.y, pos.z, stack);
+-        item.setDeltaMovement(level.random.nextGaussian() * 0.05, level.random.nextGaussian() * 0.05 + 0.2, level.random.nextGaussian() * 0.05);
++        item.setDeltaMovement(level.getRandom().nextGaussian() * 0.05, level.getRandom().nextGaussian() * 0.05 + 0.2, level.getRandom().nextGaussian() * 0.05);
+         item.setPickUpDelay(10);
+         level.addFreshEntity(item);
+     }
+diff --git a/src/main/java/codechicken/multipart/client/ClientEventHandler.java b/src/main/java/codechicken/multipart/client/ClientEventHandler.java
+index 463b213..2d7e879 100644
+--- a/src/main/java/codechicken/multipart/client/ClientEventHandler.java
++++ b/src/main/java/codechicken/multipart/client/ClientEventHandler.java
+@@ -1,11 +1,12 @@
+ package codechicken.multipart.client;
+ 
++import net.minecraft.client.Minecraft;
+ import codechicken.multipart.api.MultipartClientRegistry;
+ import codechicken.multipart.api.part.render.OutlinePartRenderer;
+ import codechicken.multipart.block.BlockMultipart;
+ import codechicken.multipart.block.TileMultipart;
+ import codechicken.multipart.util.PartRayTraceResult;
+-import net.minecraft.client.renderer.state.BlockOutlineRenderState;
++import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
+ import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
+ import net.neoforged.neoforge.common.NeoForge;
+ 
+@@ -35,7 +36,7 @@ public class ClientEventHandler {
+             boolean rendererHandled = renderer.extractPartOutline(
+                     unsafeCast(hit.part),
+                     hit,
+-                    event.getLevelRenderer(),
++                    Minecraft.getInstance().levelRenderer,
+                     event.getLevelRenderState(),
+                     event.getCamera(),
+                     event.getCollisionContext(),
+diff --git a/src/main/java/codechicken/multipart/client/MultipartTileBakedModel.java b/src/main/java/codechicken/multipart/client/MultipartTileBakedModel.java
+index 411091c..4335226 100644
+--- a/src/main/java/codechicken/multipart/client/MultipartTileBakedModel.java
++++ b/src/main/java/codechicken/multipart/client/MultipartTileBakedModel.java
+@@ -1,18 +1,20 @@
+ package codechicken.multipart.client;
+ 
++import java.util.ArrayList;
++import net.minecraft.client.resources.model.geometry.BakedQuad;
+ import codechicken.multipart.api.MultipartClientRegistry;
+ import com.mojang.serialization.MapCodec;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
+-import net.minecraft.client.renderer.block.model.BlockStateModel;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+ import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+ import net.minecraft.client.renderer.texture.TextureAtlas;
+ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+-import net.minecraft.client.resources.model.Material;
++import net.minecraft.client.resources.model.sprite.Material;
+ import net.minecraft.client.resources.model.ModelBaker;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.resources.Identifier;
+ import net.minecraft.util.RandomSource;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.neoforged.neoforge.client.model.DynamicBlockStateModel;
+ import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
+@@ -26,14 +28,14 @@ import static codechicken.multipart.CBMultipart.MOD_ID;
+  */
+ public class MultipartTileBakedModel implements DynamicBlockStateModel {
+ 
+-    private final TextureAtlasSprite particle;
++    private final Material.Baked particle;
+ 
+-    public MultipartTileBakedModel(TextureAtlasSprite particle) {
++    public MultipartTileBakedModel(Material.Baked particle) {
+         this.particle = particle;
+     }
+ 
+     @Override
+-    public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockModelPart> parts) {
++    public void collectParts(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource random, List<BlockStateModelPart> parts) {
+         var data = level.getModelData(pos);
+         var tileData = data.get(MultipartModelData.DATA);
+         if (tileData == null) return;
+@@ -47,10 +49,28 @@ public class MultipartTileBakedModel implements DynamicBlockStateModel {
+     }
+ 
+     @Override
+-    public TextureAtlasSprite particleIcon() {
++    public Material.Baked particleMaterial() {
+         return particle;
+     }
+ 
++    // Without a level there are no parts to summarise.
++    @Override
++    public @BakedQuad.MaterialFlags int materialFlags() {
++        return 0;
++    }
++
++    // The translucent / animated flags come from whatever the parts in the tile render.
++    @Override
++    public @BakedQuad.MaterialFlags int materialFlags(BlockAndTintGetter level, BlockPos pos, BlockState state) {
++        List<BlockStateModelPart> parts = new ArrayList<>();
++        collectParts(level, pos, state, RandomSource.create(state.getSeed(pos)), parts);
++        int flags = 0;
++        for (BlockStateModelPart part : parts) {
++            flags |= part.materialFlags();
++        }
++        return flags;
++    }
++
+     public static final class Unbaked implements CustomUnbakedBlockStateModel {
+ 
+         public static final Identifier TYPE = Identifier.fromNamespaceAndPath(MOD_ID, "tile");
+@@ -58,8 +78,8 @@ public class MultipartTileBakedModel implements DynamicBlockStateModel {
+ 
+         @Override
+         public BlockStateModel bake(ModelBaker baker) {
+-            var missingSprite = baker.sprites().get(
+-                    new Material(TextureAtlas.LOCATION_BLOCKS, MissingTextureAtlasSprite.getLocation()),
++            var missingSprite = baker.materials().get(
++                    new Material(MissingTextureAtlasSprite.getLocation()),
+                     () -> "MultipartTileBakedModel.Unbaked"
+             );
+             return new MultipartTileBakedModel(missingSprite);
+diff --git a/src/main/java/codechicken/multipart/client/MultipartTileRenderer.java b/src/main/java/codechicken/multipart/client/MultipartTileRenderer.java
+index 3df976b..1d20e7b 100644
+--- a/src/main/java/codechicken/multipart/client/MultipartTileRenderer.java
++++ b/src/main/java/codechicken/multipart/client/MultipartTileRenderer.java
+@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+ import net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay;
+-import net.minecraft.client.renderer.state.CameraRenderState;
++import net.minecraft.client.renderer.state.level.CameraRenderState;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.Vec3;
+diff --git a/src/main/java/codechicken/multipart/client/MultipartTintRegistry.java b/src/main/java/codechicken/multipart/client/MultipartTintRegistry.java
+index 5d14129..3abeeb5 100644
+--- a/src/main/java/codechicken/multipart/client/MultipartTintRegistry.java
++++ b/src/main/java/codechicken/multipart/client/MultipartTintRegistry.java
+@@ -1,5 +1,7 @@
+ package codechicken.multipart.client;
+ 
++import java.util.concurrent.CopyOnWriteArrayList;
++import java.util.List;
+ import codechicken.multipart.init.CBMultipartModContent;
+ import codechicken.multipart.util.ProxyBlockAndTintGetter;
+ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+@@ -7,10 +9,10 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+ import it.unimi.dsi.fastutil.objects.Object2IntMap;
+ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+ import net.covers1624.quack.util.CrashLock;
+-import net.minecraft.client.color.block.BlockColor;
++import net.minecraft.client.color.block.BlockTintSource;
+ import net.minecraft.client.color.block.BlockColors;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.neoforged.bus.api.IEventBus;
+ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+@@ -64,14 +66,23 @@ public class MultipartTintRegistry {
+             int ourTintIndex = next.getAndIncrement();
+             passthroughTintInverse.put(key, ourTintIndex);
+             passthroughTint.put(ourTintIndex, key);
++            // Tint layers are a list indexed by tint index since 26.x, keep ours in step with the registry.
++            while (tintSources.size() <= ourTintIndex) {
++                tintSources.add(new ProxyTintSource(tintSources.size()));
++            }
+             return ourTintIndex;
+         } finally {
+             passthroughRwLock.writeLock().unlock();
+         }
+     }
+ 
+-    private static void onRegisterBlockColorHandlers(RegisterColorHandlersEvent.Block event) {
+-        event.register(new MultipartBlockColor(event.getBlockColors()), CBMultipartModContent.MULTIPART_BLOCK.get());
++    // One BlockTintSource per registered passthrough index. BlockColors holds this exact (growing) list.
++    private static final List<BlockTintSource> tintSources = new CopyOnWriteArrayList<>();
++    private static @Nullable BlockColors blockColors;
++
++    private static void onRegisterBlockColorHandlers(RegisterColorHandlersEvent.BlockTintSources event) {
++        blockColors = event.getBlockColors();
++        event.register(tintSources, CBMultipartModContent.MULTIPART_BLOCK.get());
+     }
+ 
+     private static @Nullable ProxyTint getProxyTint(int tintIndex) {
+@@ -85,20 +96,47 @@ public class MultipartTintRegistry {
+ 
+     private record ProxyTint(BlockState state, int tintIndex) { }
+ 
+-    private record MultipartBlockColor(BlockColors blockColors) implements BlockColor {
++    /**
++     * Resolves one of our tint indexes to the tint source of the block it proxies.
++     * The 26.x replacement for the single BlockColor callback which received the tint index.
++     */
++    private record ProxyTintSource(int tintIndex) implements BlockTintSource {
++
++        private @Nullable BlockTintSource target(ProxyTint proxyTint) {
++            return blockColors != null ? blockColors.getTintSource(proxyTint.state, proxyTint.tintIndex) : null;
++        }
+ 
+         @Override
+-        public int getColor(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
++        public int color(BlockState state) {
+             var proxyTint = getProxyTint(tintIndex);
+-            if (proxyTint != null) {
+-                return blockColors.getColor(
+-                        proxyTint.state,
+-                        level != null && pos != null ? new ProxyBlockAndTintGetter(level, pos, proxyTint.state, ModelData.EMPTY) : null,
+-                        pos,
+-                        proxyTint.tintIndex
+-                );
+-            }
+-            return -1;
++            if (proxyTint == null) return -1;
++            var target = target(proxyTint);
++            return target != null ? target.color(proxyTint.state) : -1;
+         }
++
++        @Override
++        public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
++            var proxyTint = getProxyTint(tintIndex);
++            if (proxyTint == null) return -1;
++            var target = target(proxyTint);
++            if (target == null) return -1;
++            return target.colorInWorld(proxyTint.state, new ProxyBlockAndTintGetter(level, pos, proxyTint.state, ModelData.EMPTY), pos);
++        }
++
++        @Override
++        public int colorAsTerrainParticle(BlockState state, BlockAndTintGetter level, BlockPos pos) {
++            var proxyTint = getProxyTint(tintIndex);
++            if (proxyTint == null) return -1;
++            var target = target(proxyTint);
++            if (target == null) return -1;
++            return target.colorAsTerrainParticle(proxyTint.state, new ProxyBlockAndTintGetter(level, pos, proxyTint.state, ModelData.EMPTY), pos);
++        }
++    }
++
++    /**
++     * The colour of one of our tint indexes with no world, as used for items and previews.
++     */
++    public static int getColor(int tintIndex) {
++        return tintIndex >= 0 && tintIndex < tintSources.size() ? tintSources.get(tintIndex).color(CBMultipartModContent.MULTIPART_BLOCK.get().defaultBlockState()) : -1;
+     }
+ }
+diff --git a/src/main/java/codechicken/multipart/handler/ControlKeyHandler.java b/src/main/java/codechicken/multipart/handler/ControlKeyHandler.java
+index 929fac0..b8acc09 100644
+--- a/src/main/java/codechicken/multipart/handler/ControlKeyHandler.java
++++ b/src/main/java/codechicken/multipart/handler/ControlKeyHandler.java
+@@ -5,11 +5,11 @@ import codechicken.multipart.util.ControlKeyModifier;
+ import net.covers1624.quack.util.CrashLock;
+ import net.minecraft.client.KeyMapping;
+ import net.minecraft.client.Minecraft;
++import com.mojang.blaze3d.platform.InputConstants;
+ import net.neoforged.bus.api.IEventBus;
+ import net.neoforged.neoforge.client.event.ClientTickEvent;
+ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+ import net.neoforged.neoforge.common.NeoForge;
+-import org.lwjgl.glfw.GLFW;
+ 
+ /**
+  * Created by covers1624 on 1/9/20.
+@@ -17,7 +17,7 @@ import org.lwjgl.glfw.GLFW;
+ public class ControlKeyHandler {
+ 
+     private static final CrashLock LOCK = new CrashLock("Already initialized.");
+-    private static final KeyMapping KEY = new KeyMapping("key.control", GLFW.GLFW_KEY_LEFT_CONTROL, KeyMapping.Category.GAMEPLAY);
++    private static final KeyMapping KEY = new KeyMapping("key.control", InputConstants.KEY_LCONTROL, KeyMapping.Category.GAMEPLAY);
+ 
+     private static boolean lastPressed = false;
+ 
+diff --git a/src/main/java/codechicken/multipart/minecraft/McStatePartParticleHandler.java b/src/main/java/codechicken/multipart/minecraft/McStatePartParticleHandler.java
+index 621fd75..540d008 100644
+--- a/src/main/java/codechicken/multipart/minecraft/McStatePartParticleHandler.java
++++ b/src/main/java/codechicken/multipart/minecraft/McStatePartParticleHandler.java
+@@ -30,8 +30,8 @@ public class McStatePartParticleHandler implements StandardPartParticleHandler<M
+     }
+ 
+     private static TextureAtlasSprite getParticleTexture(McStatePart part) {
+-        return Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
+-                .getBlockModel(part.getCurrentState())
+-                .particleIcon(); // TODO fake level for model data
++        return Minecraft.getInstance().getModelManager().getBlockStateModelSet()
++                .getParticleMaterial(part.getCurrentState())
++                .sprite(); // TODO fake level for model data
+     }
+ }
+diff --git a/src/main/java/codechicken/multipart/trait/TileMultipartClient.java b/src/main/java/codechicken/multipart/trait/TileMultipartClient.java
+index c8328db..85a2307 100644
+--- a/src/main/java/codechicken/multipart/trait/TileMultipartClient.java
++++ b/src/main/java/codechicken/multipart/trait/TileMultipartClient.java
+@@ -33,7 +33,7 @@ public class TileMultipartClient extends TileMultipart {
+         if (getLevel() instanceof ClientLevel) {
+             requestModelDataUpdate();
+             BlockPos pos = getBlockPos();
+-            Minecraft.getInstance().levelRenderer.setBlocksDirty(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
++            Minecraft.getInstance().levelExtractor.setBlocksDirty(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+         }
+     }
+ 
+diff --git a/src/main/java/codechicken/multipart/util/ProxyBlockAndTintGetter.java b/src/main/java/codechicken/multipart/util/ProxyBlockAndTintGetter.java
+index 0ce5801..4480771 100644
+--- a/src/main/java/codechicken/multipart/util/ProxyBlockAndTintGetter.java
++++ b/src/main/java/codechicken/multipart/util/ProxyBlockAndTintGetter.java
+@@ -1,8 +1,9 @@
+ package codechicken.multipart.util;
+ 
++import net.minecraft.world.level.CardinalLighting;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+-import net.minecraft.world.level.BlockAndTintGetter;
++import net.minecraft.client.renderer.block.BlockAndTintGetter;
+ import net.minecraft.world.level.ColorResolver;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+@@ -30,7 +31,7 @@ public record ProxyBlockAndTintGetter(BlockAndTintGetter other, BlockPos pos, Bl
+     }
+ 
+     // @formatter:off
+-    @Override public float getShade(Direction face, boolean shade) { return other.getShade(face, shade); }
++    @Override public CardinalLighting cardinalLighting() { return other.cardinalLighting(); }
+     @Override public LevelLightEngine getLightEngine() { return other.getLightEngine(); }
+     @Override public int getBlockTint(BlockPos pos, ColorResolver resolver) { return other.getBlockTint(pos, resolver); }
+     @Nullable @Override public BlockEntity getBlockEntity(BlockPos pos) { return other.getBlockEntity(pos); }
+diff --git a/src/main/java/codechicken/multipart/util/WorldTickScheduler.java b/src/main/java/codechicken/multipart/util/WorldTickScheduler.java
+index b5cbfc3..21bbc8a 100644
+--- a/src/main/java/codechicken/multipart/util/WorldTickScheduler.java
++++ b/src/main/java/codechicken/multipart/util/WorldTickScheduler.java
+@@ -10,6 +10,7 @@ import net.covers1624.quack.collection.FastStream;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.nbt.ListTag;
++import net.minecraft.resources.Identifier;
+ import net.minecraft.server.level.ServerLevel;
+ import net.minecraft.util.ProblemReporter;
+ import net.minecraft.world.level.ChunkPos;
+@@ -34,7 +35,8 @@ import static codechicken.multipart.CBMultipart.MOD_ID;
+ class WorldTickScheduler extends SavedData {
+ 
+     private static final SavedDataType<WorldTickScheduler> TYPE = new SavedDataType<>(
+-            MOD_ID + "_scheduled_ticks",
++            // Saved data ids are Identifiers since 26.x (was the plain name "cb_multipart_scheduled_ticks").
++            Identifier.fromNamespaceAndPath(MOD_ID, "scheduled_ticks"),
+             WorldTickScheduler::new,
+             ctx -> CompoundTag.CODEC.flatXmap(tag -> {
+                 var scheduler = new WorldTickScheduler(ctx);
+diff --git a/src/main/java/codechicken/multipart/util/WrappedBlockModelPart.java b/src/main/java/codechicken/multipart/util/WrappedBlockModelPart.java
+index 8a069fd..057ee84 100644
+--- a/src/main/java/codechicken/multipart/util/WrappedBlockModelPart.java
++++ b/src/main/java/codechicken/multipart/util/WrappedBlockModelPart.java
+@@ -1,7 +1,8 @@
+ package codechicken.multipart.util;
+ 
+-import net.minecraft.client.renderer.block.model.BakedQuad;
+-import net.minecraft.client.renderer.block.model.BlockModelPart;
++import net.minecraft.client.resources.model.sprite.Material;
++import net.minecraft.client.resources.model.geometry.BakedQuad;
++import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+ import net.minecraft.core.Direction;
+@@ -14,12 +15,12 @@ import java.util.List;
+ /**
+  * Created by covers1624 on 7/18/26.
+  */
+-public class WrappedBlockModelPart implements BlockModelPart {
++public class WrappedBlockModelPart implements BlockStateModelPart {
+ 
+-    private final BlockModelPart other;
++    private final BlockStateModelPart other;
+     private final BlockState state;
+ 
+-    public WrappedBlockModelPart(BlockModelPart other, BlockState state) {
++    public WrappedBlockModelPart(BlockStateModelPart other, BlockState state) {
+         this.other = other;
+         this.state = state;
+     }
+@@ -35,13 +36,15 @@ public class WrappedBlockModelPart implements BlockModelPart {
+     }
+ 
+     @Override
+-    public TextureAtlasSprite particleIcon() {
+-        return other.particleIcon();
++    public Material.Baked particleMaterial() {
++        return other.particleMaterial();
+     }
+ 
++    // Parts no longer report a render layer for a block state in 26.x, every quad carries its own
++    // layer in BakedQuad.MaterialInfo. The flags summarise them.
+     @Override
+-    public ChunkSectionLayer getRenderType(BlockState state) {
+-        return other.getRenderType(this.state);
++    public @BakedQuad.MaterialFlags int materialFlags() {
++        return other.materialFlags();
+     }
+ 
+     @Override
+diff --git a/src/main/resources/META-INF/neoforge.mods.toml b/src/main/resources/META-INF/neoforge.mods.toml
+index e3edfac..fb7a50c 100644
+--- a/src/main/resources/META-INF/neoforge.mods.toml
++++ b/src/main/resources/META-INF/neoforge.mods.toml
+@@ -26,7 +26,7 @@ config="mixins.cbmultipart.json"
+ [[dependencies.cb_multipart]]
+     modId="minecraft"
+     type="required"
+-    versionRange="[1.21.11]"
++    versionRange="[26.3]"
+     ordering="NONE"
+     side="BOTH"
+ [[dependencies.cb_multipart]]
+@@ -55,7 +55,7 @@ versionRange="[${forge_version},)"
+ [[dependencies.cb_microblock]]
+     modId="minecraft"
+     type="required"
+-versionRange="[1.21.11]"
++versionRange="[26.3]"
+     ordering="NONE"
+     side="BOTH"
+ [[dependencies.cb_microblock]]
+@@ -90,7 +90,7 @@ versionRange="[1.21.11]"
+ [[dependencies.cb_multipart_minecraft]]
+     modId="minecraft"
+     type="required"
+-    versionRange="[1.21.11]"
++    versionRange="[26.3]"
+     ordering="NONE"
+     side="BOTH"
+ [[dependencies.cb_multipart_minecraft]]

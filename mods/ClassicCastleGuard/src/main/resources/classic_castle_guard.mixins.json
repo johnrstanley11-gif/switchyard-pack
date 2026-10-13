@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.7",
+  "package": "classic.castleguard.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "FluidDrainMixin",
+    "QuarryFrameMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

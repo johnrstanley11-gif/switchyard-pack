@@ -1,0 +1,889 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/celestial_clockwork/helmet",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_celestial_clockwork"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/celestial_clockwork/chestplate",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_celestial_clockwork"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/celestial_clockwork/leggings",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_celestial_clockwork"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/celestial_clockwork/boots",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_celestial_clockwork"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/celestial_clockwork/elytra",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_celestial_clockwork"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/celestial_clockwork/sword",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/celestial_clockwork/pickaxe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/celestial_clockwork/axe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/celestial_clockwork/shovel",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/celestial_clockwork/hoe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/celestial_clockwork/mace",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/celestial_clockwork/trident",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/celestial_clockwork/fishing_rod",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/celestial_clockwork/bow",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/celestial_clockwork/crossbow",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Celestial Clockwork Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/celestial_clockwork/shield",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/phoenix_ember/helmet",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_phoenix_ember"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/phoenix_ember/chestplate",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_phoenix_ember"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/phoenix_ember/leggings",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_phoenix_ember"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/phoenix_ember/boots",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_phoenix_ember"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/phoenix_ember/elytra",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_phoenix_ember"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/phoenix_ember/sword",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/phoenix_ember/pickaxe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/phoenix_ember/axe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/phoenix_ember/shovel",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/phoenix_ember/hoe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/phoenix_ember/mace",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/phoenix_ember/trident",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/phoenix_ember/fishing_rod",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/phoenix_ember/bow",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/phoenix_ember/crossbow",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Phoenix Ember Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/phoenix_ember/shield",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/glitch_signal/helmet",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_glitch_signal"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/glitch_signal/chestplate",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_glitch_signal"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/glitch_signal/leggings",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_glitch_signal"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/glitch_signal/boots",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_glitch_signal"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/glitch_signal/elytra",
+                  "rarity": "mythic",
+                  "equipment_asset": "classiccrates:skin_glitch_signal"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/glitch_signal/sword",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/glitch_signal/pickaxe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/glitch_signal/axe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/glitch_signal/shovel",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/glitch_signal/hoe",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/glitch_signal/mace",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/glitch_signal/trident",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/glitch_signal/fishing_rod",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/glitch_signal/bow",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/glitch_signal/crossbow",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Glitch Signal Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/glitch_signal/shield",
+                  "rarity": "mythic"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

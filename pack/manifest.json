@@ -1,0 +1,906 @@
+{
+ "name": "Classic Engineering private 26.3 TEST pack",
+ "minecraft": "26.3",
+ "loader": "neoforge 26.3.0.65-beta",
+ "status": "assembled only; see reports/PrivatePack for what has been run",
+ "livePackModified": false,
+ "leftOutByUserDecision": [
+  "platform",
+  "vanillabackport (replaced by classic-spruce-needles)"
+ ],
+ "mods": [
+  {
+   "slug": "scalable-cats-force",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "RrcS9php",
+   "version": "6.1.1-mc26.3-3.9.0-neoforge",
+   "releaseType": "release",
+   "filename": "ScalableCatsForce-NeoForge-6.1.1-mc26.3-3.9.0-all.jar",
+   "url": "https://cdn.modrinth.com/data/zr0QMQMo/versions/RrcS9php/ScalableCatsForce-NeoForge-6.1.1-mc26.3-3.9.0-all.jar",
+   "sha512": "07f7a69d0bb75797d26f006709f118924a8e683e39fe2b9f1511ee1802964c96788c474c6e257cff4b07db0a88a7a01d9002b72c258c6042bb013d95c0fc4d5a",
+   "sha256": "c51a742a9a32be64a540a986fda0310612039a9427a9bafd46c16fc2dceba79c",
+   "size": 17582621,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ScalableCatsForce-NeoForge-6.1.1-mc26.3-3.9.0-all.jar",
+    "pack-26.3-private/client/mods/ScalableCatsForce-NeoForge-6.1.1-mc26.3-3.9.0-all.jar"
+   ]
+  },
+  {
+   "slug": "cc-tweaked",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "f9jfjeJH",
+   "version": "1.120.3",
+   "releaseType": "alpha",
+   "filename": "cc-tweaked-26.3-forge-1.120.3.jar",
+   "url": "https://cdn.modrinth.com/data/gu7yAYhd/versions/f9jfjeJH/cc-tweaked-26.3-forge-1.120.3.jar",
+   "sha512": "7c8d5ba720ce04b650b08f7c02d4dffbada0e7149657cd032b343d84cfaa2680cb5c5f7d9dacadd23e5bfa7776a652a9fba325cddad3f8db90a275520413ff1a",
+   "sha256": "d7160130c467e1936ee5c0a9814b7a6cce1ba4ac7b7949f915895d0252032cda",
+   "size": 2611053,
+   "dependencies": [],
+   "heldBack": "Official 1.120.3 alpha fails mod construction on NeoForge 26.3.0.65-beta: NoSuchFieldError ModConfig$Type.SERVER (this NeoForge has LOCAL/CLIENT/SYNCED/STARTUP). logs/PrivatePack-runtime-server-1.log",
+   "placed": [
+    "pack-26.3-private/held-back/cc-tweaked-26.3-forge-1.120.3.jar"
+   ]
+  },
+  {
+   "slug": "ae2",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "PDPQ4WfW",
+   "version": "26.3.1-alpha",
+   "releaseType": "alpha",
+   "filename": "appliedenergistics2-26.3.1-alpha.jar",
+   "url": "https://cdn.modrinth.com/data/XxWD5pD3/versions/PDPQ4WfW/appliedenergistics2-26.3.1-alpha.jar",
+   "sha512": "0b2cd09cb2fc63c39e600d2989edb6c8ac2ceac396cbb15224aadd87c555ffa8465503af165a02df73646f1e0cc2f3a6d711f669fa7ba9a5dd9fe88d0b9533cc",
+   "sha256": "85da904d110e811f77fa5227f8d9fbc212028311badbceaead32bd4d275bc970",
+   "size": 8397266,
+   "dependencies": [
+    {
+     "version_id": null,
+     "project_id": "Ck4E7v7R",
+     "file_name": null,
+     "dependency_type": "required"
+    },
+    {
+     "version_id": null,
+     "project_id": "6AQIaxuO",
+     "file_name": null,
+     "dependency_type": "optional"
+    },
+    {
+     "version_id": null,
+     "project_id": "nfn13YXA",
+     "file_name": null,
+     "dependency_type": "optional"
+    },
+    {
+     "version_id": null,
+     "project_id": "Eyw0UxEx",
+     "file_name": null,
+     "dependency_type": "optional"
+    },
+    {
+     "version_id": null,
+     "project_id": "nvQzSEkH",
+     "file_name": null,
+     "dependency_type": "optional"
+    },
+    {
+     "version_id": null,
+     "project_id": "fRiHVvU7",
+     "file_name": null,
+     "dependency_type": "optional"
+    },
+    {
+     "version_id": null,
+     "project_id": "tq47Uqpn",
+     "file_name": null,
+     "dependency_type": "incompatible"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/appliedenergistics2-26.3.1-alpha.jar",
+    "pack-26.3-private/client/mods/appliedenergistics2-26.3.1-alpha.jar"
+   ]
+  },
+  {
+   "slug": "guideme",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "69ocM6po",
+   "version": "26.3.3-alpha",
+   "releaseType": "alpha",
+   "filename": "guideme-26.3.3-alpha.jar",
+   "url": "https://cdn.modrinth.com/data/Ck4E7v7R/versions/69ocM6po/guideme-26.3.3-alpha.jar",
+   "sha512": "d090fddd20ef4142462c9efecf3c602c48e3893b23ce7959a0955c2b948f3d458c1f48a8a00cc68e8cd9f039266bacf1504e6e99251a60433a3b0e5a6ec108df",
+   "sha256": "c52814fcac17016f26d09b57de8f10a3ca6bce3cc02f38284d1e25e25076d759",
+   "size": 5295901,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/guideme-26.3.3-alpha.jar",
+    "pack-26.3-private/client/mods/guideme-26.3.3-alpha.jar"
+   ]
+  },
+  {
+   "slug": "cloth-config",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "GchRXPnb",
+   "version": "26.3.159+neoforge",
+   "releaseType": "release",
+   "filename": "cloth-config-neoforge-26.3.159.jar",
+   "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/GchRXPnb/cloth-config-neoforge-26.3.159.jar",
+   "sha512": "941dd8aab50d658cfa6da071dacd05802c7097643ad569935d0073b39231a2137f2ade2403b791f70cf5ebf1649d7b6337862568a8b340c88e5d364569f94431",
+   "sha256": "24adcf323c6a439226aced11d2cd4f8e6e629b82de6f1c7d71a7b9ba37ebf81d",
+   "size": 1135657,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/cloth-config-neoforge-26.3.159.jar",
+    "pack-26.3-private/client/mods/cloth-config-neoforge-26.3.159.jar"
+   ]
+  },
+  {
+   "slug": "architectury-api",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "dZ7iNvS4",
+   "version": "22.0.5+neoforge",
+   "releaseType": "release",
+   "filename": "architectury-neoforge-22.0.5.jar",
+   "url": "https://cdn.modrinth.com/data/lhGA9TYQ/versions/dZ7iNvS4/architectury-neoforge-22.0.5.jar",
+   "sha512": "04e6fb056ada0f0148c002527cdac09a651f275c5fa6b6dbcbcd7d4fd62a4eb6f583d7711030e1c82b00339ba808d8070a588a5432f334903d8b430a0da47ae5",
+   "sha256": "345aedb76d86a3a068ceffae4d90bb59d7566150b45b61692fe2c070405365a7",
+   "size": 622642,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/architectury-neoforge-22.0.5.jar",
+    "pack-26.3-private/client/mods/architectury-neoforge-22.0.5.jar"
+   ]
+  },
+  {
+   "slug": "jei",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "sG36f9tq",
+   "version": "31.10.0.63",
+   "releaseType": "beta",
+   "filename": "jei-26.3-neoforge-31.10.0.63.jar",
+   "url": "https://cdn.modrinth.com/data/u6dRKJwZ/versions/sG36f9tq/jei-26.3-neoforge-31.10.0.63.jar",
+   "sha512": "9617a84c744b698220f5912317744dc0afe9655c361639dd95866a91d8b76d8c167546bdf571b694d32ad91aea94a930974c4b8852fb35075a0563c7a19e47ff",
+   "sha256": "778e4d5cde1549fd23c3f955a290b5f0c20f1d3bfd43ad0bd2a0d9461461332a",
+   "size": 2381068,
+   "dependencies": [
+    {
+     "version_id": null,
+     "project_id": "7tEfOcA7",
+     "file_name": null,
+     "dependency_type": "required"
+    },
+    {
+     "version_id": null,
+     "project_id": "BOHUKqOz",
+     "file_name": null,
+     "dependency_type": "optional"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/jei-26.3-neoforge-31.10.0.63.jar",
+    "pack-26.3-private/client/mods/jei-26.3-neoforge-31.10.0.63.jar"
+   ]
+  },
+  {
+   "slug": "mezzconfig",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "WFeT02Wv",
+   "version": "0.6.8",
+   "releaseType": "beta",
+   "filename": "mezz_config-26.3-neoforge-0.6.8-standalone.jar",
+   "url": "https://cdn.modrinth.com/data/7tEfOcA7/versions/WFeT02Wv/mezz_config-26.3-neoforge-0.6.8-standalone.jar",
+   "sha512": "6774c36d33775fb72d5b1079271c381d0935ef6cdf8a4ae3b84c63a657d8aa4fee10d67432f9cbddb27741fc9434f5347eed0f05b1fe64205dc2c6809c5197fd",
+   "sha256": "74410f7fd83183ad35618620898a73736129685e5ee5627c6ebadb33ae752103",
+   "size": 327189,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/mezz_config-26.3-neoforge-0.6.8-standalone.jar",
+    "pack-26.3-private/client/mods/mezz_config-26.3-neoforge-0.6.8-standalone.jar"
+   ]
+  },
+  {
+   "slug": "jade",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "dVB8U7Td",
+   "version": "26.3.5+neoforge",
+   "releaseType": "release",
+   "filename": "Jade-mc26.3-NeoForge-26.3.5.jar",
+   "url": "https://cdn.modrinth.com/data/nvQzSEkH/versions/dVB8U7Td/Jade-mc26.3-NeoForge-26.3.5.jar",
+   "sha512": "32219fb2a8b004d027179bdf2707647be4c08ab374ca5204432d63601e7e4cbc4f4574273289bb867a8afa476db63a69a5a0d08746e9bc134d52eb41489e3add",
+   "sha256": "c981ed9ad46613d0805dd10a435190d92e6850a61df3c5f4f6d653e24ef0b712",
+   "size": 1084541,
+   "dependencies": [
+    {
+     "version_id": null,
+     "project_id": "u6dRKJwZ",
+     "file_name": null,
+     "dependency_type": "optional"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/Jade-mc26.3-NeoForge-26.3.5.jar",
+    "pack-26.3-private/client/mods/Jade-mc26.3-NeoForge-26.3.5.jar"
+   ]
+  },
+  {
+   "slug": "xaeros-minimap",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "j2Xo3Dhc",
+   "version": "neoforge-26.3-26.6.0",
+   "releaseType": "release",
+   "filename": "xaerominimap-neoforge-26.3-26.6.0.jar",
+   "url": "https://cdn.modrinth.com/data/1bokaNcj/versions/j2Xo3Dhc/xaerominimap-neoforge-26.3-26.6.0.jar",
+   "sha512": "198c87d95141138a7bbf66ad98587bee0ad2598e8f9d0eaeb6e2c650fcf209bb7412c24749f620ee9ac44d02b6f7d2e1d21e1624468d7bdc53d66b3bc869bee3",
+   "sha256": "bdfa658a09ba6c5c2226e9f8139468b6d12eec93cabf27cc22bdc91c14ade0aa",
+   "size": 2179007,
+   "dependencies": [
+    {
+     "version_id": null,
+     "project_id": "gF3BGWvG",
+     "file_name": null,
+     "dependency_type": "optional"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/xaerominimap-neoforge-26.3-26.6.0.jar",
+    "pack-26.3-private/client/mods/xaerominimap-neoforge-26.3-26.6.0.jar"
+   ]
+  },
+  {
+   "slug": "xaeros-world-map",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "p5t2Xn8F",
+   "version": "neoforge-26.3-1.47.0",
+   "releaseType": "release",
+   "filename": "xaeroworldmap-neoforge-26.3-1.47.0.jar",
+   "url": "https://cdn.modrinth.com/data/NcUtCpym/versions/p5t2Xn8F/xaeroworldmap-neoforge-26.3-1.47.0.jar",
+   "sha512": "dbe8f1fddefc85498afba46392faa3b153e50236a494b4f0a933e716667a8d0522b21db7df28a3158eff99ee9121a9de90230bbd0f312cc9509e415f0ef57144",
+   "sha256": "220ce5d54dc3cb231b44d7e71d3ece67d00dcdc424eea73d47fb87dafc445f50",
+   "size": 1453522,
+   "dependencies": [
+    {
+     "version_id": null,
+     "project_id": "gF3BGWvG",
+     "file_name": null,
+     "dependency_type": "optional"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/xaeroworldmap-neoforge-26.3-1.47.0.jar",
+    "pack-26.3-private/client/mods/xaeroworldmap-neoforge-26.3-1.47.0.jar"
+   ]
+  },
+  {
+   "slug": "simple-backups",
+   "origin": "official Modrinth release",
+   "side": "server",
+   "versionId": "AKMINm7t",
+   "version": "26.3.1",
+   "releaseType": "beta",
+   "filename": "SimpleBackups-26.3.1.jar",
+   "url": "https://cdn.modrinth.com/data/fzSKSXVK/versions/AKMINm7t/SimpleBackups-26.3.1.jar",
+   "sha512": "9ef19ad57e3c5bb4a8dab7af3ab4830ca2ef9c4e2afeec317a04ad4f263cbf905f1906f392d6ed6a07a7700e9b501465148dd5f94b75af4f72995fb75cdd91a4",
+   "sha256": "804f702d9f1eae330af61ddfd1db0842258e3620ffc81d0169e0baf6c0b92f82",
+   "size": 341982,
+   "dependencies": [
+    {
+     "version_id": null,
+     "project_id": "3azQ6p0W",
+     "file_name": null,
+     "dependency_type": "optional"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/SimpleBackups-26.3.1.jar"
+   ]
+  },
+  {
+   "slug": "anti-xray",
+   "origin": "official Modrinth release",
+   "side": "server",
+   "versionId": "ETqF9yGq",
+   "version": "neoforge-1.4.16+26.3",
+   "releaseType": "release",
+   "filename": "antixray-neoforge-1.4.16+26.3-all.jar",
+   "url": "https://cdn.modrinth.com/data/sml2FMaA/versions/ETqF9yGq/antixray-neoforge-1.4.16%2B26.3-all.jar",
+   "sha512": "7244690d58d559f572ca90f0e81359af6ef4843a535d1076eb451369cf8b7c054639f69966dbcc3f9936f37f50184d81c8df33a3b19ea3979048755d09093865",
+   "sha256": "19ade599ab87bd2fc4a53ad38846c7861c0c1826e693cdb1c8f833573682a276",
+   "size": 127104,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/antixray-neoforge-1.4.16+26.3-all.jar"
+   ]
+  },
+  {
+   "slug": "spark",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "HwHxykP9",
+   "version": "1.10.187-neoforge",
+   "releaseType": "release",
+   "filename": "spark-1.10.187-neoforge.jar",
+   "url": "https://cdn.modrinth.com/data/l6YH9Als/versions/HwHxykP9/spark-1.10.187-neoforge.jar",
+   "sha512": "130c6f529346cd275460070491a47d76c0e61b30f1d02530e97aae7fce3eccba2b82b4e3bef5abe5febff62daf53066a235d843a94e81fed2ecf1def5946349a",
+   "sha256": "88e7cc1a9ecd4c9ad22434fe2f168155baeb0ce2afba0a30269e542602e9d442",
+   "size": 3910570,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/spark-1.10.187-neoforge.jar",
+    "pack-26.3-private/client/mods/spark-1.10.187-neoforge.jar"
+   ]
+  },
+  {
+   "slug": "ferrite-core",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "LtVvw4uS",
+   "version": "9.0.0-neoforge",
+   "releaseType": "release",
+   "filename": "ferritecore-9.0.0-neoforge.jar",
+   "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/LtVvw4uS/ferritecore-9.0.0-neoforge.jar",
+   "sha512": "e96a99ac5539f56a1f4cd109d62b668ebd5283f0068491ede956f52e67023beba7abe2e40021499352ffc41ead950bebcabce7792352249a1b45c5dccb3cf99c",
+   "sha256": "a3292dadb1caf7ad220d3a4b68abff2ad58592ddd372160f9cf66c57d159b539",
+   "size": 71947,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ferritecore-9.0.0-neoforge.jar",
+    "pack-26.3-private/client/mods/ferritecore-9.0.0-neoforge.jar"
+   ]
+  },
+  {
+   "slug": "open-parties-and-claims",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "qY3IicVC",
+   "version": "neoforge-26.3-0.32.8",
+   "releaseType": "beta",
+   "filename": "open-parties-and-claims-neoforge-26.3-0.32.8.jar",
+   "url": "https://cdn.modrinth.com/data/gF3BGWvG/versions/qY3IicVC/open-parties-and-claims-neoforge-26.3-0.32.8.jar",
+   "sha512": "cc570a0487ed7ce14e46d6bcdd3a561a8064f83bd536ae00ec7824e8ea4765bd8e1a6d130eea5a32af2d517a19f0bccc2668d7cdbff97791762a11937c9ba8f3",
+   "sha256": "3ff3120826ffe15ea1258e64cd2190bd8cd100d52ce23b001691f0f086f5a688",
+   "size": 1868516,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/open-parties-and-claims-neoforge-26.3-0.32.8.jar",
+    "pack-26.3-private/client/mods/open-parties-and-claims-neoforge-26.3-0.32.8.jar"
+   ]
+  },
+  {
+   "slug": "simple-voice-chat",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "3rpCvvMZ",
+   "version": "neoforge-2.6.24+26.3",
+   "releaseType": "beta",
+   "filename": "voicechat-neoforge-2.6.24+26.3.jar",
+   "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/3rpCvvMZ/voicechat-neoforge-2.6.24%2B26.3.jar",
+   "sha512": "b95d1e158c6fff2cbd71f16c3dc1fd8412cfa10edaa597dc878aa1bd02c695cf2a95c9807145fe486a5c82845b3fc32088242021f78df5b7394b599a8a564527",
+   "sha256": "adf4598770b12bd96bff99758e9bbd2a763ef161c9f93afe2d680887b66c37bb",
+   "size": 4941037,
+   "dependencies": [
+    {
+     "version_id": null,
+     "project_id": "9s6osm5g",
+     "file_name": null,
+     "dependency_type": "optional"
+    },
+    {
+     "version_id": null,
+     "project_id": "9eGKb6K1",
+     "file_name": null,
+     "dependency_type": "optional"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/voicechat-neoforge-2.6.24+26.3.jar",
+    "pack-26.3-private/client/mods/voicechat-neoforge-2.6.24+26.3.jar"
+   ]
+  },
+  {
+   "slug": "iris",
+   "origin": "official Modrinth release",
+   "side": "client",
+   "versionId": "Ag5S66CF",
+   "version": "1.11.7+26.3-neoforge",
+   "releaseType": "release",
+   "filename": "iris-neoforge-1.11.7+mc26.3.jar",
+   "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/Ag5S66CF/iris-neoforge-1.11.7%2Bmc26.3.jar",
+   "sha512": "302659f09e50d02a6cd96075be93aade2a2f9d709afe21d56465228fb7d7f4717566e3702a7872479df2fff9b7a5ff5b1b6047cc95e09ee6120fad5ea5857eec",
+   "sha256": "2260506334a17ac566ea30169ab491201208f55c1c7212bb987bc0c7c59a8d93",
+   "size": 2804761,
+   "dependencies": [
+    {
+     "version_id": "VHtnT9Q4",
+     "project_id": "AANobbMI",
+     "file_name": null,
+     "dependency_type": "required"
+    }
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/client/mods/iris-neoforge-1.11.7+mc26.3.jar"
+   ]
+  },
+  {
+   "slug": "mekanism",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "sources/Mekanism-26.3/build/libs/Mekanism-26.3-10.8.0.homebaked.jar",
+   "filename": "Mekanism-26.3-10.8.0.homebaked.jar",
+   "sha256": "9d50b8fb89d8d161f770c3c1b16e3ee92cd2fc9bf5a09840337e1c364be1e60f",
+   "size": 12082291,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/Mekanism-26.3-10.8.0.homebaked.jar",
+    "pack-26.3-private/client/mods/Mekanism-26.3-10.8.0.homebaked.jar"
+   ]
+  },
+  {
+   "slug": "mekanism-generators",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "sources/Mekanism-26.3/build/libs/MekanismGenerators-26.3-10.8.0.homebaked.jar",
+   "filename": "MekanismGenerators-26.3-10.8.0.homebaked.jar",
+   "sha256": "ac9925d55b1576ec1c06dbb751464b13fb092d086f9f56ddfc277ddb9e01f687",
+   "size": 1108116,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/MekanismGenerators-26.3-10.8.0.homebaked.jar",
+    "pack-26.3-private/client/mods/MekanismGenerators-26.3-10.8.0.homebaked.jar"
+   ]
+  },
+  {
+   "slug": "classic-pipes",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "artifacts/classicpipes-neoforge-26.3-1.1.7-port.26.3.1.jar",
+   "filename": "classicpipes-neoforge-26.3-1.1.7-port.26.3.1.jar",
+   "sha256": "b0477a114fb467d3abe445d4e2bb602b393721c8b4e0159c2dca588669b79d4f",
+   "size": 769286,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/classicpipes-neoforge-26.3-1.1.7-port.26.3.1.jar",
+    "pack-26.3-private/client/mods/classicpipes-neoforge-26.3-1.1.7-port.26.3.1.jar"
+   ]
+  },
+  {
+   "slug": "additional-enchanted-miner",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/com/kotori316/additionalenchantedminer-neoforge/26.3-26.20.159-port263.1/additionalenchantedminer-neoforge-26.3-26.20.159-port263.1.jar",
+   "filename": "additionalenchantedminer-neoforge-26.3-26.20.159-port263.1.jar",
+   "sha256": "01bd57856746252b1a3f51f83003f7c9b15b43bd4a5224afb2325cc024dcf6c6",
+   "size": 695376,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/additionalenchantedminer-neoforge-26.3-26.20.159-port263.1.jar",
+    "pack-26.3-private/client/mods/additionalenchantedminer-neoforge-26.3-26.20.159-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "codechicken-lib",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/io/codechicken/CodeChickenLib/26.3-4.7.0-port263.1/CodeChickenLib-26.3-4.7.0-port263.1.jar",
+   "filename": "CodeChickenLib-26.3-4.7.0-port263.1.jar",
+   "sha256": "f2a3d27b20dde2474ae211a39defc9ef0dab2e2235e801586d5bc7443c9e11e5",
+   "size": 1337301,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/CodeChickenLib-26.3-4.7.0-port263.1.jar",
+    "pack-26.3-private/client/mods/CodeChickenLib-26.3-4.7.0-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "cb-multipart",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/io/codechicken/CBMultipart/26.3-3.6.0-port263.1/CBMultipart-26.3-3.6.0-port263.1.jar",
+   "filename": "CBMultipart-26.3-3.6.0-port263.1.jar",
+   "sha256": "f48b2416d597c1bdc001748be9e385149c1a4d02adaba6fcd9e61adbed685280",
+   "size": 553467,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/CBMultipart-26.3-3.6.0-port263.1.jar",
+    "pack-26.3-private/client/mods/CBMultipart-26.3-3.6.0-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "ender-storage",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/io/codechicken/EnderStorage/26.3-2.14.0-port263.1/EnderStorage-26.3-2.14.0-port263.1.jar",
+   "filename": "EnderStorage-26.3-2.14.0-port263.1.jar",
+   "sha256": "b10c7dc40ea157252b635a34e5443f15b5c3e66080e093e867701cefe69938d6",
+   "size": 253005,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/EnderStorage-26.3-2.14.0-port263.1.jar",
+    "pack-26.3-private/client/mods/EnderStorage-26.3-2.14.0-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "project-red-core",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/mrtjp/ProjectRed/26.3-5.0-port263.1/ProjectRed-26.3-5.0-port263.1-core.jar",
+   "filename": "ProjectRed-26.3-5.0-port263.1-core.jar",
+   "sha256": "163ee804a28354f592dd6a3f95a3c81b74988f3f70a09e9c85cfe4aa957aba2c",
+   "size": 806529,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ProjectRed-26.3-5.0-port263.1-core.jar",
+    "pack-26.3-private/client/mods/ProjectRed-26.3-5.0-port263.1-core.jar"
+   ]
+  },
+  {
+   "slug": "project-red-transmission",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/mrtjp/ProjectRed/26.3-5.0-port263.1/ProjectRed-26.3-5.0-port263.1-transmission.jar",
+   "filename": "ProjectRed-26.3-5.0-port263.1-transmission.jar",
+   "sha256": "ae4ae0348edb1c6260dee3abb1de74216782deb3b878779aa7cf2acb52ac3570",
+   "size": 496512,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ProjectRed-26.3-5.0-port263.1-transmission.jar",
+    "pack-26.3-private/client/mods/ProjectRed-26.3-5.0-port263.1-transmission.jar"
+   ]
+  },
+  {
+   "slug": "project-red-integration",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/mrtjp/ProjectRed/26.3-5.0-port263.1/ProjectRed-26.3-5.0-port263.1-integration.jar",
+   "filename": "ProjectRed-26.3-5.0-port263.1-integration.jar",
+   "sha256": "1b281ab9c5c010ccfa7ededd845afbc882472ba64b3dcc4d5763434d02642146",
+   "size": 3576494,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ProjectRed-26.3-5.0-port263.1-integration.jar",
+    "pack-26.3-private/client/mods/ProjectRed-26.3-5.0-port263.1-integration.jar"
+   ]
+  },
+  {
+   "slug": "project-red-expansion",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/mrtjp/ProjectRed/26.3-5.0-port263.1/ProjectRed-26.3-5.0-port263.1-expansion.jar",
+   "filename": "ProjectRed-26.3-5.0-port263.1-expansion.jar",
+   "sha256": "9ecb7981699a854ee19c4b901671e909239e892be3521d0f1eb2f980b0ba1417",
+   "size": 1217699,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ProjectRed-26.3-5.0-port263.1-expansion.jar",
+    "pack-26.3-private/client/mods/ProjectRed-26.3-5.0-port263.1-expansion.jar"
+   ]
+  },
+  {
+   "slug": "project-red-exploration",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/mrtjp/ProjectRed/26.3-5.0-port263.1/ProjectRed-26.3-5.0-port263.1-exploration.jar",
+   "filename": "ProjectRed-26.3-5.0-port263.1-exploration.jar",
+   "sha256": "4aa62d998baac86bf2ab3e73ce44428aaba9f1a4f39ab15add1955d99f8e2577",
+   "size": 549213,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ProjectRed-26.3-5.0-port263.1-exploration.jar",
+    "pack-26.3-private/client/mods/ProjectRed-26.3-5.0-port263.1-exploration.jar"
+   ]
+  },
+  {
+   "slug": "project-red-illumination",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/mrtjp/ProjectRed/26.3-5.0-port263.1/ProjectRed-26.3-5.0-port263.1-illumination.jar",
+   "filename": "ProjectRed-26.3-5.0-port263.1-illumination.jar",
+   "sha256": "cfc4dfce2e4248c60dba05c1c5dea29a8cfb54812289717c384b6ac2a4faaad7",
+   "size": 799242,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ProjectRed-26.3-5.0-port263.1-illumination.jar",
+    "pack-26.3-private/client/mods/ProjectRed-26.3-5.0-port263.1-illumination.jar"
+   ]
+  },
+  {
+   "slug": "iron-chests",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/com/progwml6/ironchest/ironchest/26.3-neoforge-16.7-port263.1/ironchest-26.3-neoforge-16.7-port263.1.jar",
+   "filename": "ironchest-26.3-neoforge-16.7-port263.1.jar",
+   "sha256": "461aaf85b5bdb6d388da276a76d0dfd2a29052bd1d0317105f628501b1c97e66",
+   "size": 342897,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ironchest-26.3-neoforge-16.7-port263.1.jar",
+    "pack-26.3-private/client/mods/ironchest-26.3-neoforge-16.7-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "building-wands",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/net/nicguzzo/wands/26.3-3.2.1-port263.1/wands-26.3-3.2.1-port263.1.jar",
+   "filename": "wands-26.3-3.2.1-port263.1.jar",
+   "sha256": "5233ffaeaa6b0ec3d5417440750f7daa6f0a4a8ecd0aaf7e07db2582964413be",
+   "size": 506099,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/wands-26.3-3.2.1-port263.1.jar",
+    "pack-26.3-private/client/mods/wands-26.3-3.2.1-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "farmers-delight",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/vectorwing/farmersdelight/FarmersDelight/26.3-1.3.4-port263.1/FarmersDelight-26.3-1.3.4-port263.1.jar",
+   "filename": "FarmersDelight-26.3-1.3.4-port263.1.jar",
+   "sha256": "fa1d30bf8555bb41c51fb5f03eac1077ba7c2a7e914c8318d169757f06752e0c",
+   "size": 3204670,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/FarmersDelight-26.3-1.3.4-port263.1.jar",
+    "pack-26.3-private/client/mods/FarmersDelight-26.3-1.3.4-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "projecte",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "sources/ProjectE/build/libs/projecte-1.1.0-port26.3-alpha.1.jar",
+   "filename": "projecte-1.1.0-port26.3-alpha.1.jar",
+   "sha256": "8f952aeb5d1923a0a074a576510a9a461beaee16b0b892be4125032b4ca20293",
+   "size": 2522585,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/projecte-1.1.0-port26.3-alpha.1.jar",
+    "pack-26.3-private/client/mods/projecte-1.1.0-port26.3-alpha.1.jar"
+   ]
+  },
+  {
+   "slug": "gohomealready",
+   "origin": "private 26.3 build in this workspace",
+   "side": "server",
+   "source": "maven/net/mcreator/go_home_already/26.3-1.2.0-port263.1/go_home_already-26.3-1.2.0-port263.1.jar",
+   "filename": "go_home_already-26.3-1.2.0-port263.1.jar",
+   "sha256": "fb343c01b06845007c8dc436b4b20f0d486138a2167af195c8dee2d0b9593ada",
+   "size": 38814,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/go_home_already-26.3-1.2.0-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "classic-castle-guard",
+   "origin": "private 26.3 build in this workspace",
+   "side": "server",
+   "source": "maven/classicengineering/ClassicCastleGuard/26.3-1.9.0-port263.1/ClassicCastleGuard-26.3-1.9.0-port263.1.jar",
+   "filename": "ClassicCastleGuard-26.3-1.9.0-port263.1.jar",
+   "sha256": "e90538f24cddcaff23d22dc8a3fa0854e7dadc7a4b5ab2da5f427ed91b4355b6",
+   "size": 69303,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ClassicCastleGuard-26.3-1.9.0-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "community-bridge",
+   "origin": "private 26.3 build in this workspace",
+   "side": "server",
+   "source": "../../server-mod/build/libs/CommunityBridge-26.3-1.2.0.jar",
+   "filename": "CommunityBridge-26.3-1.2.0.jar",
+   "sha256": "fc109106fed786d39566f873743eaa0ca6619582703509aba1b1597011a08aa6",
+   "size": 32481,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/CommunityBridge-26.3-1.2.0.jar"
+   ]
+  },
+  {
+   "slug": "sodium",
+   "origin": "private 26.3 build in this workspace",
+   "side": "client",
+   "source": "artifacts/sodium-neoforge-0.9.2-SNAPSHOT+mc26.3-local.jar",
+   "filename": "sodium-neoforge-0.9.2-SNAPSHOT+mc26.3-local.jar",
+   "sha256": "4a286290136ec0e76bb8977a3bae17da11925f63639b72c39a55a4fa6c93ec85",
+   "size": 1208988,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/client/mods/sodium-neoforge-0.9.2-SNAPSHOT+mc26.3-local.jar"
+   ]
+  },
+  {
+   "slug": "classic-crates",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "sources/ClassicCrates/build/libs/ClassicCrates-26.3-1.3.0.jar",
+   "filename": "ClassicCrates-26.3-1.3.0.jar",
+   "sha256": "f294c32a72fe750282a08751bf1441d0f9a9bcfa4c13b3947fec56842e5834e1",
+   "size": 1502461,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/client/mods/ClassicCrates-26.3-1.3.0.jar",
+    "pack-26.3-private/server/mods/ClassicCrates-26.3-1.3.0.jar"
+   ]
+  },
+  {
+   "slug": "classic-spruce-needles",
+   "origin": "private 26.3 build in this workspace",
+   "side": "both",
+   "source": "maven/classicengineering/ClassicSpruceNeedles/26.3-1.0.0-port263.1/ClassicSpruceNeedles-26.3-1.0.0-port263.1.jar",
+   "filename": "ClassicSpruceNeedles-26.3-1.0.0-port263.1.jar",
+   "sha256": "bdc453a888139bcd2b08db90c8f62c56620b079332ad63cc43a5821d0cb13321",
+   "size": 13483,
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/ClassicSpruceNeedles-26.3-1.0.0-port263.1.jar",
+    "pack-26.3-private/client/mods/ClassicSpruceNeedles-26.3-1.0.0-port263.1.jar"
+   ]
+  },
+  {
+   "slug": "jamlib",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "Rj4DDcb2",
+   "version": "2.3.1+26.3.x",
+   "releaseType": "release",
+   "filename": "jamlib-neoforge-2.3.1+26.3.x.jar",
+   "url": "https://cdn.modrinth.com/data/IYY9Siz8/versions/Rj4DDcb2/jamlib-neoforge-2.3.1%2B26.3.x.jar",
+   "sha512": "4c52e3830f7940812b2657d5264096955387ebb62edac82f80ac6e404f6019792af06116186208d5a6c9784a790627657cfc644bb8f1702395e8aa8a103fb860",
+   "sha256": "3f567dcfe57ac8de6dca566efc7edf37053db4bca4f6e59f67c0e9e7e5a9f4c4",
+   "size": 269982,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/jamlib-neoforge-2.3.1+26.3.x.jar",
+    "pack-26.3-private/client/mods/jamlib-neoforge-2.3.1+26.3.x.jar"
+   ]
+  },
+  {
+   "slug": "sort-it-out",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "PaKIr2pu",
+   "version": "1.5.0+26.3.x",
+   "releaseType": "release",
+   "filename": "sort_it_out-neoforge-1.5.0+26.3.x.jar",
+   "url": "https://cdn.modrinth.com/data/jcOSOvm1/versions/PaKIr2pu/sort_it_out-neoforge-1.5.0%2B26.3.x.jar",
+   "sha512": "e41bc1d4a616d6ff9de661c19cb450b74e0fe847a37350eccbed2248ab5926af880793da7a09d9f6df6f570ae6248ffd087e73bbaa22c16dbf49c14db68bafe8",
+   "sha256": "cce05c1cf877812cbcfae758fb79706299c0c87d8c361f4451fe3c193167d0db",
+   "size": 104409,
+   "dependencies": [
+    "jamlib"
+   ],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/sort_it_out-neoforge-1.5.0+26.3.x.jar",
+    "pack-26.3-private/client/mods/sort_it_out-neoforge-1.5.0+26.3.x.jar"
+   ]
+  },
+  {
+   "slug": "clumps",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "kV095inH",
+   "version": "26.3.2",
+   "releaseType": "release",
+   "filename": "Clumps-neoforge-26.3-26.3.2.jar",
+   "url": "https://cdn.modrinth.com/data/Wnxd13zP/versions/kV095inH/Clumps-neoforge-26.3-26.3.2.jar",
+   "sha512": "710ac1f2ac8f2f6d39b6a4f56a7b0159a32bb64d3ff8337e20fca9eb991b32df54d38c7c0c1e3487a7c220bde80988def8562925fbc5dc5e2c94134244f41b4a",
+   "sha256": "18d65f554984a81a4dfe5f5e4038298ae02e6d8cc66870469305e8fae2a1fb79",
+   "size": 18766,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/Clumps-neoforge-26.3-26.3.2.jar",
+    "pack-26.3-private/client/mods/Clumps-neoforge-26.3-26.3.2.jar"
+   ]
+  },
+  {
+   "slug": "gravestone-mod",
+   "origin": "official Modrinth release",
+   "side": "both",
+   "versionId": "9Ns9qBAE",
+   "version": "neoforge-1.0.41+26.3",
+   "releaseType": "release",
+   "filename": "gravestone-neoforge-1.0.41+26.3.jar",
+   "url": "https://cdn.modrinth.com/data/RYtXKJPr/versions/9Ns9qBAE/gravestone-neoforge-1.0.41%2B26.3.jar",
+   "sha512": "5d692ea328b548bab3ecf4adf83db79ae559a02d0b197a28c87a4139267efabfb5733373c338c1ba731026fb2a4d5ab33effe67a2f7ba17373bbc9bc0acc3d09",
+   "sha256": "c72c072f0d27df1f1a72962b3c9edcc2432b1c982338b277edc3335ab96e47d3",
+   "size": 335428,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/gravestone-neoforge-1.0.41+26.3.jar",
+    "pack-26.3-private/client/mods/gravestone-neoforge-1.0.41+26.3.jar"
+   ]
+  },
+  {
+   "slug": "lithium",
+   "origin": "official Modrinth release",
+   "side": "server",
+   "versionId": "1rb9wI5K",
+   "version": "mc26.3-0.26.2-neoforge",
+   "releaseType": "release",
+   "filename": "lithium-neoforge-0.26.2+mc26.3.jar",
+   "url": "https://cdn.modrinth.com/data/gvQqBUqZ/versions/1rb9wI5K/lithium-neoforge-0.26.2%2Bmc26.3.jar",
+   "sha512": "af579327afba03fac855b0a55c1cd25236483d2d2a22f7686eb7b046a1a814511caa1c767dc5967f69ce92dcd5980e85340047b5b732ab7ba190f093788c20db",
+   "sha256": "02beb29b0ca7949dba59d425aeb941b8978334ad539f55b1519059771ed23706",
+   "size": 903255,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/lithium-neoforge-0.26.2+mc26.3.jar"
+   ]
+  },
+  {
+   "slug": "chunky",
+   "origin": "official Modrinth release",
+   "side": "server",
+   "versionId": "EyCqftOK",
+   "version": "1.5.4",
+   "releaseType": "release",
+   "filename": "Chunky-NeoForge-1.5.4.jar",
+   "url": "https://cdn.modrinth.com/data/fALzjamp/versions/EyCqftOK/Chunky-NeoForge-1.5.4.jar",
+   "sha512": "ffcbedca6a0b5018962a8a62df21afdafe327ef306e6acb2f602b3bb56f313b88c90e9a57d9a2abaa9d12bd122e888d933ccb243c8fa3388e086a5dd1c18e30d",
+   "sha256": "6ed601bd2c2942cd537f1732805bc786e70b57d988039c416c3bc27ba97162b9",
+   "size": 353241,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/Chunky-NeoForge-1.5.4.jar"
+   ]
+  },
+  {
+   "slug": "servercore",
+   "origin": "official Modrinth release",
+   "side": "server",
+   "versionId": "bfczZvad",
+   "version": "1.5.20+26.3",
+   "releaseType": "release",
+   "filename": "servercore-neoforge-1.5.20+26.3.jar",
+   "url": "https://cdn.modrinth.com/data/4WWQxlQP/versions/bfczZvad/servercore-neoforge-1.5.20%2B26.3.jar",
+   "sha512": "158d459149c38969666ce3957292f7747d3a368605600dcad88490feb2b54f9805141e957384ad46b7d2406c1005cdb42a697a60cd2d1d71bae0e6f183478167",
+   "sha256": "d4f1ea7ae1f8ba83e37808d2090bcc55606f6c46b90ded6af7a68bb144c93bd4",
+   "size": 2103232,
+   "dependencies": [],
+   "heldBack": null,
+   "placed": [
+    "pack-26.3-private/server/mods/servercore-neoforge-1.5.20+26.3.jar"
+   ]
+  }
+ ],
+ "problems": []
+}

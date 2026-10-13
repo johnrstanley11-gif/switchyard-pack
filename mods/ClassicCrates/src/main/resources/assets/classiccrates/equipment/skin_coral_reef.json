@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_coral_reef"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_coral_reef"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_coral_reef"
+      }
+    ]
+  }
+}

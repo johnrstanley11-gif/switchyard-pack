@@ -1,0 +1,75 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = mod_version
+group = 'classicengineering'
+
+base {
+    archivesName = 'ClassicCastleGuard'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        client {
+            client()
+            // Private testing: PORT_QUICKPLAY_SERVER=host:port joins that (private test) server directly.
+            if (System.getenv('PORT_QUICKPLAY_SERVER')) {
+                programArguments.addAll '--quickPlayMultiplayer', System.getenv('PORT_QUICKPLAY_SERVER')
+            }
+        }
+        server {
+            server()
+            programArgument '--nogui'
+            // Own folder so a private dev server and the dev client can run side by side.
+            gameDirectory = layout.projectDirectory.dir('run-server')
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var props = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version, mod_license: mod_license,
+                 minecraft_version: minecraft_version, neo_version: neo_version]
+    inputs.properties props
+    filesMatching(['META-INF/neoforge.mods.toml', 'META-INF/MANIFEST.MF']) { expand props }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xmaxerrs', '2000']
+}
+
+tasks.named('jar', Jar) {
+    manifest.attributes('FMLModType': 'MOD', 'Implementation-Version': project.version)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'ClassicCastleGuard'
+            from components.java
+        }
+    }
+    repositories {
+        maven { name = 'Port'; url = file('../../maven').toURI() }
+    }
+}
+
+// Genuine private production dependencies. No legacy engine or replacement ABI.
+dependencies {
+    compileOnly files('../../pack-26.3-private/downloads/open-parties-and-claims-neoforge-26.3-0.32.8.jar')
+    compileOnly files('../GoHomeAlready/build/libs/go_home_already-26.3-1.2.0-port263.1.jar')
+    compileOnly files('../../maven/com/kotori316/additionalenchantedminer-neoforge/26.3-26.20.159-port263.1/additionalenchantedminer-neoforge-26.3-26.20.159-port263.1.jar')
+}

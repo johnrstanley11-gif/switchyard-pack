@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_candy_carnival"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_candy_carnival"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_candy_carnival"
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/bow",
+  "textures": {
+    "layer0": "classiccrates:item/skins/neon_arcade/bow"
+  }
+}

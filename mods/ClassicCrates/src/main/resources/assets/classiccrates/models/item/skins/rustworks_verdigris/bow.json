@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/bow",
+  "textures": {
+    "layer0": "classiccrates:item/skins/rustworks_verdigris/bow"
+  }
+}

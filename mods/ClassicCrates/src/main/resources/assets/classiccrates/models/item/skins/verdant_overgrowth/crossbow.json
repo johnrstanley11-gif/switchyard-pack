@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/crossbow",
+  "textures": {
+    "layer0": "classiccrates:item/skins/verdant_overgrowth/crossbow"
+  }
+}

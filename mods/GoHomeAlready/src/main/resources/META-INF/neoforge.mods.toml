@@ -1,0 +1,24 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT License"
+
+[[mods]]
+modId = "go_home_already"
+version = "${mod_version}"
+displayName = "Go Home Already!"
+authors = "OmniPraxis"
+description = '''Perhaps a better /home mode'''
+
+[[dependencies.go_home_already]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neo_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.go_home_already]]
+modId = "minecraft"
+type = "required"
+versionRange = "[${minecraft_version}]"
+ordering = "NONE"
+side = "BOTH"

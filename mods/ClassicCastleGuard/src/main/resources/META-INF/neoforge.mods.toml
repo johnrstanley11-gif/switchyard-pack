@@ -1,0 +1,44 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+[[mods]]
+modId="classic_castle_guard"
+version="${mod_version}"
+displayName="Classic Castle Guard"
+authors="Classic Engineering"
+description='''Server-only guard and /spawn command for the fixed castle spawn. Blocks player PvP if either player is in spawn, plus QuarryPlus frame placement and direct fluid draining inside overworld X/Z[-48,47], at all heights.'''
+displayTest="IGNORE_ALL_VERSION"
+[[mixins]]
+config="classic_castle_guard.mixins.json"
+[[dependencies.classic_castle_guard]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="SERVER"
+[[dependencies.classic_castle_guard]]
+modId="minecraft"
+type="required"
+versionRange="[${minecraft_version}]"
+ordering="NONE"
+side="SERVER"
+[[dependencies.classic_castle_guard]]
+modId="quarryplus"
+type="required"
+versionRange="[26.3-26.20.159-port263.1]"
+ordering="AFTER"
+side="SERVER"
+
+[[dependencies.classic_castle_guard]]
+modId="go_home_already"
+type="required"
+versionRange="[26.3-1.2.0-port263.1]"
+ordering="AFTER"
+side="SERVER"
+
+[[dependencies.classic_castle_guard]]
+modId="openpartiesandclaims"
+type="optional"
+versionRange="[0.32.8,)"
+ordering="AFTER"
+side="SERVER"

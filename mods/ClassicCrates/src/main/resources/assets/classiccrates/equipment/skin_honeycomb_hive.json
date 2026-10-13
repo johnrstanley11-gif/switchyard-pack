@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_honeycomb_hive"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_honeycomb_hive"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_honeycomb_hive"
+      }
+    ]
+  }
+}

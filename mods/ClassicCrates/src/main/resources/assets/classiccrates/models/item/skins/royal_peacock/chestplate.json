@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "classiccrates:item/skins/royal_peacock/chestplate"
+  }
+}

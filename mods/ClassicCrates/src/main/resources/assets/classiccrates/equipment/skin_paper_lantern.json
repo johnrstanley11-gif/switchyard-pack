@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_paper_lantern"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_paper_lantern"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_paper_lantern"
+      }
+    ]
+  }
+}

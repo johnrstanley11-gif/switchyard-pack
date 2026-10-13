@@ -1,0 +1,40 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = "${minecraft_version}-${mod_version}"
+group = 'classicengineering'
+base { archivesName = 'CommunityBridge' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+neoForge {
+    version = project.neo_version
+    mods { "${mod_id}" { sourceSet(sourceSets.main) } }
+    runs {
+        server {
+            server()
+            programArgument '--nogui'
+            gameDirectory = layout.projectDirectory.dir('run-dev')
+        }
+    }
+}
+
+tasks.withType(ProcessResources).configureEach {
+    def props = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version,
+                 mod_license: mod_license, minecraft_version: minecraft_version, neo_version: neo_version]
+    inputs.properties(props)
+    filesMatching('META-INF/neoforge.mods.toml') { expand(props) }
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+// Small dependency-free checks exercise security boundaries without starting Minecraft.
+sourceSets.test.compileClasspath += sourceSets.main.compileClasspath
+tasks.register('bridgeChecks', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath + sourceSets.main.compileClasspath
+    mainClass = 'communitybridge.BridgeChecks'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(25) }
+}
+tasks.named('check') { dependsOn bridgeChecks }
+tasks.named('test') { failOnNoDiscoveredTests = false } // checks use the standalone harness above

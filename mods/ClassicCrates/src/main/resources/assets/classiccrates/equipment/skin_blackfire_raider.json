@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_blackfire_raider"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_blackfire_raider"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_blackfire_raider"
+      }
+    ]
+  }
+}

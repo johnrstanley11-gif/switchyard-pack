@@ -1,0 +1,297 @@
+{
+  "pack": "Classic Engineering",
+  "version": "26.3-0.1.0-test14",
+  "mods": [
+    {
+      "slug": "scalable-cats-force",
+      "file": "ScalableCatsForce-NeoForge-6.1.1-mc26.3-3.9.0-all.jar",
+      "source": "Modrinth official release",
+      "version": "6.1.1-mc26.3-3.9.0-neoforge",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/zr0QMQMo/versions/RrcS9php/ScalableCatsForce-NeoForge-6.1.1-mc26.3-3.9.0-all.jar"
+    },
+    {
+      "slug": "ae2",
+      "file": "appliedenergistics2-26.3.1-alpha.jar",
+      "source": "Modrinth official release",
+      "version": "26.3.1-alpha",
+      "releaseType": "alpha",
+      "url": "https://cdn.modrinth.com/data/XxWD5pD3/versions/PDPQ4WfW/appliedenergistics2-26.3.1-alpha.jar"
+    },
+    {
+      "slug": "guideme",
+      "file": "guideme-26.3.3-alpha.jar",
+      "source": "Modrinth official release",
+      "version": "26.3.3-alpha",
+      "releaseType": "alpha",
+      "url": "https://cdn.modrinth.com/data/Ck4E7v7R/versions/69ocM6po/guideme-26.3.3-alpha.jar"
+    },
+    {
+      "slug": "cloth-config",
+      "file": "cloth-config-neoforge-26.3.159.jar",
+      "source": "Modrinth official release",
+      "version": "26.3.159+neoforge",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/GchRXPnb/cloth-config-neoforge-26.3.159.jar"
+    },
+    {
+      "slug": "architectury-api",
+      "file": "architectury-neoforge-22.0.5.jar",
+      "source": "Modrinth official release",
+      "version": "22.0.5+neoforge",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/lhGA9TYQ/versions/dZ7iNvS4/architectury-neoforge-22.0.5.jar"
+    },
+    {
+      "slug": "jei",
+      "file": "jei-26.3-neoforge-31.10.0.63.jar",
+      "source": "Modrinth official release",
+      "version": "31.10.0.63",
+      "releaseType": "beta",
+      "url": "https://cdn.modrinth.com/data/u6dRKJwZ/versions/sG36f9tq/jei-26.3-neoforge-31.10.0.63.jar"
+    },
+    {
+      "slug": "mezzconfig",
+      "file": "mezz_config-26.3-neoforge-0.6.8-standalone.jar",
+      "source": "Modrinth official release",
+      "version": "0.6.8",
+      "releaseType": "beta",
+      "url": "https://cdn.modrinth.com/data/7tEfOcA7/versions/WFeT02Wv/mezz_config-26.3-neoforge-0.6.8-standalone.jar"
+    },
+    {
+      "slug": "jade",
+      "file": "Jade-mc26.3-NeoForge-26.3.5.jar",
+      "source": "Modrinth official release",
+      "version": "26.3.5+neoforge",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/nvQzSEkH/versions/dVB8U7Td/Jade-mc26.3-NeoForge-26.3.5.jar"
+    },
+    {
+      "slug": "xaeros-minimap",
+      "file": "xaerominimap-neoforge-26.3-26.6.0.jar",
+      "source": "Modrinth official release",
+      "version": "neoforge-26.3-26.6.0",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/1bokaNcj/versions/j2Xo3Dhc/xaerominimap-neoforge-26.3-26.6.0.jar"
+    },
+    {
+      "slug": "xaeros-world-map",
+      "file": "xaeroworldmap-neoforge-26.3-1.47.0.jar",
+      "source": "Modrinth official release",
+      "version": "neoforge-26.3-1.47.0",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/NcUtCpym/versions/p5t2Xn8F/xaeroworldmap-neoforge-26.3-1.47.0.jar"
+    },
+    {
+      "slug": "spark",
+      "file": "spark-1.10.187-neoforge.jar",
+      "source": "Modrinth official release",
+      "version": "1.10.187-neoforge",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/l6YH9Als/versions/HwHxykP9/spark-1.10.187-neoforge.jar"
+    },
+    {
+      "slug": "ferrite-core",
+      "file": "ferritecore-9.0.0-neoforge.jar",
+      "source": "Modrinth official release",
+      "version": "9.0.0-neoforge",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/LtVvw4uS/ferritecore-9.0.0-neoforge.jar"
+    },
+    {
+      "slug": "open-parties-and-claims",
+      "file": "open-parties-and-claims-neoforge-26.3-0.32.8.jar",
+      "source": "Modrinth official release",
+      "version": "neoforge-26.3-0.32.8",
+      "releaseType": "beta",
+      "url": "https://cdn.modrinth.com/data/gF3BGWvG/versions/qY3IicVC/open-parties-and-claims-neoforge-26.3-0.32.8.jar"
+    },
+    {
+      "slug": "simple-voice-chat",
+      "file": "voicechat-neoforge-2.6.24+26.3.jar",
+      "source": "Modrinth official release",
+      "version": "neoforge-2.6.24+26.3",
+      "releaseType": "beta",
+      "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/3rpCvvMZ/voicechat-neoforge-2.6.24%2B26.3.jar"
+    },
+    {
+      "slug": "iris",
+      "file": "iris-neoforge-1.11.7+mc26.3.jar",
+      "source": "Modrinth official release",
+      "version": "1.11.7+26.3-neoforge",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/Ag5S66CF/iris-neoforge-1.11.7%2Bmc26.3.jar"
+    },
+    {
+      "slug": "mekanism",
+      "file": "Mekanism-26.3-10.8.0.homebaked.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "9d50b8fb89d8d161f770c3c1b16e3ee92cd2fc9bf5a09840337e1c364be1e60f",
+      "licence": "licenses/Mekanism-26.3-LICENSE"
+    },
+    {
+      "slug": "mekanism-generators",
+      "file": "MekanismGenerators-26.3-10.8.0.homebaked.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "ac9925d55b1576ec1c06dbb751464b13fb092d086f9f56ddfc277ddb9e01f687",
+      "licence": "licenses/Mekanism-26.3-LICENSE"
+    },
+    {
+      "slug": "classic-pipes",
+      "file": "classicpipes-neoforge-26.3-1.1.7-port.26.3.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "b0477a114fb467d3abe445d4e2bb602b393721c8b4e0159c2dca588669b79d4f",
+      "licence": "licenses/ClassicPipes-LICENSE.md"
+    },
+    {
+      "slug": "additional-enchanted-miner",
+      "file": "additionalenchantedminer-neoforge-26.3-26.20.159-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "01bd57856746252b1a3f51f83003f7c9b15b43bd4a5224afb2325cc024dcf6c6",
+      "licence": "licenses/AdditionalEnchantedMiner-LICENSE"
+    },
+    {
+      "slug": "codechicken-lib",
+      "file": "CodeChickenLib-26.3-4.7.0-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "f2a3d27b20dde2474ae211a39defc9ef0dab2e2235e801586d5bc7443c9e11e5",
+      "licence": "licenses/CodeChickenLib-LICENSE"
+    },
+    {
+      "slug": "cb-multipart",
+      "file": "CBMultipart-26.3-3.6.0-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "f48b2416d597c1bdc001748be9e385149c1a4d02adaba6fcd9e61adbed685280",
+      "licence": "licenses/CBMultipart-LICENSE.txt"
+    },
+    {
+      "slug": "ender-storage",
+      "file": "EnderStorage-26.3-2.14.0-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "b10c7dc40ea157252b635a34e5443f15b5c3e66080e093e867701cefe69938d6",
+      "licence": "licenses/EnderStorage-LICENSE.txt"
+    },
+    {
+      "slug": "project-red-core",
+      "file": "ProjectRed-26.3-5.0-port263.1-core.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "163ee804a28354f592dd6a3f95a3c81b74988f3f70a09e9c85cfe4aa957aba2c",
+      "licence": "licenses/ProjectRed-LICENSE.md"
+    },
+    {
+      "slug": "project-red-transmission",
+      "file": "ProjectRed-26.3-5.0-port263.1-transmission.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "ae4ae0348edb1c6260dee3abb1de74216782deb3b878779aa7cf2acb52ac3570",
+      "licence": "licenses/ProjectRed-LICENSE.md"
+    },
+    {
+      "slug": "project-red-integration",
+      "file": "ProjectRed-26.3-5.0-port263.1-integration.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "1b281ab9c5c010ccfa7ededd845afbc882472ba64b3dcc4d5763434d02642146",
+      "licence": "licenses/ProjectRed-LICENSE.md"
+    },
+    {
+      "slug": "project-red-expansion",
+      "file": "ProjectRed-26.3-5.0-port263.1-expansion.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "9ecb7981699a854ee19c4b901671e909239e892be3521d0f1eb2f980b0ba1417",
+      "licence": "licenses/ProjectRed-LICENSE.md"
+    },
+    {
+      "slug": "project-red-exploration",
+      "file": "ProjectRed-26.3-5.0-port263.1-exploration.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "4aa62d998baac86bf2ab3e73ce44428aaba9f1a4f39ab15add1955d99f8e2577",
+      "licence": "licenses/ProjectRed-LICENSE.md"
+    },
+    {
+      "slug": "project-red-illumination",
+      "file": "ProjectRed-26.3-5.0-port263.1-illumination.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "cfc4dfce2e4248c60dba05c1c5dea29a8cfb54812289717c384b6ac2a4faaad7",
+      "licence": "licenses/ProjectRed-LICENSE.md"
+    },
+    {
+      "slug": "iron-chests",
+      "file": "ironchest-26.3-neoforge-16.7-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "461aaf85b5bdb6d388da276a76d0dfd2a29052bd1d0317105f628501b1c97e66",
+      "licence": "licenses/IronChests-LICENSE"
+    },
+    {
+      "slug": "building-wands",
+      "file": "wands-26.3-3.2.1-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "5233ffaeaa6b0ec3d5417440750f7daa6f0a4a8ecd0aaf7e07db2582964413be",
+      "licence": "licenses/BuildingWands-LICENSE.txt"
+    },
+    {
+      "slug": "farmers-delight",
+      "file": "FarmersDelight-26.3-1.3.4-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "fa1d30bf8555bb41c51fb5f03eac1077ba7c2a7e914c8318d169757f06752e0c",
+      "licence": "licenses/FarmersDelight-LICENSE"
+    },
+    {
+      "slug": "projecte",
+      "file": "projecte-1.1.0-port26.3-alpha.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "8f952aeb5d1923a0a074a576510a9a461beaee16b0b892be4125032b4ca20293",
+      "licence": "licenses/ProjectE-LICENSE"
+    },
+    {
+      "slug": "sodium",
+      "file": "sodium-neoforge-0.9.2-SNAPSHOT+mc26.3-local.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "4a286290136ec0e76bb8977a3bae17da11925f63639b72c39a55a4fa6c93ec85"
+    },
+    {
+      "slug": "classic-crates",
+      "file": "ClassicCrates-26.3-1.3.0.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "f294c32a72fe750282a08751bf1441d0f9a9bcfa4c13b3947fec56842e5834e1",
+      "licence": "licenses/ClassicCrates-LICENSE"
+    },
+    {
+      "slug": "classic-spruce-needles",
+      "file": "ClassicSpruceNeedles-26.3-1.0.0-port263.1.jar",
+      "source": "Built privately for Minecraft 26.3 in this project",
+      "sha256": "bdc453a888139bcd2b08db90c8f62c56620b079332ad63cc43a5821d0cb13321",
+      "licence": "licenses/ClassicSpruceNeedles-LICENSE"
+    },
+    {
+      "slug": "jamlib",
+      "file": "jamlib-neoforge-2.3.1+26.3.x.jar",
+      "source": "Modrinth official release",
+      "version": "2.3.1+26.3.x",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/IYY9Siz8/versions/Rj4DDcb2/jamlib-neoforge-2.3.1%2B26.3.x.jar"
+    },
+    {
+      "slug": "sort-it-out",
+      "file": "sort_it_out-neoforge-1.5.0+26.3.x.jar",
+      "source": "Modrinth official release",
+      "version": "1.5.0+26.3.x",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/jcOSOvm1/versions/PaKIr2pu/sort_it_out-neoforge-1.5.0%2B26.3.x.jar"
+    },
+    {
+      "slug": "clumps",
+      "file": "Clumps-neoforge-26.3-26.3.2.jar",
+      "source": "Modrinth official release",
+      "version": "26.3.2",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/Wnxd13zP/versions/kV095inH/Clumps-neoforge-26.3-26.3.2.jar"
+    },
+    {
+      "slug": "gravestone-mod",
+      "file": "gravestone-neoforge-1.0.41+26.3.jar",
+      "source": "Modrinth official release",
+      "version": "neoforge-1.0.41+26.3",
+      "releaseType": "release",
+      "url": "https://cdn.modrinth.com/data/RYtXKJPr/versions/9Ns9qBAE/gravestone-neoforge-1.0.41%2B26.3.jar"
+    }
+  ]
+}

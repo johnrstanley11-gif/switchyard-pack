@@ -1,0 +1,1182 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/clockwork_brass/helmet",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_clockwork_brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/clockwork_brass/chestplate",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_clockwork_brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/clockwork_brass/leggings",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_clockwork_brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/clockwork_brass/boots",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_clockwork_brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/clockwork_brass/elytra",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_clockwork_brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/clockwork_brass/sword",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/clockwork_brass/pickaxe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/clockwork_brass/axe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/clockwork_brass/shovel",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/clockwork_brass/hoe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/clockwork_brass/mace",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/clockwork_brass/trident",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/clockwork_brass/fishing_rod",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/clockwork_brass/bow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/clockwork_brass/crossbow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Clockwork Brass Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/clockwork_brass/shield",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/helmet",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_rustworks_verdigris"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/chestplate",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_rustworks_verdigris"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/leggings",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_rustworks_verdigris"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/boots",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_rustworks_verdigris"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/elytra",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_rustworks_verdigris"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/sword",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/pickaxe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/axe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/shovel",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/hoe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/mace",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/trident",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/fishing_rod",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/bow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/crossbow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Rustworks Verdigris Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/rustworks_verdigris/shield",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/helmet",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_quarrymans_deepslate"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/chestplate",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_quarrymans_deepslate"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/leggings",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_quarrymans_deepslate"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/boots",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_quarrymans_deepslate"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/elytra",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_quarrymans_deepslate"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/sword",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/pickaxe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/axe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/shovel",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/hoe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/mace",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/trident",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/fishing_rod",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/bow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/crossbow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Quarryman's Deepslate Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/quarrymans_deepslate/shield",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/honeycomb_hive/helmet",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_honeycomb_hive"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/honeycomb_hive/chestplate",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_honeycomb_hive"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/honeycomb_hive/leggings",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_honeycomb_hive"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/honeycomb_hive/boots",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_honeycomb_hive"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/honeycomb_hive/elytra",
+                  "rarity": "common",
+                  "equipment_asset": "classiccrates:skin_honeycomb_hive"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/honeycomb_hive/sword",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/honeycomb_hive/pickaxe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/honeycomb_hive/axe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/honeycomb_hive/shovel",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/honeycomb_hive/hoe",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/honeycomb_hive/mace",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/honeycomb_hive/trident",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/honeycomb_hive/fishing_rod",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/honeycomb_hive/bow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/honeycomb_hive/crossbow",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Honeycomb Hive Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/honeycomb_hive/shield",
+                  "rarity": "common"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

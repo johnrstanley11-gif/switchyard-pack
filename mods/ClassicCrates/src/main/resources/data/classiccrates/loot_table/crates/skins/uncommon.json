@@ -1,0 +1,1768 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/blackfire_raider/helmet",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_blackfire_raider"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/blackfire_raider/chestplate",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_blackfire_raider"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/blackfire_raider/leggings",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_blackfire_raider"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/blackfire_raider/boots",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_blackfire_raider"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/blackfire_raider/elytra",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_blackfire_raider"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/blackfire_raider/sword",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/blackfire_raider/pickaxe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/blackfire_raider/axe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/blackfire_raider/shovel",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/blackfire_raider/hoe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/blackfire_raider/mace",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/blackfire_raider/trident",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/blackfire_raider/fishing_rod",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/blackfire_raider/bow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/blackfire_raider/crossbow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Blackfire Raider Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/blackfire_raider/shield",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/frostbound/helmet",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_frostbound"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/frostbound/chestplate",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_frostbound"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/frostbound/leggings",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_frostbound"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/frostbound/boots",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_frostbound"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/frostbound/elytra",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_frostbound"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/frostbound/sword",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/frostbound/pickaxe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/frostbound/axe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/frostbound/shovel",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/frostbound/hoe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/frostbound/mace",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/frostbound/trident",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/frostbound/fishing_rod",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/frostbound/bow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/frostbound/crossbow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Frostbound Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/frostbound/shield",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/helmet",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_verdant_overgrowth"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/chestplate",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_verdant_overgrowth"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/leggings",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_verdant_overgrowth"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/boots",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_verdant_overgrowth"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/elytra",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_verdant_overgrowth"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/sword",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/pickaxe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/axe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/shovel",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/hoe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/mace",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/trident",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/fishing_rod",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/bow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/crossbow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Verdant Overgrowth Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/verdant_overgrowth/shield",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/hazard_stripe/helmet",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_hazard_stripe"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/hazard_stripe/chestplate",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_hazard_stripe"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/hazard_stripe/leggings",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_hazard_stripe"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/hazard_stripe/boots",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_hazard_stripe"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/hazard_stripe/elytra",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_hazard_stripe"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/hazard_stripe/sword",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/hazard_stripe/pickaxe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/hazard_stripe/axe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/hazard_stripe/shovel",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/hazard_stripe/hoe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/hazard_stripe/mace",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/hazard_stripe/trident",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/hazard_stripe/fishing_rod",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/hazard_stripe/bow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/hazard_stripe/crossbow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Hazard Stripe Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/hazard_stripe/shield",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/candy_carnival/helmet",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_candy_carnival"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/candy_carnival/chestplate",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_candy_carnival"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/candy_carnival/leggings",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_candy_carnival"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/candy_carnival/boots",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_candy_carnival"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/candy_carnival/elytra",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_candy_carnival"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/candy_carnival/sword",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/candy_carnival/pickaxe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/candy_carnival/axe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/candy_carnival/shovel",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/candy_carnival/hoe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/candy_carnival/mace",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/candy_carnival/trident",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/candy_carnival/fishing_rod",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/candy_carnival/bow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/candy_carnival/crossbow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Candy Carnival Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/candy_carnival/shield",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Helmet",
+                  "applies_to": "#minecraft:head_armor",
+                  "item_model": "classiccrates:skins/paper_lantern/helmet",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_paper_lantern"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Chestplate",
+                  "applies_to": "#minecraft:chest_armor",
+                  "item_model": "classiccrates:skins/paper_lantern/chestplate",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_paper_lantern"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Leggings",
+                  "applies_to": "#minecraft:leg_armor",
+                  "item_model": "classiccrates:skins/paper_lantern/leggings",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_paper_lantern"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Boots",
+                  "applies_to": "#minecraft:foot_armor",
+                  "item_model": "classiccrates:skins/paper_lantern/boots",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_paper_lantern"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Elytra",
+                  "applies_to": "minecraft:elytra",
+                  "item_model": "classiccrates:skins/paper_lantern/elytra",
+                  "rarity": "uncommon",
+                  "equipment_asset": "classiccrates:skin_paper_lantern"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Sword",
+                  "applies_to": "#minecraft:swords",
+                  "item_model": "classiccrates:skins/paper_lantern/sword",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Pickaxe",
+                  "applies_to": "#minecraft:pickaxes",
+                  "item_model": "classiccrates:skins/paper_lantern/pickaxe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Axe",
+                  "applies_to": "#minecraft:axes",
+                  "item_model": "classiccrates:skins/paper_lantern/axe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Shovel",
+                  "applies_to": "#minecraft:shovels",
+                  "item_model": "classiccrates:skins/paper_lantern/shovel",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Hoe",
+                  "applies_to": "#minecraft:hoes",
+                  "item_model": "classiccrates:skins/paper_lantern/hoe",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Mace",
+                  "applies_to": "minecraft:mace",
+                  "item_model": "classiccrates:skins/paper_lantern/mace",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Trident",
+                  "applies_to": "minecraft:trident",
+                  "item_model": "classiccrates:skins/paper_lantern/trident",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Fishing Rod",
+                  "applies_to": "minecraft:fishing_rod",
+                  "item_model": "classiccrates:skins/paper_lantern/fishing_rod",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Bow",
+                  "applies_to": "minecraft:bow",
+                  "item_model": "classiccrates:skins/paper_lantern/bow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Crossbow",
+                  "applies_to": "minecraft:crossbow",
+                  "item_model": "classiccrates:skins/paper_lantern/crossbow",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "classiccrates:cosmetic_token",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "minecraft:set_components",
+              "components": {
+                "classiccrates:cosmetic": {
+                  "name": "Paper Lantern Shield",
+                  "applies_to": "minecraft:shield",
+                  "item_model": "classiccrates:skins/paper_lantern/shield",
+                  "rarity": "uncommon"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

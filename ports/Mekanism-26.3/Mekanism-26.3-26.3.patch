@@ -1,0 +1,534 @@
+diff --git a/gradlew b/gradlew
+old mode 100755
+new mode 100644
+diff --git a/gradlew.bat b/gradlew.bat
+old mode 100755
+new mode 100644
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/slabs_conversion_chiseled_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/slabs_conversion_chiseled_white_dacite_bricks.json
+deleted file mode 100644
+index 04285ce..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/slabs_conversion_chiseled_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:crushing",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:chiseled_white_dacite_brick_slab"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_brick_slab"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/slabs_conversion_cracked_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/slabs_conversion_cracked_white_dacite_bricks.json
+deleted file mode 100644
+index 59f9bb2..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/slabs_conversion_cracked_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:crushing",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:cracked_white_dacite_brick_slab"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_slab"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/stairs_conversion_chiseled_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/stairs_conversion_chiseled_white_dacite_bricks.json
+deleted file mode 100644
+index b3c6cec..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/stairs_conversion_chiseled_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:crushing",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:chiseled_white_dacite_brick_stairs"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_brick_stairs"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/stairs_conversion_cracked_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/stairs_conversion_cracked_white_dacite_bricks.json
+deleted file mode 100644
+index 52f353f..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/stairs_conversion_cracked_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:crushing",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:cracked_white_dacite_brick_stairs"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_stairs"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/walls_conversion_chiseled_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/walls_conversion_chiseled_white_dacite_bricks.json
+deleted file mode 100644
+index cc8d5a2..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/walls_conversion_chiseled_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:crushing",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:chiseled_white_dacite_brick_wall"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_brick_wall"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/walls_conversion_cracked_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/walls_conversion_cracked_white_dacite_bricks.json
+deleted file mode 100644
+index f0ef04a..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/crushing/white_dacite/walls_conversion_cracked_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:crushing",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:cracked_white_dacite_brick_wall"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_wall"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/slabs_conversion_chiseled_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/slabs_conversion_chiseled_white_dacite_bricks.json
+deleted file mode 100644
+index e536f99..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/slabs_conversion_chiseled_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:enriching",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:chiseled_white_dacite_brick_slab"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_tile_slab"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/slabs_conversion_cracked_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/slabs_conversion_cracked_white_dacite_bricks.json
+deleted file mode 100644
+index 5f5a2d8..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/slabs_conversion_cracked_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:enriching",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:cracked_white_dacite_brick_slab"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_brick_slab"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_chiseled_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_chiseled_white_dacite_bricks.json
+deleted file mode 100644
+index 8d93df6..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_chiseled_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:enriching",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:chiseled_white_dacite_brick_stairs"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_tile_stairs"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_cracked_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_cracked_white_dacite_bricks.json
+deleted file mode 100644
+index 9b81a6c..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_cracked_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:enriching",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:cracked_white_dacite_brick_stairs"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_brick_stairs"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_white_dacite_cobblestone.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_white_dacite_cobblestone.json
+deleted file mode 100644
+index ca0f354..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/stairs_conversion_white_dacite_cobblestone.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:enriching",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:white_dacite_cobblestone_stairs"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_stairs"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/walls_conversion_chiseled_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/walls_conversion_chiseled_white_dacite_bricks.json
+deleted file mode 100644
+index f28ef9e..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/walls_conversion_chiseled_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:enriching",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:chiseled_white_dacite_brick_wall"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_tile_wall"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/walls_conversion_cracked_white_dacite_bricks.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/walls_conversion_cracked_white_dacite_bricks.json
+deleted file mode 100644
+index b4cc098..0000000
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/biomeswevegone/enriching/white_dacite/walls_conversion_cracked_white_dacite_bricks.json
++++ /dev/null
+@@ -1,18 +0,0 @@
+-{
+-  "neoforge:conditions": [
+-    {
+-      "type": "mekanism:mod_version_loaded",
+-      "modid": "biomeswevegone",
+-      "version": "2.4.0"
+-    }
+-  ],
+-  "type": "mekanism:enriching",
+-  "input": {
+-    "count": 1,
+-    "item": "biomeswevegone:cracked_white_dacite_brick_wall"
+-  },
+-  "output": {
+-    "count": 1,
+-    "id": "biomeswevegone:white_dacite_brick_wall"
+-  }
+-}
+\ No newline at end of file
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/chicken_cuts.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/chicken_cuts.json
+index 32b873b..e08b6fe 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/chicken_cuts.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/chicken_cuts.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:cooked_chicken"
++    "ingredient": "minecraft:cooked_chicken"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/cod_slice.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/cod_slice.json
+index 59a1e99..56a2aeb 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/cod_slice.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/cod_slice.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:cooked_cod"
++    "ingredient": "minecraft:cooked_cod"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/ham_processing.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/ham_processing.json
+index 730d085..9dee40e 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/ham_processing.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/ham_processing.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "farmersdelight:ham"
++    "ingredient": "farmersdelight:ham"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/minced_beef.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/minced_beef.json
+index 819c489..688b14a 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/minced_beef.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/minced_beef.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:beef"
++    "ingredient": "minecraft:beef"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/mutton_chops.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/mutton_chops.json
+index 5f77e57..87774e1 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/mutton_chops.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/mutton_chops.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:cooked_mutton"
++    "ingredient": "minecraft:cooked_mutton"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_bacon.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_bacon.json
+index 330f4cf..6ce93be 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_bacon.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_bacon.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:porkchop"
++    "ingredient": "minecraft:porkchop"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_chicken_cuts.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_chicken_cuts.json
+index 785c08d..1c12bb3 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_chicken_cuts.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_chicken_cuts.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:chicken"
++    "ingredient": "minecraft:chicken"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_cod_slice.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_cod_slice.json
+index eceefba..7969cdc 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_cod_slice.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_cod_slice.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:cod"
++    "ingredient": "minecraft:cod"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_mutton_chops.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_mutton_chops.json
+index 77db8c5..cae404f 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_mutton_chops.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_mutton_chops.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:mutton"
++    "ingredient": "minecraft:mutton"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_salmon_slice.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_salmon_slice.json
+index 452d6e3..8cba8b2 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_salmon_slice.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/raw_salmon_slice.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:salmon"
++    "ingredient": "minecraft:salmon"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/salmon_slice.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/salmon_slice.json
+index bff810c..d4b5542 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/salmon_slice.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/salmon_slice.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "minecraft:cooked_salmon"
++    "ingredient": "minecraft:cooked_salmon"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/smoked_ham_processing.json b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/smoked_ham_processing.json
+index 8a4a28c..62f4123 100644
+--- a/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/smoked_ham_processing.json
++++ b/src/datagen/generated/mekanism/data/mekanism/recipe/compat/farmersdelight/sawing/smoked_ham_processing.json
+@@ -8,7 +8,7 @@
+   "type": "mekanism:sawing",
+   "input": {
+     "count": 1,
+-    "item": "farmersdelight:smoked_ham"
++    "ingredient": "farmersdelight:smoked_ham"
+   },
+   "main_output": {
+     "count": 2,
+diff --git a/src/main/java/mekanism/client/MekanismClient.java b/src/main/java/mekanism/client/MekanismClient.java
+index fd2d046..08127bc 100644
+--- a/src/main/java/mekanism/client/MekanismClient.java
++++ b/src/main/java/mekanism/client/MekanismClient.java
+@@ -90,6 +90,7 @@ public class MekanismClient {
+         clientSecurityMap.clear();
+         clientUUIDMap.clear();
+         clientRecipeMap = RecipeMap.EMPTY;
++        mekanism.common.lib.frequency.FrequencyControllerManager.resetClient();
+ 
+         ClientTickHandler.reset();
+         SoundHandler.radiationSoundMap.clear();
+diff --git a/src/main/java/mekanism/client/gui/machine/GuiElectrolyticSeparator.java b/src/main/java/mekanism/client/gui/machine/GuiElectrolyticSeparator.java
+old mode 100755
+new mode 100644
+diff --git a/src/main/java/mekanism/common/lib/frequency/FrequencyControllerManager.java b/src/main/java/mekanism/common/lib/frequency/FrequencyControllerManager.java
+index 9b691f0..49f132c 100644
+--- a/src/main/java/mekanism/common/lib/frequency/FrequencyControllerManager.java
++++ b/src/main/java/mekanism/common/lib/frequency/FrequencyControllerManager.java
+@@ -32,9 +32,26 @@ public class FrequencyControllerManager {
+         controllers.clear();
+     }
+ 
++    /// Drops the transient client-side controllers when leaving a remote server. Does nothing while a server in this JVM owns them.
++    public static void resetClient() {
++        if (dataStorage == null) {
++            tickableLookups.clear();
++            controllers.clear();
++        }
++    }
++
+     @SuppressWarnings("unchecked")
+     public static <FREQ extends Frequency> FrequencyController<FREQ> getController(FrequencyType<FREQ> frequencyType) {
+-        return (FrequencyController<FREQ>) controllers.get(frequencyType);
++        FrequencyController<?> controller = controllers.get(frequencyType);
++        if (controller == null && dataStorage == null) {
++            //Local 26.3 pack fix: serverLoad never runs on a client that is connected to a remote server, so there was no
++            // controller and placing any owned block crashed the client (NPE in FrequencyType#getLookup). Give the client a
++            // transient controller instead; its lookups are the unsaved "assume client" ones from createLookup, and the
++            // real frequency data still comes from the server.
++            controller = FrequencyController.create(frequencyType);
++            controllers.put(frequencyType, controller);
++        }
++        return (FrequencyController<FREQ>) controller;
+     }
+ 
+     protected static <FREQ extends Frequency> FrequencyLookup<FREQ> createLookup(FrequencyType<FREQ> frequencyType, @Nullable UUID uuid, SecurityMode securityMode, Codec<FrequencyLookup<FREQ>> codec) {

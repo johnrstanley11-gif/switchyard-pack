@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_verdant_overgrowth"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_verdant_overgrowth"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_verdant_overgrowth"
+      }
+    ]
+  }
+}

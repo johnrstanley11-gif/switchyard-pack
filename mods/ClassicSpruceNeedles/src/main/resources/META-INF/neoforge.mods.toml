@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="${mod_license}"
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="Classic Engineering (needle textures and behaviour from VanillaBackport by BlackGear)"
+description='''Falling spruce needle particles for Minecraft 26.3, carried over from VanillaBackport 1.1.7.10. Everything else VanillaBackport added is vanilla in 26.3.'''
+[[mixins]]
+config="classic_spruce_needles.mixins.json"
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="[${minecraft_version}]"
+ordering="NONE"
+side="BOTH"

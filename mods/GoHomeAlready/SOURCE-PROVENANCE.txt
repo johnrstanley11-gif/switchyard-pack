@@ -1,0 +1,12 @@
+Reconstructed source port of Go Home Already! 1.2.0 by OmniPraxis.
+Official author source repository: not found; do not describe this as author source.
+Original binary SHA256: 36868d00a4297836cb362d051d8270951b12c6aa40a461faf0a69ec4e0504581
+Official version: https://modrinth.com/mod/go-home-already/version/JiiqvzGu
+Recovery: Vineflower 1.12.0, synthetic and bridge removal disabled.
+Immutable baseline: ../../claude-session/removed-sources/GoHomeAlready/reconstructed-1.2.0-20261011T195524833848Z
+All 8 top-level classes and the original nested HomeTeleport.Pending are retained.
+HomeConfig initializer order was restored from official bytecode before porting.
+API adaptations: lifecycle constructor config registration, LOCAL with old COMMON
+filename, permission types including level0 behavior, Identifier/NBT default getters,
+respawn record access/clear, full teleport arguments preserving camera reset and angles.
+Compilation and behavioral equivalence are separate checks; recovery alone proves neither.

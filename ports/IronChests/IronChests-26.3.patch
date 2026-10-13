@@ -1,0 +1,3122 @@
+diff --git a/build.gradle b/build.gradle
+index 003a3df..d04660b 100755
+--- a/build.gradle
++++ b/build.gradle
+@@ -1,7 +1,7 @@
+ plugins {
+     id 'java-library'
+     id 'maven-publish'
+-    id 'net.neoforged.moddev' version '2.0.141'
++    id 'net.neoforged.moddev' version '2.0.148'
+     id 'idea'
+ }
+ 
+@@ -48,7 +48,7 @@ task buildInfo {
+     }
+ }
+ 
+-version = "${minecraft_version}-neoforge-${mod_version}.${project.buildInfo.buildNum}"
++version = "${minecraft_version}-neoforge-${mod_version}-port263.1"
+ group = mod_group_id
+ 
+ repositories {
+@@ -91,6 +91,9 @@ neoForge {
+     runs {
+         client {
+             client()
++            if (System.getenv('PORT_QUICKPLAY_SERVER')) {
++                programArguments.addAll '--quickPlayMultiplayer', System.getenv('PORT_QUICKPLAY_SERVER')
++            }
+ 
+             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+@@ -99,6 +102,7 @@ neoForge {
+         server {
+             server()
+             programArgument '--nogui'
++            gameDirectory = layout.projectDirectory.dir('run-server')
+             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+         }
+ 
+@@ -107,11 +111,13 @@ neoForge {
+         // The gametest system is also enabled by default for other run configs under the /test command.
+         gameTestServer {
+             type = "gameTestServer"
++            gameDirectory = layout.projectDirectory.dir('run-gametest')
+             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+         }
+ 
+         data {
+             clientData()
++            gameDirectory = layout.projectDirectory.dir('run-data')
+ 
+             // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+             // gameDirectory = project.file('run-data')
+@@ -200,6 +206,9 @@ sourceSets.main.resources.srcDir generateModMetadata
+ neoForge.ideSyncTask generateModMetadata
+ 
+ tasks.named('jar', Jar).configure {
++    // Generator cache files are bookkeeping, not pack resources.
++    exclude '.cache/**'
++    from('LICENSE') { into 'META-INF'; rename { 'LICENSE-IronChests' } }
+     manifest {
+         attributes([
+             'Specification-Title'     : mod_id,
+@@ -208,7 +217,7 @@ tasks.named('jar', Jar).configure {
+             'Implementation-Title'    : project.name,
+             'Implementation-Version'  : project.jar.archiveVersion,
+             'Implementation-Vendor'   : mod_authors,
+-            'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
++            'Implementation-Upstream-Commit': '9174022fb1cd7eb59aaf014f870badb3856d5029'
+         ])
+     }
+ }
+@@ -223,6 +232,7 @@ publishing {
+         }
+     }
+     repositories {
++        maven { name = 'Port'; url = file('../../maven').toURI() }
+         if (project.hasProperty('DEPLOY_DIR')) {
+             maven {
+                 url DEPLOY_DIR
+@@ -233,6 +243,20 @@ publishing {
+ 
+ tasks.withType(JavaCompile).configureEach {
+     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
++    options.compilerArgs += ['-Xmaxerrs', '2000']
++}
++
++// Export the real ModDev launch classpaths for private tests of the packaged jar.
++tasks.register('exportPortRunClasspaths') {
++    dependsOn 'prepareClientRun', 'prepareServerRun'
++    doLast {
++        ['client', 'server'].each { side ->
++            def runTask = tasks.named('run' + side.capitalize()).get()
++            def classpath = runTask.classpathProvider.files.collect { it.absolutePath }.join(File.pathSeparator)
++            def output = layout.buildDirectory.file('moddev/' + side + 'RunClasspath.txt').get().asFile
++            output.setText('-classpath\n"' + classpath.replace('\\', '\\\\') + '"\n', 'UTF-8')
++        }
++    }
+ }
+ 
+ // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+diff --git a/gradle.properties b/gradle.properties
+index 025cf5e..985f4b6 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -1,22 +1,23 @@
+ # Sets default memory used for gradle commands. Can be overridden by user or command line properties.
+-org.gradle.jvmargs=-Xmx1G
+-org.gradle.daemon=true
+-org.gradle.parallel=true
++org.gradle.jvmargs=-Xmx2G
++org.gradle.daemon=false
++org.gradle.parallel=false
++org.gradle.workers.max=2
+ org.gradle.caching=true
+-org.gradle.configuration-cache=true
++org.gradle.configuration-cache=false
+ 
+ # Environment Properties
+ # You can find the latest versions here: https://projects.neoforged.net/neoforged/neoforge
+ # The Minecraft version must agree with the Neo version to get a valid artifact
+-minecraft_version=26.1.2
++minecraft_version=26.3
+ # The Minecraft version range can use any release version of Minecraft as bounds.
+ # Snapshots, pre-releases, and release candidates are not guaranteed to sort properly
+ # as they do not follow standard versioning conventions.
+-minecraft_version_range=[26.1.2]
++minecraft_version_range=[26.3,26.4)
+ # The Neo version must agree with the Minecraft version to get a valid artifact
+-neo_version=26.1.2.70-beta
++neo_version=26.3.0.65-beta
+ # The Neo version range can use any version of Neo as bounds
+-neo_version_range=[26.1.2.36-beta,)
++neo_version_range=[26.3.0.65-beta,26.4)
+ # The loader version range can only use the major version of FML as bounds
+ loader_version_range=[1,)
+ 
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/copper_iron_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/copper_iron_chest.json
+index 60bbfae..cc09d46 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/copper_iron_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/copper_iron_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/copper_iron_chest"
++        "recipes": "ironchest:chests/copper_iron_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_crystal_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_crystal_chest.json
+index 06e9de5..eda4477 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_crystal_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_crystal_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/diamond_crystal_chest"
++        "recipes": "ironchest:chests/diamond_crystal_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_obsidian_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_obsidian_chest.json
+index 689118b..9c98e55 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_obsidian_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/diamond_obsidian_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/diamond_obsidian_chest"
++        "recipes": "ironchest:chests/diamond_obsidian_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/gold_diamond_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/gold_diamond_chest.json
+index 4d8ef79..1b93027 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/gold_diamond_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/gold_diamond_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/gold_diamond_chest"
++        "recipes": "ironchest:chests/gold_diamond_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/iron_gold_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/iron_gold_chest.json
+index e926cf2..2d81ee1 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/iron_gold_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/iron_gold_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/iron_gold_chest"
++        "recipes": "ironchest:chests/iron_gold_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_copper_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_copper_chest.json
+index ef97e07..b9660f7 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_copper_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_copper_chest.json
+@@ -3,7 +3,7 @@
+   "criteria": {
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/trapped_copper_chest"
++        "recipes": "ironchest:chests/trapped_copper_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     },
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_crystal_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_crystal_chest.json
+index dcdae58..d940baf 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_crystal_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_crystal_chest.json
+@@ -3,7 +3,7 @@
+   "criteria": {
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/trapped_crystal_chest"
++        "recipes": "ironchest:chests/trapped_crystal_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     },
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_diamond_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_diamond_chest.json
+index dc80a48..515faab 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_diamond_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_diamond_chest.json
+@@ -3,7 +3,7 @@
+   "criteria": {
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/trapped_diamond_chest"
++        "recipes": "ironchest:chests/trapped_diamond_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     },
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_dirt_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_dirt_chest.json
+index 06e16f6..62f775e 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_dirt_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_dirt_chest.json
+@@ -3,7 +3,7 @@
+   "criteria": {
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/trapped_dirt_chest"
++        "recipes": "ironchest:chests/trapped_dirt_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     },
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_gold_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_gold_chest.json
+index 840329f..d262f1e 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_gold_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_gold_chest.json
+@@ -3,7 +3,7 @@
+   "criteria": {
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/trapped_gold_chest"
++        "recipes": "ironchest:chests/trapped_gold_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     },
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_iron_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_iron_chest.json
+index 1680764..a5b6cb6 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_iron_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_iron_chest.json
+@@ -3,7 +3,7 @@
+   "criteria": {
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/trapped_iron_chest"
++        "recipes": "ironchest:chests/trapped_iron_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     },
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_obsidian_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_obsidian_chest.json
+index fdea0d0..9abb889 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_obsidian_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/trapped_obsidian_chest.json
+@@ -3,7 +3,7 @@
+   "criteria": {
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/trapped_obsidian_chest"
++        "recipes": "ironchest:chests/trapped_obsidian_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     },
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_copper_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_copper_chest.json
+index 42cea99..26506fb 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_copper_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_copper_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/vanilla_copper_chest"
++        "recipes": "ironchest:chests/vanilla_copper_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_dirt_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_dirt_chest.json
+index 5841c6d..1db01aa 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_dirt_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_dirt_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/vanilla_dirt_chest"
++        "recipes": "ironchest:chests/vanilla_dirt_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_iron_chest.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_iron_chest.json
+index b19c9ca..32d8378 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_iron_chest.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/chests/vanilla_iron_chest.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:chests/vanilla_iron_chest"
++        "recipes": "ironchest:chests/vanilla_iron_chest"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/copper_to_iron_chest_upgrade.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/copper_to_iron_chest_upgrade.json
+index 0b524e5..0f5feed 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/copper_to_iron_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/copper_to_iron_chest_upgrade.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:upgrades/copper_to_iron_chest_upgrade"
++        "recipes": "ironchest:upgrades/copper_to_iron_chest_upgrade"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_crystal_chest_upgrade.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_crystal_chest_upgrade.json
+index 9618ab2..4a0b9cf 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_crystal_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_crystal_chest_upgrade.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:upgrades/diamond_to_crystal_chest_upgrade"
++        "recipes": "ironchest:upgrades/diamond_to_crystal_chest_upgrade"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_obsidian_chest_upgrade.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_obsidian_chest_upgrade.json
+index e824b9e..e6a6781 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_obsidian_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/diamond_to_obsidian_chest_upgrade.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:upgrades/diamond_to_obsidian_chest_upgrade"
++        "recipes": "ironchest:upgrades/diamond_to_obsidian_chest_upgrade"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/gold_to_diamond_chest_upgrade.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/gold_to_diamond_chest_upgrade.json
+index dc3b0c1..a0ba18b 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/gold_to_diamond_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/gold_to_diamond_chest_upgrade.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:upgrades/gold_to_diamond_chest_upgrade"
++        "recipes": "ironchest:upgrades/gold_to_diamond_chest_upgrade"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/iron_to_gold_chest_upgrade.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/iron_to_gold_chest_upgrade.json
+index c2b3db5..eb3b7b9 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/iron_to_gold_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/iron_to_gold_chest_upgrade.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:upgrades/iron_to_gold_chest_upgrade"
++        "recipes": "ironchest:upgrades/iron_to_gold_chest_upgrade"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_copper_chest_upgrade.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_copper_chest_upgrade.json
+index 0439011..320eddf 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_copper_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_copper_chest_upgrade.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:upgrades/wood_to_copper_chest_upgrade"
++        "recipes": "ironchest:upgrades/wood_to_copper_chest_upgrade"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_iron_chest_upgrade.json b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_iron_chest_upgrade.json
+index 25c979b..5912c26 100644
+--- a/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_iron_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/advancement/recipes/decorations/upgrades/wood_to_iron_chest_upgrade.json
+@@ -13,7 +13,7 @@
+     },
+     "has_the_recipe": {
+       "conditions": {
+-        "recipe": "ironchest:upgrades/wood_to_iron_chest_upgrade"
++        "recipes": "ironchest:upgrades/wood_to_iron_chest_upgrade"
+       },
+       "trigger": "minecraft:recipe_unlocked"
+     }
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/copper_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/copper_chest.json
+index 32a5f77..80aa03a 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/copper_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/copper_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:copper_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/copper_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/crystal_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/crystal_chest.json
+index ff49a56..9eae1dd 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/crystal_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/crystal_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:crystal_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/crystal_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/diamond_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/diamond_chest.json
+index 2a6ad6e..98ee190 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/diamond_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/diamond_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:diamond_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/diamond_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/dirt_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/dirt_chest.json
+index a5f6d06..2e80ea4 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/dirt_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/dirt_chest.json
+@@ -2,29 +2,24 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name",
+-                "ironchest:chest_placed_already"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name",
++              "ironchest:chest_placed_already"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:dirt_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/dirt_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/gold_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/gold_chest.json
+index c471980..0a69fa1 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/gold_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/gold_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:gold_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/gold_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/iron_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/iron_chest.json
+index 5f9a92f..6ba428b 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/iron_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/iron_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:iron_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/iron_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/obsidian_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/obsidian_chest.json
+index 73ca71f..714a163 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/obsidian_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/obsidian_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:obsidian_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/obsidian_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_copper_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_copper_chest.json
+index febb477..9db6c51 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_copper_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_copper_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:trapped_copper_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/trapped_copper_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_crystal_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_crystal_chest.json
+index 56b3519..51e233e 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_crystal_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_crystal_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:trapped_crystal_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/trapped_crystal_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_diamond_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_diamond_chest.json
+index 64937e2..c5777eb 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_diamond_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_diamond_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:trapped_diamond_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/trapped_diamond_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_dirt_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_dirt_chest.json
+index 66e6189..15032c7 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_dirt_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_dirt_chest.json
+@@ -2,29 +2,24 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name",
+-                "ironchest:chest_placed_already"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name",
++              "ironchest:chest_placed_already"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:trapped_dirt_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/trapped_dirt_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_gold_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_gold_chest.json
+index 2670ebc..781d6f1 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_gold_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_gold_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:trapped_gold_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/trapped_gold_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_iron_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_iron_chest.json
+index 6c62c88..1ae1df8 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_iron_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_iron_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:trapped_iron_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/trapped_iron_chest"
+diff --git a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_obsidian_chest.json b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_obsidian_chest.json
+index adbe6e9..6665ce6 100644
+--- a/src/generated/resources/data/ironchest/loot_table/blocks/trapped_obsidian_chest.json
++++ b/src/generated/resources/data/ironchest/loot_table/blocks/trapped_obsidian_chest.json
+@@ -2,28 +2,23 @@
+   "type": "minecraft:block",
+   "pools": [
+     {
+-      "bonus_rolls": 0.0,
+-      "conditions": [
+-        {
+-          "condition": "minecraft:survives_explosion"
+-        }
+-      ],
++      "condition": {
++        "type": "minecraft:survives_explosion"
++      },
+       "entries": [
+         {
+           "type": "minecraft:item",
+-          "functions": [
+-            {
+-              "function": "minecraft:copy_components",
+-              "include": [
+-                "minecraft:custom_name"
+-              ],
+-              "source": "block_entity"
+-            }
+-          ],
++          "modifier": {
++            "type": "minecraft:copy_components",
++            "include": [
++              "minecraft:custom_name"
++            ],
++            "source": "block_entity"
++          },
+           "name": "ironchest:trapped_obsidian_chest"
+         }
+       ],
+-      "rolls": 1.0
++      "rolls": 1
+     }
+   ],
+   "random_sequence": "ironchest:blocks/trapped_obsidian_chest"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/copper_iron_chest.json b/src/generated/resources/data/ironchest/recipe/chests/copper_iron_chest.json
+index 6807c24..bbaed5b 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/copper_iron_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/copper_iron_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "G": "#c:glass_blocks",
+     "M": "#c:ingots/iron",
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/diamond_crystal_chest.json b/src/generated/resources/data/ironchest/recipe/chests/diamond_crystal_chest.json
+index 0bc2f6b..f308f86 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/diamond_crystal_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/diamond_crystal_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "G": "#c:glass_blocks",
+     "S": "ironchest:diamond_chest"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/diamond_obsidian_chest.json b/src/generated/resources/data/ironchest/recipe/chests/diamond_obsidian_chest.json
+index 7104565..94f28b8 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/diamond_obsidian_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/diamond_obsidian_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "minecraft:obsidian",
+     "S": "ironchest:diamond_chest"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/gold_diamond_chest.json b/src/generated/resources/data/ironchest/recipe/chests/gold_diamond_chest.json
+index d87d330..94446cd 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/gold_diamond_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/gold_diamond_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "G": "#c:glass_blocks",
+     "M": "#c:gems/diamond",
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/iron_gold_chest.json b/src/generated/resources/data/ironchest/recipe/chests/iron_gold_chest.json
+index 93debc1..2e44955 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/iron_gold_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/iron_gold_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/gold",
+     "S": "ironchest:iron_chest"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/trapped_copper_chest.json b/src/generated/resources/data/ironchest/recipe/chests/trapped_copper_chest.json
+index 42f1fed..1731ecb 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/trapped_copper_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/trapped_copper_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shapeless",
+-  "category": "misc",
+   "ingredients": [
+     "ironchest:copper_chest",
+     "minecraft:tripwire_hook"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/trapped_crystal_chest.json b/src/generated/resources/data/ironchest/recipe/chests/trapped_crystal_chest.json
+index fe11db6..91ebfa0 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/trapped_crystal_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/trapped_crystal_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shapeless",
+-  "category": "misc",
+   "ingredients": [
+     "ironchest:crystal_chest",
+     "minecraft:tripwire_hook"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/trapped_diamond_chest.json b/src/generated/resources/data/ironchest/recipe/chests/trapped_diamond_chest.json
+index 1086d74..1c5dff8 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/trapped_diamond_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/trapped_diamond_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shapeless",
+-  "category": "misc",
+   "ingredients": [
+     "ironchest:diamond_chest",
+     "minecraft:tripwire_hook"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/trapped_dirt_chest.json b/src/generated/resources/data/ironchest/recipe/chests/trapped_dirt_chest.json
+index daff0bb..499b55e 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/trapped_dirt_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/trapped_dirt_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shapeless",
+-  "category": "misc",
+   "ingredients": [
+     "ironchest:dirt_chest",
+     "minecraft:tripwire_hook"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/trapped_gold_chest.json b/src/generated/resources/data/ironchest/recipe/chests/trapped_gold_chest.json
+index aaa1c10..b6e6d0b 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/trapped_gold_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/trapped_gold_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shapeless",
+-  "category": "misc",
+   "ingredients": [
+     "ironchest:gold_chest",
+     "minecraft:tripwire_hook"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/trapped_iron_chest.json b/src/generated/resources/data/ironchest/recipe/chests/trapped_iron_chest.json
+index 6a80d65..cdf7894 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/trapped_iron_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/trapped_iron_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shapeless",
+-  "category": "misc",
+   "ingredients": [
+     "ironchest:iron_chest",
+     "minecraft:tripwire_hook"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/trapped_obsidian_chest.json b/src/generated/resources/data/ironchest/recipe/chests/trapped_obsidian_chest.json
+index 24ca947..1908b5c 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/trapped_obsidian_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/trapped_obsidian_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shapeless",
+-  "category": "misc",
+   "ingredients": [
+     "ironchest:obsidian_chest",
+     "minecraft:tripwire_hook"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/vanilla_copper_chest.json b/src/generated/resources/data/ironchest/recipe/chests/vanilla_copper_chest.json
+index 31c160f..50d17db 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/vanilla_copper_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/vanilla_copper_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/copper",
+     "S": "#c:chests/wooden"
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/vanilla_dirt_chest.json b/src/generated/resources/data/ironchest/recipe/chests/vanilla_dirt_chest.json
+index a43c668..976651b 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/vanilla_dirt_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/vanilla_dirt_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": [
+       "minecraft:dirt",
+diff --git a/src/generated/resources/data/ironchest/recipe/chests/vanilla_iron_chest.json b/src/generated/resources/data/ironchest/recipe/chests/vanilla_iron_chest.json
+index 2ca375e..0621d5c 100644
+--- a/src/generated/resources/data/ironchest/recipe/chests/vanilla_iron_chest.json
++++ b/src/generated/resources/data/ironchest/recipe/chests/vanilla_iron_chest.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/iron",
+     "S": "#c:chests/wooden"
+diff --git a/src/generated/resources/data/ironchest/recipe/upgrades/copper_to_iron_chest_upgrade.json b/src/generated/resources/data/ironchest/recipe/upgrades/copper_to_iron_chest_upgrade.json
+index 9e8c578..6e61858 100644
+--- a/src/generated/resources/data/ironchest/recipe/upgrades/copper_to_iron_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/recipe/upgrades/copper_to_iron_chest_upgrade.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "C": "#c:ingots/copper",
+     "G": "#c:glass_blocks",
+diff --git a/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_crystal_chest_upgrade.json b/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_crystal_chest_upgrade.json
+index 741c55d..0e9f698 100644
+--- a/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_crystal_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_crystal_chest_upgrade.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "G": "#c:glass_blocks",
+     "M": "minecraft:obsidian"
+diff --git a/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_obsidian_chest_upgrade.json b/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_obsidian_chest_upgrade.json
+index 73e6912..6c3bca2 100644
+--- a/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_obsidian_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/recipe/upgrades/diamond_to_obsidian_chest_upgrade.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "G": "#c:glass_blocks",
+     "M": "minecraft:obsidian"
+diff --git a/src/generated/resources/data/ironchest/recipe/upgrades/gold_to_diamond_chest_upgrade.json b/src/generated/resources/data/ironchest/recipe/upgrades/gold_to_diamond_chest_upgrade.json
+index 168e80f..85d0133 100644
+--- a/src/generated/resources/data/ironchest/recipe/upgrades/gold_to_diamond_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/recipe/upgrades/gold_to_diamond_chest_upgrade.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "G": "#c:glass_blocks",
+     "M": "#c:gems/diamond",
+diff --git a/src/generated/resources/data/ironchest/recipe/upgrades/iron_to_gold_chest_upgrade.json b/src/generated/resources/data/ironchest/recipe/upgrades/iron_to_gold_chest_upgrade.json
+index 64a299d..1de1785 100644
+--- a/src/generated/resources/data/ironchest/recipe/upgrades/iron_to_gold_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/recipe/upgrades/iron_to_gold_chest_upgrade.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "G": "#c:ingots/gold",
+     "I": "#c:ingots/iron"
+diff --git a/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_copper_chest_upgrade.json b/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_copper_chest_upgrade.json
+index 565b288..b0c04c3 100644
+--- a/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_copper_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_copper_chest_upgrade.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/copper",
+     "P": "#minecraft:planks"
+diff --git a/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_iron_chest_upgrade.json b/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_iron_chest_upgrade.json
+index cd6d690..dd045c2 100644
+--- a/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_iron_chest_upgrade.json
++++ b/src/generated/resources/data/ironchest/recipe/upgrades/wood_to_iron_chest_upgrade.json
+@@ -1,6 +1,5 @@
+ {
+   "type": "minecraft:crafting_shaped",
+-  "category": "misc",
+   "key": {
+     "M": "#c:ingots/iron",
+     "P": "#minecraft:planks"
+diff --git a/src/generated/resources/pack.mcmeta b/src/generated/resources/pack.mcmeta
+index d0e3b1d..5464f7d 100644
+--- a/src/generated/resources/pack.mcmeta
++++ b/src/generated/resources/pack.mcmeta
+@@ -2,12 +2,9 @@
+   "pack": {
+     "description": "Resources for Iron Chests",
+     "max_format": [
+-      101,
+-      1
++      121,
++      0
+     ],
+-    "min_format": [
+-      101,
+-      1
+-    ]
++    "min_format": 121
+   }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/com/progwml6/ironchest/IronChests.java b/src/main/java/com/progwml6/ironchest/IronChests.java
+index 7782875..ff9f296 100644
+--- a/src/main/java/com/progwml6/ironchest/IronChests.java
++++ b/src/main/java/com/progwml6/ironchest/IronChests.java
+@@ -16,6 +16,7 @@ import com.progwml6.ironchest.common.item.IronChestsItems;
+ import com.progwml6.ironchest.common.network.TopStacksSyncPacket;
+ import net.minecraft.DetectedVersion;
+ import net.minecraft.core.HolderLookup;
++import net.minecraft.core.registries.Registries;
+ import net.minecraft.data.DataGenerator;
+ import net.minecraft.data.PackOutput;
+ import net.minecraft.data.metadata.PackMetadataGenerator;
+@@ -29,6 +30,7 @@ import net.neoforged.fml.common.Mod;
+ import net.neoforged.neoforge.capabilities.Capabilities;
+ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+ import net.neoforged.neoforge.data.event.GatherDataEvent;
++import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
+ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+ import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
+@@ -44,6 +46,7 @@ public class IronChests {
+   public IronChests(IEventBus modEventBus) {
+     // General mod setup
+     modEventBus.addListener(this::gatherData);
++    modEventBus.addListener(this::gatherDataRegistries);
+     modEventBus.addListener(this::setupPackets);
+     modEventBus.addListener(this::registerCapabilities);
+ 
+@@ -59,10 +62,8 @@ public class IronChests {
+   public void gatherData(GatherDataEvent.Client event) {
+     DataGenerator gen = event.getGenerator();
+     PackOutput packOutput = gen.getPackOutput();
+-    CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
++    CompletableFuture<HolderLookup.Provider> lookupProvider = event.getWorldLookupProvider();
+ 
+-    gen.addProvider(true, new IronChestsLootTableProvider(packOutput, lookupProvider));
+-    gen.addProvider(true, new IronChestsRecipeProvider.Runner(packOutput, lookupProvider));
+     gen.addProvider(true, new IronChestsBlockTags(packOutput, lookupProvider));
+     gen.addProvider(true, new IronChestsSpriteSourceProvider(packOutput, lookupProvider));
+     gen.addProvider(true, new IronChestsLanguageProvider(packOutput, "en_us"));
+@@ -72,6 +73,11 @@ public class IronChests {
+       new InclusiveRange<>(DetectedVersion.BUILT_IN.packVersion(PackType.SERVER_DATA)))));
+   }
+ 
++  public void gatherDataRegistries(GatherDataRegistryEntriesEvent event) {
++    event.add(Registries.LOOT_TABLE, new IronChestsLootTableProvider())
++      .recipe(IronChestsRecipeProvider::new);
++  }
++
+   public void setupPackets(RegisterPayloadHandlersEvent event) {
+     PayloadRegistrar registrar = event.registrar(MODID).versioned("1.0.0").optional();
+ 
+diff --git a/src/main/java/com/progwml6/ironchest/client/model/IronChestModel.java b/src/main/java/com/progwml6/ironchest/client/model/IronChestModel.java
+index f8147e4..0677d68 100644
+--- a/src/main/java/com/progwml6/ironchest/client/model/IronChestModel.java
++++ b/src/main/java/com/progwml6/ironchest/client/model/IronChestModel.java
+@@ -17,7 +17,11 @@ public class IronChestModel extends Model<Float>  {
+   private final ModelPart lock;
+ 
+   public IronChestModel(ModelPart root) {
+-    super(root, RenderTypes::entitySolid);
++    this(root, false);
++  }
++
++  public IronChestModel(ModelPart root, boolean transparent) {
++    super(root, transparent ? RenderTypes::entityTranslucent : RenderTypes::entitySolid);
+     this.lid = root.getChild(LID);
+     this.lock = root.getChild(LOCK);
+   }
+diff --git a/src/main/java/com/progwml6/ironchest/client/renderer/IronChestRenderer.java b/src/main/java/com/progwml6/ironchest/client/renderer/IronChestRenderer.java
+index b6db7ad..d7d3032 100644
+--- a/src/main/java/com/progwml6/ironchest/client/renderer/IronChestRenderer.java
++++ b/src/main/java/com/progwml6/ironchest/client/renderer/IronChestRenderer.java
+@@ -44,6 +44,7 @@ public class IronChestRenderer<T extends BlockEntity & LidBlockEntity> implement
+ 
+   private final SpriteGetter sprites;
+   private final IronChestModel model;
++  private final IronChestModel crystalModel;
+   private final ItemModelResolver itemModelResolver;
+ 
+   private static final List<ModelItem> MODEL_ITEMS = Arrays.asList(
+@@ -64,6 +65,7 @@ public class IronChestRenderer<T extends BlockEntity & LidBlockEntity> implement
+     this.sprites = context.sprites();
+     this.itemModelResolver = context.itemModelResolver();
+     this.model = new IronChestModel(context.bakeLayer(IronChestsClientRegistration.IRON_CHEST));
++    this.crystalModel = new IronChestModel(context.bakeLayer(IronChestsClientRegistration.IRON_CHEST), true);
+   }
+ 
+   @Override
+@@ -114,10 +116,16 @@ public class IronChestRenderer<T extends BlockEntity & LidBlockEntity> implement
+     open = 1.0F - open;
+     open = 1.0F - open * open * open;
+ 
++    IronChestModel renderModel = state.chestType.isTransparent() ? this.crystalModel : this.model;
+     SpriteId spriteId = IronChestsModels.chooseChestSpriteId(state.chestType, state.trapped);
+     submitNodeCollector.submitModel(
+-      model, open, poseStack, state.lightCoords, OverlayTexture.NO_OVERLAY, -1, spriteId, this.sprites, 0, state.breakProgress
++      renderModel, open, poseStack, state.lightCoords, OverlayTexture.NO_OVERLAY, -1, spriteId, this.sprites, 0
+     );
++    if (state.breakProgress != null) {
++      submitNodeCollector.order(1).submitCrumblingOverlay(
++        renderModel, open, poseStack, spriteId.renderType(renderModel.renderType()), state.lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress
++      );
++    }
+     poseStack.popPose();
+ 
+     if (state.chestType.isTransparent() && Vec3.atCenterOf(state.blockPos).closerThan(camera.pos, 128d)) {
+@@ -130,7 +138,7 @@ public class IronChestRenderer<T extends BlockEntity & LidBlockEntity> implement
+ 
+           poseStack.pushPose();
+           poseStack.translate(center.x(), center.y(), center.z());
+-          poseStack.mulPose(Axis.YP.rotationDegrees(state.itemRotation));
++          poseStack.rotateDegrees(Axis.YP, state.itemRotation);
+           poseStack.scale(scale, scale, scale);
+           itemStackRenderState.submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+           poseStack.popPose();
+diff --git a/src/main/java/com/progwml6/ironchest/client/renderer/special/IronChestSpecialRenderer.java b/src/main/java/com/progwml6/ironchest/client/renderer/special/IronChestSpecialRenderer.java
+index 2efe739..0aa8d5b 100644
+--- a/src/main/java/com/progwml6/ironchest/client/renderer/special/IronChestSpecialRenderer.java
++++ b/src/main/java/com/progwml6/ironchest/client/renderer/special/IronChestSpecialRenderer.java
+@@ -55,7 +55,7 @@ public class IronChestSpecialRenderer implements NoDataSpecialModelRenderer {
+ 
+   @Override
+   public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, boolean hasFoil, int outlineColor) {
+-    submitNodeCollector.submitModel(this.model, this.openness, poseStack, lightCoords, overlayCoords, -1, this.sprite, this.sprites, outlineColor, null);
++    submitNodeCollector.submitModel(this.model, this.openness, poseStack, lightCoords, overlayCoords, -1, this.sprite, this.sprites, outlineColor);
+   }
+ 
+   @Override
+@@ -84,7 +84,8 @@ public class IronChestSpecialRenderer implements NoDataSpecialModelRenderer {
+     }
+ 
+     public IronChestSpecialRenderer bake(SpecialModelRenderer.BakingContext context) {
+-      IronChestModel model = new IronChestModel(context.entityModelSet().bakeLayer(IronChestsClientRegistration.IRON_CHEST));
++      boolean transparent = CRYSTAL_CHEST_TEXTURE.equals(this.texture) || TRAPPED_CRYSTAL_CHEST_TEXTURE.equals(this.texture);
++      IronChestModel model = new IronChestModel(context.entityModelSet().bakeLayer(IronChestsClientRegistration.IRON_CHEST), transparent);
+       SpriteId fullTexture = new SpriteId(Sheets.CHEST_SHEET, this.texture);
+       return new IronChestSpecialRenderer(context.sprites(), model, fullTexture, this.openness);
+     }
+diff --git a/src/main/java/com/progwml6/ironchest/client/screen/IronChestScreen.java b/src/main/java/com/progwml6/ironchest/client/screen/IronChestScreen.java
+index 43b0879..53ad605 100644
+--- a/src/main/java/com/progwml6/ironchest/client/screen/IronChestScreen.java
++++ b/src/main/java/com/progwml6/ironchest/client/screen/IronChestScreen.java
+@@ -30,13 +30,6 @@ public class IronChestScreen extends AbstractContainerScreen<IronChestMenu> impl
+     this.inventoryLabelY = this.imageHeight - 96 + 2;
+   }
+ 
+-  @Override
+-  public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+-    this.extractBackground(graphics, mouseX, mouseY, a);
+-    super.extractRenderState(graphics, mouseX, mouseY, a);
+-    this.extractTooltip(graphics, mouseX, mouseY);
+-  }
+-
+   @Override
+   public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+     super.extractBackground(graphics, mouseX, mouseY, a);
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/entity/ICrystalChest.java b/src/main/java/com/progwml6/ironchest/common/block/entity/ICrystalChest.java
+index e149b34..88facd4 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/entity/ICrystalChest.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/entity/ICrystalChest.java
+@@ -54,6 +54,11 @@ public interface ICrystalChest {
+   void receiveMessageFromServer(NonNullList<ItemStack> topStacks);
+ 
+   default void sortTopStacks() {
++    this.sortTopStacks(true);
++  }
++
++  /** Refresh the display cache, optionally notifying players already tracking the chest. */
++  default void sortTopStacks(boolean notifyPlayers) {
+     if (!this.getChestType().isTransparent() || (this.getChestLevel() != null && this.getChestLevel().isClientSide())) {
+       return;
+     }
+@@ -73,9 +78,7 @@ public interface ICrystalChest {
+           ItemStack tempCopyStack = tempCopy.get(j);
+ 
+           if (ItemStack.isSameItemSameComponents(tempCopyStack, itemStack)) {
+-            if (itemStack.getCount() != tempCopyStack.getCount()) {
+-              tempCopyStack.grow(itemStack.getCount());
+-            }
++            tempCopyStack.grow(itemStack.getCount());
+ 
+             continue mainLoop;
+           }
+@@ -89,17 +92,21 @@ public interface ICrystalChest {
+       }
+     }
+ 
+-    if (!hasStuff && this.getHadStuff()) {
++    if (!hasStuff) {
+       this.setHadStuff(false);
+ 
+       for (int i = 0; i < this.getTopItems().size(); i++) {
+         this.getTopItems().set(i, ItemStack.EMPTY);
+       }
+ 
+-      if (this.getChestLevel() != null) {
+-        BlockState blockState = this.getChestLevel().getBlockState(this.getChestWorldPosition());
++      if (notifyPlayers) {
++        if (this.getChestLevel() != null) {
++          BlockState blockState = this.getChestLevel().getBlockState(this.getChestWorldPosition());
+ 
+-        this.getChestLevel().sendBlockUpdated(this.getChestWorldPosition(), blockState, blockState, 3);
++          this.getChestLevel().sendBlockUpdated(this.getChestWorldPosition(), blockState, blockState, 3);
++        }
++
++        this.sendTopStacksPacket();
+       }
+ 
+       return;
+@@ -109,11 +116,11 @@ public interface ICrystalChest {
+ 
+     tempCopy.sort((stack1, stack2) -> {
+       if (stack1.isEmpty()) {
+-        return 1;
++        return stack2.isEmpty() ? 0 : 1;
+       } else if (stack2.isEmpty()) {
+         return -1;
+       } else {
+-        return stack2.getCount() - stack1.getCount();
++        return Integer.compare(stack2.getCount(), stack1.getCount());
+       }
+     });
+ 
+@@ -135,13 +142,15 @@ public interface ICrystalChest {
+       this.getTopItems().set(i, ItemStack.EMPTY);
+     }
+ 
+-    if (this.getChestLevel() != null) {
+-      BlockState blockState = this.getChestLevel().getBlockState(this.getChestWorldPosition());
++    if (notifyPlayers) {
++      if (this.getChestLevel() != null) {
++        BlockState blockState = this.getChestLevel().getBlockState(this.getChestWorldPosition());
+ 
+-      this.getChestLevel().sendBlockUpdated(this.getChestWorldPosition(), blockState, blockState, 3);
+-    }
++        this.getChestLevel().sendBlockUpdated(this.getChestWorldPosition(), blockState, blockState, 3);
++      }
+ 
+-    this.sendTopStacksPacket();
++      this.sendTopStacksPacket();
++    }
+   }
+ 
+   NonNullList<ItemStack> getCurrentItems();
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/CopperChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/regular/CopperChestBlock.java
+index ec5c218..f25b43f 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/CopperChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/CopperChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.regular;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.CopperChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class CopperChestBlock extends AbstractIronChestBlock {
+ 
+-  public static final MapCodec<CopperChestBlock> CODEC = simpleCodec(CopperChestBlock::new);
+-
+   public CopperChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.COPPER_CHEST::get, IronChestsTypes.COPPER);
+   }
+@@ -23,8 +19,4 @@ public class CopperChestBlock extends AbstractIronChestBlock {
+     return new CopperChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/CrystalChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/regular/CrystalChestBlock.java
+index 1e58421..e4b8adb 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/CrystalChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/CrystalChestBlock.java
+@@ -1,13 +1,11 @@
+ package com.progwml6.ironchest.common.block.regular;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
+ import com.progwml6.ironchest.common.block.regular.entity.CrystalChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.world.level.Level;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.entity.BlockEntityTicker;
+ import net.minecraft.world.level.block.entity.BlockEntityType;
+@@ -16,8 +14,6 @@ import org.jspecify.annotations.Nullable;
+ 
+ public class CrystalChestBlock extends AbstractIronChestBlock {
+ 
+-  public static final MapCodec<CrystalChestBlock> CODEC = simpleCodec(CrystalChestBlock::new);
+-
+   public CrystalChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.CRYSTAL_CHEST::get, IronChestsTypes.CRYSTAL);
+   }
+@@ -32,8 +28,4 @@ public class CrystalChestBlock extends AbstractIronChestBlock {
+     return level.isClientSide() ? createTickerHelper(blockEntityType, this.blockEntityType(), AbstractIronChestBlockEntity::lidAnimateTick) : createTickerHelper(blockEntityType, this.blockEntityType(), CrystalChestBlockEntity::tick);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/DiamondChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/regular/DiamondChestBlock.java
+index ac67475..0bbde38 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/DiamondChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/DiamondChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.regular;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.DiamondChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class DiamondChestBlock extends AbstractIronChestBlock {
+ 
+-  public static final MapCodec<DiamondChestBlock> CODEC = simpleCodec(DiamondChestBlock::new);
+-
+   public DiamondChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.DIAMOND_CHEST::get, IronChestsTypes.DIAMOND);
+   }
+@@ -23,8 +19,4 @@ public class DiamondChestBlock extends AbstractIronChestBlock {
+     return new DiamondChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/DirtChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/regular/DirtChestBlock.java
+index 0a9e212..485a12d 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/DirtChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/DirtChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.regular;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.DirtChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class DirtChestBlock extends AbstractIronChestBlock {
+ 
+-  public static final MapCodec<DirtChestBlock> CODEC = simpleCodec(DirtChestBlock::new);
+-
+   public DirtChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.DIRT_CHEST::get, IronChestsTypes.DIRT);
+   }
+@@ -23,8 +19,4 @@ public class DirtChestBlock extends AbstractIronChestBlock {
+     return new DirtChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/GoldChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/regular/GoldChestBlock.java
+index 9e82c8b..8c010bc 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/GoldChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/GoldChestBlock.java
+@@ -1,18 +1,15 @@
+ package com.progwml6.ironchest.common.block.regular;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.GoldChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class GoldChestBlock extends AbstractIronChestBlock {
+ 
+-  public static final MapCodec<GoldChestBlock> CODEC = simpleCodec(GoldChestBlock::new);
+   
+   public GoldChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.GOLD_CHEST::get, IronChestsTypes.GOLD);
+@@ -23,8 +20,4 @@ public class GoldChestBlock extends AbstractIronChestBlock {
+     return new GoldChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/IronChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/regular/IronChestBlock.java
+index 24014ca..fada811 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/IronChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/IronChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.regular;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.IronChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class IronChestBlock extends AbstractIronChestBlock {
+ 
+-  public static final MapCodec<IronChestBlock> CODEC = simpleCodec(IronChestBlock::new);
+-
+   public IronChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.IRON_CHEST::get, IronChestsTypes.IRON);
+   }
+@@ -23,8 +19,4 @@ public class IronChestBlock extends AbstractIronChestBlock {
+     return new IronChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/ObsidianChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/regular/ObsidianChestBlock.java
+index 206ce0a..f33efa7 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/ObsidianChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/ObsidianChestBlock.java
+@@ -1,11 +1,9 @@
+ package com.progwml6.ironchest.common.block.regular;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.ObsidianChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockBehaviour;
+ import net.minecraft.world.level.block.state.BlockState;
+@@ -13,8 +11,6 @@ import org.jspecify.annotations.Nullable;
+ 
+ public class ObsidianChestBlock extends AbstractIronChestBlock {
+ 
+-  public static final MapCodec<ObsidianChestBlock> CODEC = simpleCodec(ObsidianChestBlock::new);
+-
+   public ObsidianChestBlock(BlockBehaviour.Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.OBSIDIAN_CHEST::get, IronChestsTypes.OBSIDIAN);
+   }
+@@ -24,8 +20,4 @@ public class ObsidianChestBlock extends AbstractIronChestBlock {
+     return new ObsidianChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/entity/CrystalChestBlockEntity.java b/src/main/java/com/progwml6/ironchest/common/block/regular/entity/CrystalChestBlockEntity.java
+index 26ee9e6..248b99f 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/entity/CrystalChestBlockEntity.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/entity/CrystalChestBlockEntity.java
+@@ -12,11 +12,12 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.level.Level;
+ import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.level.storage.ValueInput;
+ 
+ public class CrystalChestBlockEntity extends AbstractIronChestBlockEntity implements ICrystalChest {
+ 
+   private NonNullList<ItemStack> topStacks;
+-  private boolean inventoryTouched;
++  private boolean inventoryTouched = true;
+   private boolean hadStuff;
+ 
+   public CrystalChestBlockEntity(BlockPos blockPos, BlockState blockState) {
+@@ -48,10 +49,30 @@ public class CrystalChestBlockEntity extends AbstractIronChestBlockEntity implem
+   }
+ 
+   @Override
+-  public ItemStack getItem(int index) {
++  public void setChanged() {
++    super.setChanged();
+     this.inventoryTouched = true;
++  }
++
++  @Override
++  public ItemStack removeItemNoUpdate(int index) {
++    ItemStack removed = super.removeItemNoUpdate(index);
++    if (!removed.isEmpty()) {
++      this.inventoryTouched = true;
++    }
++    return removed;
++  }
+ 
+-    return super.getItem(index);
++  @Override
++  public void clearContent() {
++    super.clearContent();
++    this.setChanged();
++  }
++
++  @Override
++  public void loadAdditional(ValueInput input) {
++    super.loadAdditional(input);
++    this.inventoryTouched = true;
+   }
+ 
+   @Override
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/regular/entity/DirtChestBlockEntity.java b/src/main/java/com/progwml6/ironchest/common/block/regular/entity/DirtChestBlockEntity.java
+index 03b6bd0..05d5314 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/regular/entity/DirtChestBlockEntity.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/regular/entity/DirtChestBlockEntity.java
+@@ -1,5 +1,6 @@
+ package com.progwml6.ironchest.common.block.regular.entity;
+ 
++import com.google.common.base.Suppliers;
+ import com.progwml6.ironchest.common.Util;
+ import com.progwml6.ironchest.common.block.IronChestsBlocks;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+@@ -17,7 +18,8 @@ import net.minecraft.world.level.storage.ValueOutput;
+ 
+ public class DirtChestBlockEntity extends AbstractIronChestBlockEntity {
+ 
+-  private static final ItemStack DIRT_CHEST_BOOK = Util.createDirtGuideBook();
++  // Data components are bound after class loading in 26.3; create the book on first use.
++  private static final java.util.function.Supplier<ItemStack> DIRT_CHEST_BOOK = Suppliers.memoize(Util::createDirtGuideBook);
+ 
+   public DirtChestBlockEntity(BlockPos blockPos, BlockState blockState) {
+     super(IronChestsBlockEntityTypes.DIRT_CHEST.get(), blockPos, blockState, IronChestsTypes.DIRT, IronChestsBlocks.DIRT_CHEST::get);
+@@ -30,7 +32,7 @@ public class DirtChestBlockEntity extends AbstractIronChestBlockEntity {
+ 
+   @Override
+   public void preRemoveSideEffects(BlockPos blockPos, BlockState blockState) {
+-    if (!this.getItems().get(0).isEmpty() && ItemStack.isSameItem(this.getItems().get(0), DIRT_CHEST_BOOK)) {
++    if (!this.getItems().get(0).isEmpty() && ItemStack.isSameItem(this.getItems().get(0), DIRT_CHEST_BOOK.get())) {
+       this.getItems().set(0, ItemStack.EMPTY);
+     }
+     super.preRemoveSideEffects(blockPos, blockState);
+@@ -48,7 +50,7 @@ public class DirtChestBlockEntity extends AbstractIronChestBlockEntity {
+     super.applyImplicitComponents(componentGetter);
+ 
+     if (!componentGetter.getOrDefault(IronChestsDataComponents.CHEST_PLACED_ALREADY.get(), false)) {
+-      this.setItem(0, DIRT_CHEST_BOOK.copy());
++      this.setItem(0, DIRT_CHEST_BOOK.get().copy());
+     }
+   }
+ 
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/AbstractTrappedIronChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/AbstractTrappedIronChestBlock.java
+index b04cc92..4799906 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/AbstractTrappedIronChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/AbstractTrappedIronChestBlock.java
+@@ -33,7 +33,7 @@ public abstract class AbstractTrappedIronChestBlock extends AbstractIronChestBlo
+   }
+ 
+   @Override
+-  public int getSignal(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, Direction direction) {
++  protected int ownSignal(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
+     return Mth.clamp(AbstractTrappedIronChestBlockEntity.getOpenCount(blockGetter, blockPos), 0, 15);
+   }
+ 
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCopperChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCopperChestBlock.java
+index 01a6aa6..cd201ce 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCopperChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCopperChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.trapped;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.trapped.entity.TrappedCopperChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class TrappedCopperChestBlock extends AbstractTrappedIronChestBlock {
+ 
+-  public static final MapCodec<TrappedCopperChestBlock> CODEC = simpleCodec(TrappedCopperChestBlock::new);
+-
+   public TrappedCopperChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.TRAPPED_COPPER_CHEST::get, IronChestsTypes.COPPER);
+   }
+@@ -23,8 +19,4 @@ public class TrappedCopperChestBlock extends AbstractTrappedIronChestBlock {
+     return new TrappedCopperChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCrystalChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCrystalChestBlock.java
+index 4cc64ba..05c0f95 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCrystalChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedCrystalChestBlock.java
+@@ -1,13 +1,11 @@
+ package com.progwml6.ironchest.common.block.trapped;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
+ import com.progwml6.ironchest.common.block.trapped.entity.TrappedCrystalChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.world.level.Level;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.entity.BlockEntityTicker;
+ import net.minecraft.world.level.block.entity.BlockEntityType;
+@@ -16,8 +14,6 @@ import org.jspecify.annotations.Nullable;
+ 
+ public class TrappedCrystalChestBlock extends AbstractTrappedIronChestBlock {
+ 
+-  public static final MapCodec<TrappedCrystalChestBlock> CODEC = simpleCodec(TrappedCrystalChestBlock::new);
+-
+   public TrappedCrystalChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.TRAPPED_CRYSTAL_CHEST::get, IronChestsTypes.CRYSTAL);
+   }
+@@ -32,8 +28,4 @@ public class TrappedCrystalChestBlock extends AbstractTrappedIronChestBlock {
+     return level.isClientSide() ? createTickerHelper(blockEntityType, this.blockEntityType(), AbstractIronChestBlockEntity::lidAnimateTick) : createTickerHelper(blockEntityType, this.blockEntityType(), TrappedCrystalChestBlockEntity::tick);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDiamondChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDiamondChestBlock.java
+index a2a786a..017e4cb 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDiamondChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDiamondChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.trapped;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.trapped.entity.TrappedDiamondChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class TrappedDiamondChestBlock extends AbstractTrappedIronChestBlock {
+ 
+-  public static final MapCodec<TrappedDiamondChestBlock> CODEC = simpleCodec(TrappedDiamondChestBlock::new);
+-
+   public TrappedDiamondChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.TRAPPED_DIAMOND_CHEST::get, IronChestsTypes.DIAMOND);
+   }
+@@ -23,8 +19,4 @@ public class TrappedDiamondChestBlock extends AbstractTrappedIronChestBlock {
+     return new TrappedDiamondChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDirtChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDirtChestBlock.java
+index be10e05..881d940 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDirtChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedDirtChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.trapped;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.trapped.entity.TrappedDirtChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class TrappedDirtChestBlock extends AbstractTrappedIronChestBlock {
+ 
+-  public static final MapCodec<TrappedDirtChestBlock> CODEC = simpleCodec(TrappedDirtChestBlock::new);
+-
+   public TrappedDirtChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.TRAPPED_DIRT_CHEST::get, IronChestsTypes.DIRT);
+   }
+@@ -23,8 +19,4 @@ public class TrappedDirtChestBlock extends AbstractTrappedIronChestBlock {
+     return new TrappedDirtChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedGoldChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedGoldChestBlock.java
+index c860b73..638f0b0 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedGoldChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedGoldChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.trapped;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.trapped.entity.TrappedGoldChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class TrappedGoldChestBlock extends AbstractTrappedIronChestBlock {
+ 
+-  public static final MapCodec<TrappedGoldChestBlock> CODEC = simpleCodec(TrappedGoldChestBlock::new);
+-
+   public TrappedGoldChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.TRAPPED_GOLD_CHEST::get, IronChestsTypes.GOLD);
+   }
+@@ -23,8 +19,4 @@ public class TrappedGoldChestBlock extends AbstractTrappedIronChestBlock {
+     return new TrappedGoldChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedIronChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedIronChestBlock.java
+index d600784..9484289 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedIronChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedIronChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.trapped;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.trapped.entity.TrappedIronChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class TrappedIronChestBlock extends AbstractTrappedIronChestBlock {
+ 
+-  public static final MapCodec<TrappedIronChestBlock> CODEC = simpleCodec(TrappedIronChestBlock::new);
+-
+   public TrappedIronChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.TRAPPED_IRON_CHEST::get, IronChestsTypes.IRON);
+   }
+@@ -23,8 +19,4 @@ public class TrappedIronChestBlock extends AbstractTrappedIronChestBlock {
+     return new TrappedIronChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedObsidianChestBlock.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedObsidianChestBlock.java
+index 34401a7..de5e061 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedObsidianChestBlock.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/TrappedObsidianChestBlock.java
+@@ -1,19 +1,15 @@
+ package com.progwml6.ironchest.common.block.trapped;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+ import com.progwml6.ironchest.common.block.entity.IronChestsBlockEntityTypes;
+ import com.progwml6.ironchest.common.block.trapped.entity.TrappedObsidianChestBlockEntity;
+ import net.minecraft.core.BlockPos;
+-import net.minecraft.world.level.block.BaseEntityBlock;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.level.block.state.BlockState;
+ import org.jspecify.annotations.Nullable;
+ 
+ public class TrappedObsidianChestBlock extends AbstractTrappedIronChestBlock {
+ 
+-  public static final MapCodec<TrappedObsidianChestBlock> CODEC = simpleCodec(TrappedObsidianChestBlock::new);
+-
+   public TrappedObsidianChestBlock(Properties properties) {
+     super(properties, IronChestsBlockEntityTypes.TRAPPED_OBSIDIAN_CHEST::get, IronChestsTypes.OBSIDIAN);
+   }
+@@ -23,8 +19,4 @@ public class TrappedObsidianChestBlock extends AbstractTrappedIronChestBlock {
+     return new TrappedObsidianChestBlockEntity(blockPos, blockState);
+   }
+ 
+-  @Override
+-  protected MapCodec<? extends BaseEntityBlock> codec() {
+-    return CODEC;
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedCrystalChestBlockEntity.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedCrystalChestBlockEntity.java
+index 1b1c769..0282154 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedCrystalChestBlockEntity.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedCrystalChestBlockEntity.java
+@@ -13,11 +13,12 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.level.Level;
+ import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.level.storage.ValueInput;
+ 
+ public class TrappedCrystalChestBlockEntity extends AbstractTrappedIronChestBlockEntity implements ICrystalChest {
+ 
+   private NonNullList<ItemStack> topStacks;
+-  private boolean inventoryTouched;
++  private boolean inventoryTouched = true;
+   private boolean hadStuff;
+ 
+   public TrappedCrystalChestBlockEntity(BlockPos blockPos, BlockState blockState) {
+@@ -49,10 +50,30 @@ public class TrappedCrystalChestBlockEntity extends AbstractTrappedIronChestBloc
+   }
+ 
+   @Override
+-  public ItemStack getItem(int index) {
++  public void setChanged() {
++    super.setChanged();
+     this.inventoryTouched = true;
++  }
++
++  @Override
++  public ItemStack removeItemNoUpdate(int index) {
++    ItemStack removed = super.removeItemNoUpdate(index);
++    if (!removed.isEmpty()) {
++      this.inventoryTouched = true;
++    }
++    return removed;
++  }
+ 
+-    return super.getItem(index);
++  @Override
++  public void clearContent() {
++    super.clearContent();
++    this.setChanged();
++  }
++
++  @Override
++  public void loadAdditional(ValueInput input) {
++    super.loadAdditional(input);
++    this.inventoryTouched = true;
+   }
+ 
+   @Override
+diff --git a/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedDirtChestBlockEntity.java b/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedDirtChestBlockEntity.java
+index fda4dc5..446413c 100644
+--- a/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedDirtChestBlockEntity.java
++++ b/src/main/java/com/progwml6/ironchest/common/block/trapped/entity/TrappedDirtChestBlockEntity.java
+@@ -1,5 +1,6 @@
+ package com.progwml6.ironchest.common.block.trapped.entity;
+ 
++import com.google.common.base.Suppliers;
+ import com.progwml6.ironchest.common.Util;
+ import com.progwml6.ironchest.common.block.IronChestsBlocks;
+ import com.progwml6.ironchest.common.block.IronChestsTypes;
+@@ -17,7 +18,8 @@ import net.minecraft.world.level.storage.ValueOutput;
+ 
+ public class TrappedDirtChestBlockEntity extends AbstractTrappedIronChestBlockEntity {
+ 
+-  private static final ItemStack DIRT_CHEST_BOOK = Util.createDirtGuideBook();
++  // Data components are bound after class loading in 26.3; create the book on first use.
++  private static final java.util.function.Supplier<ItemStack> DIRT_CHEST_BOOK = Suppliers.memoize(Util::createDirtGuideBook);
+ 
+   public TrappedDirtChestBlockEntity(BlockPos blockPos, BlockState blockState) {
+     super(IronChestsBlockEntityTypes.TRAPPED_DIRT_CHEST.get(), blockPos, blockState, IronChestsTypes.DIRT, IronChestsBlocks.TRAPPED_DIRT_CHEST::get);
+@@ -30,7 +32,7 @@ public class TrappedDirtChestBlockEntity extends AbstractTrappedIronChestBlockEn
+ 
+   @Override
+   public void preRemoveSideEffects(BlockPos blockPos, BlockState blockState) {
+-    if (!this.getItems().get(0).isEmpty() && ItemStack.isSameItem(this.getItems().get(0), DIRT_CHEST_BOOK)) {
++    if (!this.getItems().get(0).isEmpty() && ItemStack.isSameItem(this.getItems().get(0), DIRT_CHEST_BOOK.get())) {
+       this.getItems().set(0, ItemStack.EMPTY);
+     }
+     super.preRemoveSideEffects(blockPos, blockState);
+@@ -48,7 +50,7 @@ public class TrappedDirtChestBlockEntity extends AbstractTrappedIronChestBlockEn
+     super.applyImplicitComponents(componentGetter);
+ 
+     if (!componentGetter.getOrDefault(IronChestsDataComponents.CHEST_PLACED_ALREADY.get(), false)) {
+-      this.setItem(0, DIRT_CHEST_BOOK.copy());
++      this.setItem(0, DIRT_CHEST_BOOK.get().copy());
+     }
+   }
+ 
+diff --git a/src/main/java/com/progwml6/ironchest/common/data/IronChestsBlockTags.java b/src/main/java/com/progwml6/ironchest/common/data/IronChestsBlockTags.java
+index e05803e..c937ae0 100644
+--- a/src/main/java/com/progwml6/ironchest/common/data/IronChestsBlockTags.java
++++ b/src/main/java/com/progwml6/ironchest/common/data/IronChestsBlockTags.java
+@@ -18,47 +18,47 @@ public class IronChestsBlockTags extends BlockTagsProvider {
+   @Override
+   protected void addTags(HolderLookup.Provider provider) {
+     tag(BlockTags.MINEABLE_WITH_SHOVEL).add(
+-      IronChestsBlocks.DIRT_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_DIRT_CHEST.get()
++      IronChestsBlocks.DIRT_CHEST.key(),
++      IronChestsBlocks.TRAPPED_DIRT_CHEST.key()
+     );
+ 
+     tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+-      IronChestsBlocks.IRON_CHEST.get(),
+-      IronChestsBlocks.GOLD_CHEST.get(),
+-      IronChestsBlocks.DIAMOND_CHEST.get(),
+-      IronChestsBlocks.COPPER_CHEST.get(),
+-      IronChestsBlocks.CRYSTAL_CHEST.get(),
+-      IronChestsBlocks.OBSIDIAN_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_IRON_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_GOLD_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_DIAMOND_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_COPPER_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_CRYSTAL_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_OBSIDIAN_CHEST.get()
++      IronChestsBlocks.IRON_CHEST.key(),
++      IronChestsBlocks.GOLD_CHEST.key(),
++      IronChestsBlocks.DIAMOND_CHEST.key(),
++      IronChestsBlocks.COPPER_CHEST.key(),
++      IronChestsBlocks.CRYSTAL_CHEST.key(),
++      IronChestsBlocks.OBSIDIAN_CHEST.key(),
++      IronChestsBlocks.TRAPPED_IRON_CHEST.key(),
++      IronChestsBlocks.TRAPPED_GOLD_CHEST.key(),
++      IronChestsBlocks.TRAPPED_DIAMOND_CHEST.key(),
++      IronChestsBlocks.TRAPPED_COPPER_CHEST.key(),
++      IronChestsBlocks.TRAPPED_CRYSTAL_CHEST.key(),
++      IronChestsBlocks.TRAPPED_OBSIDIAN_CHEST.key()
+     );
+ 
+     tag(BlockTags.FEATURES_CANNOT_REPLACE).add(
+-      IronChestsBlocks.IRON_CHEST.get(),
+-      IronChestsBlocks.GOLD_CHEST.get(),
+-      IronChestsBlocks.DIAMOND_CHEST.get(),
+-      IronChestsBlocks.COPPER_CHEST.get(),
+-      IronChestsBlocks.CRYSTAL_CHEST.get(),
+-      IronChestsBlocks.OBSIDIAN_CHEST.get()
++      IronChestsBlocks.IRON_CHEST.key(),
++      IronChestsBlocks.GOLD_CHEST.key(),
++      IronChestsBlocks.DIAMOND_CHEST.key(),
++      IronChestsBlocks.COPPER_CHEST.key(),
++      IronChestsBlocks.CRYSTAL_CHEST.key(),
++      IronChestsBlocks.OBSIDIAN_CHEST.key()
+     );
+ 
+     tag(BlockTags.GUARDED_BY_PIGLINS).add(
+-      IronChestsBlocks.IRON_CHEST.get(),
+-      IronChestsBlocks.GOLD_CHEST.get(),
+-      IronChestsBlocks.DIAMOND_CHEST.get(),
+-      IronChestsBlocks.COPPER_CHEST.get(),
+-      IronChestsBlocks.CRYSTAL_CHEST.get(),
+-      IronChestsBlocks.OBSIDIAN_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_IRON_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_GOLD_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_DIAMOND_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_COPPER_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_CRYSTAL_CHEST.get(),
+-      IronChestsBlocks.TRAPPED_OBSIDIAN_CHEST.get()
++      IronChestsBlocks.IRON_CHEST.key(),
++      IronChestsBlocks.GOLD_CHEST.key(),
++      IronChestsBlocks.DIAMOND_CHEST.key(),
++      IronChestsBlocks.COPPER_CHEST.key(),
++      IronChestsBlocks.CRYSTAL_CHEST.key(),
++      IronChestsBlocks.OBSIDIAN_CHEST.key(),
++      IronChestsBlocks.TRAPPED_IRON_CHEST.key(),
++      IronChestsBlocks.TRAPPED_GOLD_CHEST.key(),
++      IronChestsBlocks.TRAPPED_DIAMOND_CHEST.key(),
++      IronChestsBlocks.TRAPPED_COPPER_CHEST.key(),
++      IronChestsBlocks.TRAPPED_CRYSTAL_CHEST.key(),
++      IronChestsBlocks.TRAPPED_OBSIDIAN_CHEST.key()
+     );
+   }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/data/IronChestsRecipeProvider.java b/src/main/java/com/progwml6/ironchest/common/data/IronChestsRecipeProvider.java
+index 29f0922..ee01011 100644
+--- a/src/main/java/com/progwml6/ironchest/common/data/IronChestsRecipeProvider.java
++++ b/src/main/java/com/progwml6/ironchest/common/data/IronChestsRecipeProvider.java
+@@ -3,15 +3,14 @@ package com.progwml6.ironchest.common.data;
+ import com.progwml6.ironchest.IronChests;
+ import com.progwml6.ironchest.common.block.IronChestsBlocks;
+ import com.progwml6.ironchest.common.item.IronChestsItems;
++import net.minecraft.advancements.Advancement;
+ import net.minecraft.core.HolderGetter;
+-import net.minecraft.core.HolderLookup;
+ import net.minecraft.core.registries.Registries;
+-import net.minecraft.data.PackOutput;
+ import net.minecraft.data.recipes.RecipeCategory;
+-import net.minecraft.data.recipes.RecipeOutput;
+ import net.minecraft.data.recipes.RecipeProvider;
+ import net.minecraft.data.recipes.ShapedRecipeBuilder;
+ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
++import net.minecraft.data.worldgen.BootstrapContext;
+ import net.minecraft.resources.ResourceKey;
+ import net.minecraft.tags.ItemTags;
+ import net.minecraft.world.item.Item;
+@@ -20,17 +19,15 @@ import net.minecraft.world.item.crafting.Recipe;
+ import net.minecraft.world.level.block.Blocks;
+ import net.neoforged.neoforge.common.Tags;
+ 
+-import java.util.concurrent.CompletableFuture;
+-
+ public class IronChestsRecipeProvider extends RecipeProvider {
+ 
+-  public IronChestsRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
+-    super(provider, output);
++  public IronChestsRecipeProvider(BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
++    super(recipes, advancements);
+   }
+ 
+   @Override
+   protected void buildRecipes() {
+-    HolderGetter<Item> itemRegistryLookup = this.registries.lookupOrThrow(Registries.ITEM);
++    HolderGetter<Item> itemRegistryLookup = this.items;
+     this.addChestsRecipes(itemRegistryLookup);
+     this.addUpgradesRecipes(itemRegistryLookup);
+   }
+@@ -227,22 +224,4 @@ public class IronChestsRecipeProvider extends RecipeProvider {
+   protected ResourceKey<Recipe<?>> createKey(String name) {
+     return ResourceKey.create(Registries.RECIPE, IronChests.prefix(name));
+   }
+-
+-  // The runner to add to the data generator
+-  public static class Runner extends RecipeProvider.Runner {
+-
+-    public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+-      super(output, lookupProvider);
+-    }
+-
+-    @Override
+-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
+-      return new IronChestsRecipeProvider(provider, output);
+-    }
+-
+-    @Override
+-    public String getName() {
+-      return "Iron Chest Boxes Recipes";
+-    }
+-  }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsBlockLoot.java b/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsBlockLoot.java
+index e820619..301314c 100644
+--- a/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsBlockLoot.java
++++ b/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsBlockLoot.java
+@@ -3,9 +3,9 @@ package com.progwml6.ironchest.common.data.loot;
+ import com.progwml6.ironchest.common.block.IronChestsBlocks;
+ import com.progwml6.ironchest.common.datacomponents.IronChestsDataComponents;
+ import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+-import net.minecraft.core.HolderLookup;
+ import net.minecraft.core.component.DataComponents;
+ import net.minecraft.data.loot.BlockLootSubProvider;
++import net.minecraft.data.loot.LootTableSubProvider;
+ import net.minecraft.world.flag.FeatureFlags;
+ import net.minecraft.world.level.block.Block;
+ import net.minecraft.world.level.storage.loot.LootPool;
+@@ -13,7 +13,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
+ import net.minecraft.world.level.storage.loot.entries.LootItem;
+ import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
+ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
++import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+ import org.jetbrains.annotations.NotNull;
+ 
+ import java.util.Collections;
+@@ -24,8 +24,8 @@ public class IronChestsBlockLoot extends BlockLootSubProvider {
+ 
+   private final Set<Block> knownBlocks = new ReferenceOpenHashSet<>();
+ 
+-  public IronChestsBlockLoot(HolderLookup.Provider provider) {
+-    super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags(), provider);
++  public IronChestsBlockLoot(LootTableSubProvider.Context output) {
++    super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags(), output);
+   }
+ 
+   @Override
+@@ -54,7 +54,7 @@ public class IronChestsBlockLoot extends BlockLootSubProvider {
+         this.applyExplosionCondition(
+           pBlock,
+           LootPool.lootPool()
+-            .setRolls(ConstantValue.exactly(1.0F))
++            .setRolls(ContextIntProviders.exactly(1))
+             .add(
+               LootItem.lootTableItem(pBlock)
+                 .apply(
+diff --git a/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsLootTableProvider.java b/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsLootTableProvider.java
+index 39fb227..fd2db88 100644
+--- a/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsLootTableProvider.java
++++ b/src/main/java/com/progwml6/ironchest/common/data/loot/IronChestsLootTableProvider.java
+@@ -1,17 +1,14 @@
+ package com.progwml6.ironchest.common.data.loot;
+ 
+-import net.minecraft.core.HolderLookup;
+-import net.minecraft.data.PackOutput;
+ import net.minecraft.data.loot.LootTableProvider;
+ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+ 
+ import java.util.Collections;
+ import java.util.List;
+-import java.util.concurrent.CompletableFuture;
+ 
+ public class IronChestsLootTableProvider extends LootTableProvider {
+ 
+-  public IronChestsLootTableProvider(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> provider) {
+-    super(pOutput, Collections.emptySet(), List.of(new SubProviderEntry(IronChestsBlockLoot::new, LootContextParamSets.BLOCK)), provider);
++  public IronChestsLootTableProvider() {
++    super(Collections.emptySet(), List.of(new SubProviderEntry(IronChestsBlockLoot::new, LootContextParamSets.BLOCK)));
+   }
+ }
+diff --git a/src/main/java/com/progwml6/ironchest/common/gametest/CrystalChestDisplayGameTests.java b/src/main/java/com/progwml6/ironchest/common/gametest/CrystalChestDisplayGameTests.java
+new file mode 100644
+index 0000000..19b06fe
+--- /dev/null
++++ b/src/main/java/com/progwml6/ironchest/common/gametest/CrystalChestDisplayGameTests.java
+@@ -0,0 +1,124 @@
++package com.progwml6.ironchest.common.gametest;
++
++import com.progwml6.ironchest.IronChests;
++import com.progwml6.ironchest.common.block.IronChestsBlocks;
++import com.progwml6.ironchest.common.block.entity.ICrystalChest;
++import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
++import net.minecraft.core.BlockPos;
++import net.minecraft.core.Holder;
++import net.minecraft.core.registries.Registries;
++import net.minecraft.gametest.framework.FunctionGameTestInstance;
++import net.minecraft.gametest.framework.GameTestHelper;
++import net.minecraft.gametest.framework.TestData;
++import net.minecraft.gametest.framework.TestEnvironmentDefinition;
++import net.minecraft.nbt.CompoundTag;
++import net.minecraft.resources.Identifier;
++import net.minecraft.resources.ResourceKey;
++import net.minecraft.world.item.Item;
++import net.minecraft.world.item.ItemStack;
++import net.minecraft.world.item.Items;
++import net.minecraft.world.level.block.Block;
++import net.minecraft.world.level.block.entity.BlockEntity;
++import net.neoforged.bus.api.SubscribeEvent;
++import net.neoforged.fml.common.EventBusSubscriber;
++import net.neoforged.neoforge.event.RegisterGameTestsEvent;
++import net.neoforged.neoforge.registries.RegisterEvent;
++
++import java.util.Map;
++import java.util.function.Consumer;
++
++/** Server display-cache regressions; all refreshes must come from normal world ticking. */
++@EventBusSubscriber(modid = IronChests.MODID)
++public final class CrystalChestDisplayGameTests {
++
++  private static final Map<String, Consumer<GameTestHelper>> TESTS = Map.of(
++    "port_crystal_display_mutations_clear_and_reload", CrystalChestDisplayGameTests::regular,
++    "port_trapped_crystal_display_mutations_clear_and_reload", CrystalChestDisplayGameTests::trapped
++  );
++
++  private CrystalChestDisplayGameTests() {
++  }
++
++  @SubscribeEvent
++  public static void registerFunctions(RegisterEvent event) {
++    event.register(Registries.TEST_FUNCTION, registry ->
++      TESTS.forEach((name, function) -> registry.register(id(name), function)));
++  }
++
++  @SubscribeEvent
++  public static void registerTests(RegisterGameTestsEvent event) {
++    Holder<TestEnvironmentDefinition<?>> environment = event.registerEnvironment(id("crystal_display_tests"));
++    TESTS.forEach((name, function) -> event.registerTest(id(name), new FunctionGameTestInstance(
++      ResourceKey.create(Registries.TEST_FUNCTION, id(name)),
++      new TestData<>(environment, id("port_test_empty_small"), 40, 0, true))));
++  }
++
++  private static Identifier id(String path) {
++    return IronChests.prefix(path);
++  }
++
++  public static void regular(GameTestHelper helper) {
++    displayLifecycle(helper, IronChestsBlocks.CRYSTAL_CHEST.get());
++  }
++
++  public static void trapped(GameTestHelper helper) {
++    displayLifecycle(helper, IronChestsBlocks.TRAPPED_CRYSTAL_CHEST.get());
++  }
++
++  private static void displayLifecycle(GameTestHelper helper, Block block) {
++    BlockPos pos = new BlockPos(2, 1, 2);
++    helper.setBlock(pos, block);
++    AbstractIronChestBlockEntity chest = helper.getBlockEntity(pos, AbstractIronChestBlockEntity.class);
++    ICrystalChest display = (ICrystalChest) chest;
++    chest.setItem(0, new ItemStack(Items.DIAMOND, 32));
++    chest.setItem(1, new ItemStack(Items.DIAMOND, 32));
++    chest.setItem(2, new ItemStack(Items.COAL, 48));
++    Item[] otherTypes = {Items.COBBLESTONE, Items.OAK_PLANKS, Items.IRON_INGOT, Items.GOLD_INGOT,
++      Items.REDSTONE, Items.LAPIS_LAZULI, Items.EMERALD};
++    for (int i = 0; i < otherTypes.length; i++) {
++      chest.setItem(i + 3, new ItemStack(otherTypes[i], 40));
++    }
++
++    // Do not read inventory slots or open a menu: those reads can mask missing mutation notifications.
++    helper.startSequence()
++      .thenExecuteAfter(2, () -> {
++        helper.assertValueEqual(display.getTopItems().size(), 8, "Display has eight positions");
++        helper.assertValueEqual(displayCount(display, Items.DIAMOND), 64, "Equal-count diamond stacks combine and rank among the top eight");
++        helper.assertValueEqual(displayCount(display, Items.COAL), 48, "Coal remains in the display alongside the combined diamonds");
++        helper.assertValueEqual(display.getTopItems().stream().filter(stack -> !stack.isEmpty()).count(), 8L, "The top eight positions are occupied");
++        helper.assertValueEqual(chest.removeItem(0, 32).getCount(), 32, "Remove the first diamond stack through the real container");
++        helper.assertValueEqual(chest.removeItem(1, 32).getCount(), 32, "Remove the second diamond stack through the real container");
++      })
++      .thenExecuteAfter(2, () -> {
++        helper.assertValueEqual(displayCount(display, Items.DIAMOND), 0, "Removal refreshes the display without inventory reads");
++        helper.assertValueEqual(displayCount(display, Items.COAL), 48, "Removal retains unrelated displayed cargo");
++        chest.clearContent();
++      })
++      .thenExecuteAfter(2, () -> {
++        helper.assertTrue(display.getTopItems().stream().allMatch(ItemStack::isEmpty), "Clearing all inventory slots clears every display position");
++        chest.setItem(0, new ItemStack(Items.DIAMOND, 5));
++        chest.setItem(chest.getContainerSize() - 1, new ItemStack(Items.EMERALD, 3));
++      })
++      .thenExecuteAfter(2, () -> {
++        helper.assertValueEqual(displayCount(display, Items.DIAMOND), 5, "Adding new cargo refreshes the display after clearing");
++        helper.assertValueEqual(displayCount(display, Items.EMERALD), 3, "Last-slot cargo participates in the refreshed display");
++        CompoundTag saved = chest.saveWithFullMetadata(helper.getLevel().registryAccess());
++        BlockEntity loaded = BlockEntity.loadStatic(helper.absolutePos(pos), helper.getBlockState(pos), saved, helper.getLevel().registryAccess());
++        helper.assertTrue(loaded instanceof AbstractIronChestBlockEntity && loaded instanceof ICrystalChest && loaded != chest, "Native save/load reconstructs a separate crystal chest");
++        // Register the reloaded entity in the world so its normal block-entity ticker rebuilds the cache.
++        helper.getLevel().setBlockEntity(loaded);
++      })
++      .thenExecuteAfter(2, () -> {
++        AbstractIronChestBlockEntity restored = helper.getBlockEntity(pos, AbstractIronChestBlockEntity.class);
++        helper.assertTrue(restored != chest, "World ticking uses the reloaded chest entity");
++        ICrystalChest restoredDisplay = (ICrystalChest) restored;
++        helper.assertValueEqual(displayCount(restoredDisplay, Items.DIAMOND), 5, "Reloaded inventory rebuilds the diamond display through world ticking");
++        helper.assertValueEqual(displayCount(restoredDisplay, Items.EMERALD), 3, "Reloaded inventory rebuilds the last-slot emerald display through world ticking");
++      })
++      .thenSucceed();
++  }
++
++  private static int displayCount(ICrystalChest chest, Item item) {
++    return chest.getTopItems().stream().filter(stack -> stack.is(item)).mapToInt(ItemStack::getCount).sum();
++  }
++}
+diff --git a/src/main/java/com/progwml6/ironchest/common/gametest/CrystalChestRedstoneGameTests.java b/src/main/java/com/progwml6/ironchest/common/gametest/CrystalChestRedstoneGameTests.java
+new file mode 100644
+index 0000000..d171249
+--- /dev/null
++++ b/src/main/java/com/progwml6/ironchest/common/gametest/CrystalChestRedstoneGameTests.java
+@@ -0,0 +1,115 @@
++package com.progwml6.ironchest.common.gametest;
++
++import com.progwml6.ironchest.IronChests;
++import com.progwml6.ironchest.common.block.IronChestsBlocks;
++import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
++import com.progwml6.ironchest.common.inventory.IronChestMenu;
++import net.minecraft.core.BlockPos;
++import net.minecraft.core.Direction;
++import net.minecraft.core.Holder;
++import net.minecraft.core.registries.Registries;
++import net.minecraft.gametest.framework.FunctionGameTestInstance;
++import net.minecraft.gametest.framework.GameTestHelper;
++import net.minecraft.gametest.framework.TestData;
++import net.minecraft.gametest.framework.TestEnvironmentDefinition;
++import net.minecraft.resources.Identifier;
++import net.minecraft.resources.ResourceKey;
++import net.minecraft.world.entity.player.Player;
++import net.minecraft.world.level.GameType;
++import net.minecraft.world.level.block.Block;
++import net.minecraft.world.level.block.Blocks;
++import net.minecraft.world.level.block.RedstoneLampBlock;
++import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.phys.Vec3;
++import net.neoforged.bus.api.SubscribeEvent;
++import net.neoforged.fml.common.EventBusSubscriber;
++import net.neoforged.neoforge.event.RegisterGameTestsEvent;
++import net.neoforged.neoforge.registries.RegisterEvent;
++
++import java.util.Map;
++import java.util.function.Consumer;
++
++/** Checks menu-driven signals and the adjacent lamp's real neighbor-update lifecycle. */
++@EventBusSubscriber(modid = IronChests.MODID)
++public final class CrystalChestRedstoneGameTests {
++
++  private static final Map<String, Consumer<GameTestHelper>> TESTS = Map.of(
++    "port_crystal_menu_never_powers_redstone", CrystalChestRedstoneGameTests::normalMenu,
++    "port_trapped_crystal_menu_powers_and_releases_redstone", CrystalChestRedstoneGameTests::trappedMenu
++  );
++
++  private CrystalChestRedstoneGameTests() {
++  }
++
++  @SubscribeEvent
++  public static void registerFunctions(RegisterEvent event) {
++    event.register(Registries.TEST_FUNCTION, registry ->
++      TESTS.forEach((name, function) -> registry.register(id(name), function)));
++  }
++
++  @SubscribeEvent
++  public static void registerTests(RegisterGameTestsEvent event) {
++    Holder<TestEnvironmentDefinition<?>> environment = event.registerEnvironment(id("crystal_redstone_tests"));
++    TESTS.forEach((name, function) -> event.registerTest(id(name), new FunctionGameTestInstance(
++      ResourceKey.create(Registries.TEST_FUNCTION, id(name)),
++      new TestData<>(environment, id("port_test_empty_small"), 40, 0, true))));
++  }
++
++  private static Identifier id(String path) {
++    return IronChests.prefix(path);
++  }
++
++  public static void normalMenu(GameTestHelper helper) {
++    menuRedstoneLifecycle(helper, IronChestsBlocks.CRYSTAL_CHEST.get(), false);
++  }
++
++  public static void trappedMenu(GameTestHelper helper) {
++    menuRedstoneLifecycle(helper, IronChestsBlocks.TRAPPED_CRYSTAL_CHEST.get(), true);
++  }
++
++  private static void menuRedstoneLifecycle(GameTestHelper helper, Block block, boolean trapped) {
++    BlockPos chestPos = new BlockPos(2, 1, 2);
++    BlockPos lampPos = chestPos.south();
++    helper.setBlock(chestPos, block);
++    helper.setBlock(lampPos, Blocks.REDSTONE_LAMP);
++    AbstractIronChestBlockEntity chest = helper.getBlockEntity(chestPos, AbstractIronChestBlockEntity.class);
++    assertSignals(helper, chestPos, 0, 0);
++    helper.assertBlockProperty(lampPos, RedstoneLampBlock.LIT, false);
++    helper.assertTrue(!helper.getLevel().hasNeighborSignal(helper.absolutePos(lampPos)), "Closed chest leaves the lamp without neighbor power");
++
++    Player player = helper.makeMockPlayer(GameType.SURVIVAL);
++    GameType.SURVIVAL.updatePlayerAbilities(player.getAbilities());
++    Vec3 position = Vec3.atCenterOf(helper.absolutePos(chestPos)).add(1, 0, 0);
++    player.setPos(position.x, position.y, position.z);
++    // The actual menu opens the container; close before the mock player's five-tick opener recheck.
++    IronChestMenu menu = IronChestMenu.createCrystalContainer(1, player.getInventory(), chest);
++    player.containerMenu = menu;
++    assertSignals(helper, chestPos, 1, trapped ? 1 : 0);
++    helper.assertValueEqual(helper.getLevel().hasNeighborSignal(helper.absolutePos(lampPos)), trapped, "Open menu supplies neighbor power only for the trapped variant");
++    helper.assertBlockProperty(lampPos, RedstoneLampBlock.LIT, trapped);
++
++    menu.removed(player);
++    player.containerMenu = player.inventoryMenu;
++    assertSignals(helper, chestPos, 0, 0);
++    helper.assertTrue(!helper.getLevel().hasNeighborSignal(helper.absolutePos(lampPos)), "Closing the menu removes neighbor power immediately");
++    helper.startSequence()
++      .thenExecuteAfter(5, () -> {
++        assertSignals(helper, chestPos, 0, 0);
++        helper.assertBlockProperty(lampPos, RedstoneLampBlock.LIT, false);
++        helper.assertTrue(!helper.getLevel().hasNeighborSignal(helper.absolutePos(lampPos)), "Lamp remains unpowered after its scheduled shutdown");
++      })
++      .thenSucceed();
++  }
++
++  private static void assertSignals(GameTestHelper helper, BlockPos relativePos, int openers, int signal) {
++    BlockPos pos = helper.absolutePos(relativePos);
++    BlockState state = helper.getBlockState(relativePos);
++    helper.assertValueEqual(AbstractIronChestBlockEntity.getOpenCount(helper.getLevel(), pos), openers, "Real menu opener count");
++    helper.assertValueEqual(state.getOwnSignal(helper.getLevel(), pos), signal, "Chest own signal");
++    for (Direction direction : Direction.values()) {
++      helper.assertValueEqual(state.getSignal(helper.getLevel(), pos, direction), signal, "Chest weak signal toward " + direction);
++      helper.assertValueEqual(helper.getLevel().getSignal(pos, direction), signal, "World weak signal toward " + direction);
++      helper.assertValueEqual(state.getDirectSignal(helper.getLevel(), pos, direction), direction == Direction.UP ? signal : 0, "Chest direct signal toward " + direction);
++    }
++  }
++}
+diff --git a/src/main/java/com/progwml6/ironchest/common/gametest/IronChestsPortGameTests.java b/src/main/java/com/progwml6/ironchest/common/gametest/IronChestsPortGameTests.java
+new file mode 100644
+index 0000000..2d6c930
+--- /dev/null
++++ b/src/main/java/com/progwml6/ironchest/common/gametest/IronChestsPortGameTests.java
+@@ -0,0 +1,366 @@
++package com.progwml6.ironchest.common.gametest;
++
++import com.progwml6.ironchest.IronChests;
++import com.progwml6.ironchest.common.block.IronChestsBlocks;
++import com.progwml6.ironchest.common.block.IronChestsTypes;
++import com.progwml6.ironchest.common.block.regular.AbstractIronChestBlock;
++import com.progwml6.ironchest.common.block.regular.entity.AbstractIronChestBlockEntity;
++import com.progwml6.ironchest.common.block.trapped.entity.AbstractTrappedIronChestBlockEntity;
++import com.progwml6.ironchest.common.datacomponents.IronChestsDataComponents;
++import com.progwml6.ironchest.common.inventory.IronChestMenu;
++import com.progwml6.ironchest.common.item.ChestUpgradeItem;
++import com.progwml6.ironchest.common.item.IronChestsItems;
++import net.minecraft.core.BlockPos;
++import net.minecraft.core.Direction;
++import net.minecraft.core.Holder;
++import net.minecraft.core.component.DataComponents;
++import net.minecraft.core.registries.Registries;
++import net.minecraft.gametest.framework.FunctionGameTestInstance;
++import net.minecraft.gametest.framework.GameTestHelper;
++import net.minecraft.gametest.framework.TestData;
++import net.minecraft.gametest.framework.TestEnvironmentDefinition;
++import net.minecraft.nbt.CompoundTag;
++import net.minecraft.network.chat.Component;
++import net.minecraft.resources.Identifier;
++import net.minecraft.resources.ResourceKey;
++import net.minecraft.world.Container;
++import net.minecraft.world.InteractionHand;
++import net.minecraft.world.InteractionResult;
++import net.minecraft.world.entity.player.Player;
++import net.minecraft.world.item.Item;
++import net.minecraft.world.item.ItemStack;
++import net.minecraft.world.item.Items;
++import net.minecraft.world.item.context.UseOnContext;
++import net.minecraft.world.level.GameType;
++import net.minecraft.world.level.block.Block;
++import net.minecraft.world.level.block.Blocks;
++import net.minecraft.world.level.block.ChestBlock;
++import net.minecraft.world.level.block.HopperBlock;
++import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
++import net.minecraft.world.level.block.entity.BlockEntity;
++import net.minecraft.world.level.block.entity.HopperBlockEntity;
++import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.phys.BlockHitResult;
++import net.minecraft.world.phys.Vec3;
++import net.neoforged.bus.api.SubscribeEvent;
++import net.neoforged.fml.common.EventBusSubscriber;
++import net.neoforged.neoforge.capabilities.Capabilities;
++import net.neoforged.neoforge.event.RegisterGameTestsEvent;
++import net.neoforged.neoforge.registries.RegisterEvent;
++import net.neoforged.neoforge.transfer.ResourceHandler;
++import net.neoforged.neoforge.transfer.item.ItemResource;
++import net.neoforged.neoforge.transfer.transaction.Transaction;
++
++import java.util.List;
++import java.util.Map;
++import java.util.function.Consumer;
++
++/** Server regression tests that exercise registered chest items, menus, persistence and automation. */
++@EventBusSubscriber(modid = IronChests.MODID)
++public final class IronChestsPortGameTests {
++
++  private static final Map<String, Consumer<GameTestHelper>> TESTS = Map.of(
++    "port_upgrades_preserve_contents_and_consume_survival_item", IronChestsPortGameTests::upgrades,
++    "port_open_chest_refuses_upgrade_until_menu_closes", IronChestsPortGameTests::openChestRefusal,
++    "port_all_tier_capacities_and_save_load", IronChestsPortGameTests::capacitiesAndPersistence,
++    "port_dirt_guidebook_only_on_first_item_placement", IronChestsPortGameTests::dirtGuidebook,
++    "port_transactions_and_ticking_hopper", IronChestsPortGameTests::transactionsAndHopper,
++    "port_creative_upgrade_and_wrong_source_refusal", IronChestsPortGameTests::creativeAndWrongSource
++  );
++
++  private IronChestsPortGameTests() {
++  }
++
++  @SubscribeEvent
++  public static void registerFunctions(RegisterEvent event) {
++    event.register(Registries.TEST_FUNCTION, registry ->
++      TESTS.forEach((name, function) -> registry.register(id(name), function)));
++  }
++
++  @SubscribeEvent
++  public static void registerTests(RegisterGameTestsEvent event) {
++    Holder<TestEnvironmentDefinition<?>> environment = event.registerEnvironment(id("port_tests"));
++    TESTS.forEach((name, function) -> event.registerTest(id(name), new FunctionGameTestInstance(
++      ResourceKey.create(Registries.TEST_FUNCTION, id(name)),
++      new TestData<>(environment, id("port_test_empty_small"), 160, 0, true))));
++  }
++
++  private static Identifier id(String path) {
++    return IronChests.prefix(path);
++  }
++
++  public static void upgrades(GameTestHelper helper) {
++    List<Upgrade> paths = List.of(
++      new Upgrade(IronChestsItems.WOOD_TO_COPPER_CHEST_UPGRADE.get(), IronChestsTypes.WOOD, IronChestsTypes.COPPER, 27, 45),
++      new Upgrade(IronChestsItems.WOOD_TO_IRON_CHEST_UPGRADE.get(), IronChestsTypes.WOOD, IronChestsTypes.IRON, 27, 54),
++      new Upgrade(IronChestsItems.COPPER_TO_IRON_CHEST_UPGRADE.get(), IronChestsTypes.COPPER, IronChestsTypes.IRON, 45, 54),
++      new Upgrade(IronChestsItems.IRON_TO_GOLD_CHEST_UPGRADE.get(), IronChestsTypes.IRON, IronChestsTypes.GOLD, 54, 81),
++      new Upgrade(IronChestsItems.GOLD_TO_DIAMOND_CHEST_UPGRADE.get(), IronChestsTypes.GOLD, IronChestsTypes.DIAMOND, 81, 108),
++      new Upgrade(IronChestsItems.DIAMOND_TO_CRYSTAL_CHEST_UPGRADE.get(), IronChestsTypes.DIAMOND, IronChestsTypes.CRYSTAL, 108, 108),
++      new Upgrade(IronChestsItems.DIAMOND_TO_OBSIDIAN_CHEST_UPGRADE.get(), IronChestsTypes.DIAMOND, IronChestsTypes.OBSIDIAN, 108, 108)
++    );
++    Player player = player(helper, GameType.SURVIVAL);
++    for (int pathIndex = 0; pathIndex < paths.size(); pathIndex++) {
++      Upgrade path = paths.get(pathIndex);
++      for (int trappedIndex = 0; trappedIndex < 2; trappedIndex++) {
++        boolean trapped = trappedIndex == 1;
++        BlockPos pos = new BlockPos(1 + pathIndex, 1, trapped ? 5 : 2);
++        Block source = path.source == IronChestsTypes.WOOD
++          ? (trapped ? Blocks.TRAPPED_CHEST : Blocks.CHEST)
++          : IronChestsTypes.get(path.source).get(trappedIndex);
++        BlockState state = source.defaultBlockState().setValue(ChestBlock.FACING, Direction.EAST);
++        helper.setBlock(pos, state);
++        BaseContainerBlockEntity original = helper.getBlockEntity(pos, BaseContainerBlockEntity.class);
++        Component name = Component.literal("Upgrade cargo " + pathIndex + "/" + trappedIndex);
++        setName(original, source, name);
++        ItemStack first = named(new ItemStack(Items.DIAMOND, 7), "First cargo");
++        ItemStack last = damagedTool("Last cargo");
++        original.setItem(0, first.copy());
++        original.setItem(path.sourceSize - 1, last.copy());
++        ItemStack[] expected = snapshot(original);
++        ItemStack upgrade = new ItemStack(path.item);
++        player.setItemInHand(InteractionHand.MAIN_HAND, upgrade);
++
++        helper.assertValueEqual(useUpgrade(player, helper.absolutePos(pos)), InteractionResult.SUCCESS, "Upgrade succeeds on the matching closed source");
++        helper.assertBlockPresent(IronChestsTypes.get(path.target).get(trappedIndex), pos);
++        AbstractIronChestBlockEntity upgraded = helper.getBlockEntity(pos, AbstractIronChestBlockEntity.class);
++        helper.assertTrue(upgraded != original, "Upgrade replaces the source block entity");
++        helper.assertValueEqual(upgraded.getContainerSize(), path.targetSize, "Upgraded tier capacity");
++        helper.assertValueEqual(upgraded.getCustomName(), name, "Custom name survives upgrade");
++        helper.assertValueEqual(helper.getBlockState(pos).getValue(AbstractIronChestBlock.FACING), Direction.EAST, "Facing survives upgrade");
++        helper.assertValueEqual(upgraded instanceof AbstractTrappedIronChestBlockEntity, trapped, "Trapped variant survives upgrade");
++        assertPrefix(helper, upgraded, expected, "Upgrade preserves cargo including the original last slot");
++        helper.assertTrue(upgrade.isEmpty() && player.getMainHandItem().isEmpty(), "Survival consumes exactly the one upgrade item");
++      }
++    }
++    helper.succeed();
++  }
++
++  public static void openChestRefusal(GameTestHelper helper) {
++    BlockPos pos = new BlockPos(2, 1, 2);
++    helper.setBlock(pos, IronChestsBlocks.IRON_CHEST.get());
++    AbstractIronChestBlockEntity chest = helper.getBlockEntity(pos, AbstractIronChestBlockEntity.class);
++    ItemStack cargo = damagedTool("Open chest cargo");
++    chest.setItem(53, cargo.copy());
++    Player player = player(helper, GameType.SURVIVAL);
++    ItemStack upgrade = new ItemStack(IronChestsItems.IRON_TO_GOLD_CHEST_UPGRADE.get());
++    player.setItemInHand(InteractionHand.MAIN_HAND, upgrade);
++    // Construct the actual menu: its constructor opens the real container without a network connection.
++    IronChestMenu menu = IronChestMenu.createIronContainer(1, player.getInventory(), chest);
++    player.containerMenu = menu;
++    helper.assertValueEqual(AbstractIronChestBlockEntity.getOpenCount(helper.getLevel(), helper.absolutePos(pos)), 1, "Real menu increments openers");
++    helper.assertValueEqual(useUpgrade(player, helper.absolutePos(pos)), InteractionResult.PASS, "Open chest refuses the upgrade");
++    helper.assertTrue(helper.getBlockEntity(pos, AbstractIronChestBlockEntity.class) == chest, "Refusal keeps the original block entity");
++    helper.assertTrue(ItemStack.matches(chest.getItem(53), cargo), "Refusal preserves last-slot cargo");
++    helper.assertValueEqual(upgrade.getCount(), 1, "Refusal consumes no upgrade");
++    menu.removed(player);
++    player.containerMenu = player.inventoryMenu;
++    helper.assertValueEqual(AbstractIronChestBlockEntity.getOpenCount(helper.getLevel(), helper.absolutePos(pos)), 0, "Closing the menu decrements openers");
++    helper.assertValueEqual(useUpgrade(player, helper.absolutePos(pos)), InteractionResult.SUCCESS, "The same item succeeds after closing");
++    helper.assertBlockPresent(IronChestsBlocks.GOLD_CHEST.get(), pos);
++    helper.assertTrue(ItemStack.matches(helper.getBlockEntity(pos, AbstractIronChestBlockEntity.class).getItem(53), cargo), "Cargo survives the later successful upgrade");
++    helper.assertTrue(upgrade.isEmpty(), "Successful retry consumes the upgrade");
++    helper.succeed();
++  }
++
++  public static void capacitiesAndPersistence(GameTestHelper helper) {
++    IronChestsTypes[] tiers = {IronChestsTypes.COPPER, IronChestsTypes.IRON, IronChestsTypes.GOLD,
++      IronChestsTypes.DIAMOND, IronChestsTypes.CRYSTAL, IronChestsTypes.OBSIDIAN, IronChestsTypes.DIRT};
++    int[] capacities = {45, 54, 81, 108, 108, 108, 1};
++    for (int tierIndex = 0; tierIndex < tiers.length; tierIndex++) {
++      for (int trappedIndex = 0; trappedIndex < 2; trappedIndex++) {
++        Block block = IronChestsTypes.get(tiers[tierIndex]).get(trappedIndex);
++        BlockPos pos = new BlockPos(1 + tierIndex, 1, trappedIndex == 0 ? 2 : 5);
++        BlockState state = block.defaultBlockState().setValue(AbstractIronChestBlock.FACING, Direction.WEST);
++        helper.setBlock(pos, state);
++        AbstractIronChestBlockEntity original = helper.getBlockEntity(pos, AbstractIronChestBlockEntity.class);
++        helper.assertValueEqual(original.getContainerSize(), capacities[tierIndex], "Registered tier exposes its expected capacity");
++        Component name = Component.literal("Persisted " + tiers[tierIndex] + "/" + trappedIndex);
++        setName(original, block, name);
++        original.setItem(0, named(new ItemStack(tiers[tierIndex] == IronChestsTypes.DIRT ? Items.DIRT : Items.DIAMOND, 17), "Persisted stack"));
++        if (capacities[tierIndex] > 1) {
++          original.setItem(capacities[tierIndex] - 1, damagedTool("Persisted final slot"));
++        }
++        ItemStack[] expected = snapshot(original);
++        CompoundTag tag = original.saveWithFullMetadata(helper.getLevel().registryAccess());
++        BlockEntity loaded = BlockEntity.loadStatic(helper.absolutePos(pos), state, tag, helper.getLevel().registryAccess());
++        helper.assertTrue(loaded instanceof AbstractIronChestBlockEntity && loaded != original, "Native metadata reconstructs a separate chest entity");
++        loaded.setLevel(helper.getLevel());
++        AbstractIronChestBlockEntity restored = (AbstractIronChestBlockEntity) loaded;
++        helper.assertValueEqual(restored.getType(), original.getType(), "Block entity registry type survives save/load");
++        helper.assertValueEqual(restored.getContainerSize(), capacities[tierIndex], "Save/load keeps the entire tier capacity");
++        helper.assertValueEqual(restored.getCustomName(), name, "Save/load retains the custom name");
++        helper.assertValueEqual(restored.getBlockState(), state, "Save/load retains the supplied placed block state");
++        assertPrefix(helper, restored, expected, "Native save/load retains every slot and stack component");
++      }
++    }
++    helper.succeed();
++  }
++
++  public static void dirtGuidebook(GameTestHelper helper) {
++    Player player = player(helper, GameType.SURVIVAL);
++    for (int trappedIndex = 0; trappedIndex < 2; trappedIndex++) {
++      Block block = IronChestsTypes.get(IronChestsTypes.DIRT).get(trappedIndex);
++      BlockPos firstPos = new BlockPos(2, 1, trappedIndex == 0 ? 2 : 5);
++      BlockPos replacementPos = firstPos.east(2);
++      helper.setBlock(firstPos.below(), Blocks.STONE);
++      helper.setBlock(replacementPos.below(), Blocks.STONE);
++      ItemStack fresh = new ItemStack(block.asItem());
++      helper.assertTrue(placeChestItem(helper, player, firstPos, fresh).consumesAction(), "Fresh dirt chest is placed through its real block item");
++      AbstractIronChestBlockEntity first = helper.getBlockEntity(firstPos, AbstractIronChestBlockEntity.class);
++      ItemStack book = first.getItem(0);
++      helper.assertTrue(book.is(Items.WRITTEN_BOOK), "First placement inserts the guide book");
++      helper.assertTrue(book.has(DataComponents.WRITTEN_BOOK_CONTENT), "Guide book carries readable written-book content");
++      helper.assertTrue(book.has(DataComponents.ITEM_NAME), "Guide book carries its translated display name");
++      helper.assertTrue(fresh.isEmpty(), "Survival placement consumes the chest item");
++      first.setItem(0, ItemStack.EMPTY);
++      ItemStack previouslyPlaced = new ItemStack(block.asItem());
++      previouslyPlaced.applyComponents(first.collectComponents());
++      helper.assertTrue(previouslyPlaced.getOrDefault(IronChestsDataComponents.CHEST_PLACED_ALREADY.get(), false), "Collected block components mark prior placement");
++      helper.assertTrue(placeChestItem(helper, player, replacementPos, previouslyPlaced).consumesAction(), "Previously placed chest item is placed normally");
++      helper.assertTrue(helper.getBlockEntity(replacementPos, AbstractIronChestBlockEntity.class).isEmpty(), "Prior-placement component prevents another guide book");
++    }
++    helper.succeed();
++  }
++
++  public static void transactionsAndHopper(GameTestHelper helper) {
++    BlockPos sourcePos = new BlockPos(2, 3, 2);
++    BlockPos hopperPos = sourcePos.below();
++    BlockPos targetPos = hopperPos.east();
++    helper.setBlock(sourcePos, IronChestsBlocks.IRON_CHEST.get());
++    helper.setBlock(targetPos, IronChestsBlocks.GOLD_CHEST.get());
++    AbstractIronChestBlockEntity source = helper.getBlockEntity(sourcePos, AbstractIronChestBlockEntity.class);
++    AbstractIronChestBlockEntity target = helper.getBlockEntity(targetPos, AbstractIronChestBlockEntity.class);
++    ResourceHandler<ItemResource> sourceHandler = capability(helper, sourcePos, Direction.DOWN);
++    ResourceHandler<ItemResource> targetHandler = capability(helper, targetPos, Direction.WEST);
++    helper.assertValueEqual(sourceHandler.size(), 54, "Source capability exposes all iron chest slots");
++    helper.assertValueEqual(targetHandler.size(), 81, "Target capability exposes all gold chest slots");
++    ItemStack tool = damagedTool("Transactional last-slot tool");
++    source.setItem(53, tool.copy());
++    ItemResource resource = ItemResource.of(tool);
++    try (Transaction transaction = Transaction.openRoot()) {
++      helper.assertValueEqual(sourceHandler.extract(53, resource, 1, transaction), 1, "Transaction extracts the source last slot");
++      helper.assertValueEqual(targetHandler.insert(80, resource, 1, transaction), 1, "Transaction inserts the target last slot");
++    }
++    helper.assertTrue(ItemStack.matches(source.getItem(53), tool), "Aborting restores source cargo and components");
++    helper.assertTrue(target.getItem(80).isEmpty(), "Aborting restores the empty destination");
++    try (Transaction transaction = Transaction.openRoot()) {
++      helper.assertValueEqual(sourceHandler.extract(53, resource, 1, transaction), 1, "Committed transaction extracts once");
++      helper.assertValueEqual(targetHandler.insert(80, resource, 1, transaction), 1, "Committed transaction inserts once");
++      transaction.commit();
++    }
++    helper.assertTrue(source.getItem(53).isEmpty(), "Committed transfer clears its source");
++    helper.assertTrue(ItemStack.matches(target.getItem(80), tool), "Committed transfer preserves damage and name at the destination");
++    ItemStack diamonds = named(new ItemStack(Items.DIAMOND, 7), "Hopper cargo");
++    source.setItem(0, diamonds.copy());
++    helper.setBlock(hopperPos, Blocks.HOPPER.defaultBlockState().setValue(HopperBlock.FACING, Direction.EAST));
++    HopperBlockEntity hopper = helper.getBlockEntity(hopperPos, HopperBlockEntity.class);
++    helper.startSequence()
++      .thenWaitUntil(() -> {
++        helper.assertTrue(source.isEmpty(), "Ticking hopper drains the real source chest");
++        helper.assertTrue(hopper.isEmpty(), "Ticking hopper delivers all cargo to its neighbor");
++        helper.assertValueEqual(count(target, Items.DIAMOND), 7, "Ticking hopper delivers exactly seven diamonds");
++      })
++      .thenExecute(() -> {
++        helper.assertTrue(ItemStack.matches(target.getItem(80), tool), "Hopper operation leaves existing final-slot cargo intact");
++        helper.assertTrue(ItemStack.matches(target.getItem(0), diamonds), "Hopper transfer preserves custom components");
++      })
++      .thenSucceed();
++  }
++
++  public static void creativeAndWrongSource(GameTestHelper helper) {
++    Player creative = player(helper, GameType.CREATIVE);
++    BlockPos pos = new BlockPos(2, 1, 2);
++    helper.setBlock(pos, Blocks.CHEST.defaultBlockState().setValue(ChestBlock.FACING, Direction.SOUTH));
++    ItemStack upgrade = new ItemStack(IronChestsItems.WOOD_TO_IRON_CHEST_UPGRADE.get());
++    creative.setItemInHand(InteractionHand.MAIN_HAND, upgrade);
++    helper.assertValueEqual(useUpgrade(creative, helper.absolutePos(pos)), InteractionResult.SUCCESS, "Creative upgrades a vanilla chest");
++    helper.assertBlockPresent(IronChestsBlocks.IRON_CHEST.get(), pos);
++    helper.assertValueEqual(upgrade.getCount(), 1, "Creative retains its upgrade item");
++    helper.assertValueEqual(useUpgrade(creative, helper.absolutePos(pos)), InteractionResult.PASS, "Wood upgrade refuses an already upgraded iron chest");
++    helper.assertBlockPresent(IronChestsBlocks.IRON_CHEST.get(), pos);
++    helper.assertValueEqual(upgrade.getCount(), 1, "Wrong-source refusal retains the item");
++    BlockPos copperPos = new BlockPos(5, 1, 2);
++    Block vanillaCopper = Blocks.COPPER_CHEST.weathering().unaffected();
++    helper.setBlock(copperPos, vanillaCopper);
++    helper.assertValueEqual(useUpgrade(creative, helper.absolutePos(copperPos)), InteractionResult.PASS, "Wood upgrade refuses vanilla's separate copper chest");
++    helper.assertBlockPresent(vanillaCopper, copperPos);
++    helper.assertValueEqual(upgrade.getCount(), 1, "Vanilla copper refusal retains the item");
++    helper.succeed();
++  }
++
++  private static Player player(GameTestHelper helper, GameType gameType) {
++    Player player = helper.makeMockPlayer(gameType);
++    gameType.updatePlayerAbilities(player.getAbilities());
++    Vec3 position = Vec3.atCenterOf(helper.absolutePos(new BlockPos(1, 1, 7)));
++    player.setPos(position.x, position.y, position.z);
++    return player;
++  }
++
++  private static InteractionResult useUpgrade(Player player, BlockPos pos) {
++    ItemStack stack = player.getMainHandItem();
++    UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND,
++      new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false));
++    return ((ChestUpgradeItem) stack.getItem()).onItemUseFirst(stack, context);
++  }
++
++  private static InteractionResult placeChestItem(GameTestHelper helper, Player player, BlockPos pos, ItemStack stack) {
++    player.setItemInHand(InteractionHand.MAIN_HAND, stack);
++    BlockPos support = helper.absolutePos(pos.below());
++    UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND,
++      new BlockHitResult(Vec3.atCenterOf(support).add(0, 0.5, 0), Direction.UP, support, false));
++    return stack.getItem().useOn(context);
++  }
++
++  private static void setName(BaseContainerBlockEntity chest, Block block, Component name) {
++    ItemStack namedBlock = new ItemStack(block.asItem());
++    namedBlock.set(DataComponents.CUSTOM_NAME, name);
++    chest.applyComponentsFromItemStack(namedBlock);
++  }
++
++  private static ItemStack named(ItemStack stack, String name) {
++    stack.set(DataComponents.CUSTOM_NAME, Component.literal(name));
++    return stack;
++  }
++
++  private static ItemStack damagedTool(String name) {
++    ItemStack stack = named(new ItemStack(Items.IRON_PICKAXE), name);
++    stack.setDamageValue(11);
++    return stack;
++  }
++
++  private static ItemStack[] snapshot(Container container) {
++    ItemStack[] items = new ItemStack[container.getContainerSize()];
++    for (int slot = 0; slot < items.length; slot++) {
++      items[slot] = container.getItem(slot).copy();
++    }
++    return items;
++  }
++
++  private static void assertPrefix(GameTestHelper helper, Container container, ItemStack[] expected, String message) {
++    for (int slot = 0; slot < container.getContainerSize(); slot++) {
++      ItemStack expectedItem = slot < expected.length ? expected[slot] : ItemStack.EMPTY;
++      helper.assertTrue(ItemStack.matches(container.getItem(slot), expectedItem), message + " at slot " + slot);
++    }
++  }
++
++  private static ResourceHandler<ItemResource> capability(GameTestHelper helper, BlockPos pos, Direction side) {
++    ResourceHandler<ItemResource> handler = helper.getLevel().getCapability(Capabilities.Item.BLOCK, helper.absolutePos(pos), side);
++    helper.assertTrue(handler != null, "Registered item capability is available from " + side);
++    return handler;
++  }
++
++  private static int count(Container container, Item item) {
++    int count = 0;
++    for (int slot = 0; slot < container.getContainerSize(); slot++) {
++      ItemStack stack = container.getItem(slot);
++      if (stack.is(item)) {
++        count += stack.getCount();
++      }
++    }
++    return count;
++  }
++
++  private record Upgrade(ChestUpgradeItem item, IronChestsTypes source, IronChestsTypes target, int sourceSize, int targetSize) {
++  }
++}
+diff --git a/src/main/java/com/progwml6/ironchest/common/network/CrystalChestInitialSync.java b/src/main/java/com/progwml6/ironchest/common/network/CrystalChestInitialSync.java
+new file mode 100644
+index 0000000..f0ab03f
+--- /dev/null
++++ b/src/main/java/com/progwml6/ironchest/common/network/CrystalChestInitialSync.java
+@@ -0,0 +1,28 @@
++package com.progwml6.ironchest.common.network;
++
++import com.progwml6.ironchest.IronChests;
++import com.progwml6.ironchest.common.block.entity.ICrystalChest;
++import net.neoforged.bus.api.SubscribeEvent;
++import net.neoforged.fml.common.EventBusSubscriber;
++import net.neoforged.neoforge.event.level.ChunkWatchEvent;
++import net.neoforged.neoforge.network.PacketDistributor;
++
++/** Send the public eight-stack crystal display after the client receives its chunk. */
++@EventBusSubscriber(modid = IronChests.MODID)
++public final class CrystalChestInitialSync {
++
++  private CrystalChestInitialSync() {
++  }
++
++  @SubscribeEvent
++  public static void onChunkSent(ChunkWatchEvent.Sent event) {
++    for (var blockEntity : event.getChunk().getBlockEntities().values()) {
++      if (blockEntity instanceof ICrystalChest crystal) {
++        // A newly loaded chunk can be sent before its first block-entity tick.
++        crystal.sortTopStacks(false);
++        PacketDistributor.sendToPlayer(event.getPlayer(),
++          new TopStacksSyncPacket(crystal.getChestWorldPosition(), crystal.buildItemStackDataList()));
++      }
++    }
++  }
++}
+diff --git a/src/main/java/com/progwml6/ironchest/common/network/TopStacksSyncPacket.java b/src/main/java/com/progwml6/ironchest/common/network/TopStacksSyncPacket.java
+index e17beb4..e3f5f71 100644
+--- a/src/main/java/com/progwml6/ironchest/common/network/TopStacksSyncPacket.java
++++ b/src/main/java/com/progwml6/ironchest/common/network/TopStacksSyncPacket.java
+@@ -2,7 +2,6 @@ package com.progwml6.ironchest.common.network;
+ 
+ import com.progwml6.ironchest.IronChests;
+ import com.progwml6.ironchest.common.block.entity.ICrystalChest;
+-import net.minecraft.client.Minecraft;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.NonNullList;
+ import net.minecraft.network.RegistryFriendlyByteBuf;
+@@ -68,7 +67,9 @@ public class TopStacksSyncPacket implements CustomPacketPayload {
+         if (blockEntity instanceof ICrystalChest) {
+           ((ICrystalChest) blockEntity).receiveMessageFromServer(msg.topItemStacks);
+ 
+-          Minecraft.getInstance().levelRenderer.blockChanged(null, msg.blockPos, null, null, 0);
++          // ClientLevel forwards this notification to the 26.3 LevelExtractor.
++          var state = level.getBlockState(msg.blockPos);
++          level.sendBlockUpdated(msg.blockPos, state, state, 0);
+         }
+       }
+     });
+diff --git a/src/main/resources/data/ironchest/structure/port_test_empty_small.nbt b/src/main/resources/data/ironchest/structure/port_test_empty_small.nbt
+new file mode 100644
+index 0000000000000000000000000000000000000000..4b9ba96527aeff2854c79266a467e3a5718f648d
+GIT binary patch
+literal 94
+zcmb2|=3oE;rvHzV5)#rLlzHlS@_6fNojY?rIYD6F`I85N=0r|Cb%tS5O2Pw%q%eWA
+xClAC;m@zpjXwoUxCq@NE8&sb@QBN0lu9R6>sX9}2=1KuOW(KD6hdj|hQvnFtB`W{`
+
+literal 0
+HcmV?d00001
+

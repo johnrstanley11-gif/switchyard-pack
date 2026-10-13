@@ -1,0 +1,70 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = mod_version
+group = 'classicengineering'
+
+base {
+    archivesName = 'ClassicSpruceNeedles'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        client {
+            client()
+            gameDirectory = layout.projectDirectory.dir('run-client')
+            // Private testing: PORT_QUICKPLAY_SERVER=host:port joins that (private test) server directly.
+            if (System.getenv('PORT_QUICKPLAY_SERVER')) {
+                programArguments.addAll '--quickPlayMultiplayer', System.getenv('PORT_QUICKPLAY_SERVER')
+            }
+        }
+        server {
+            server()
+            programArgument '--nogui'
+            // Own folder so a private dev server and the dev client can run side by side.
+            gameDirectory = layout.projectDirectory.dir('run-server')
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var props = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version, mod_license: mod_license,
+                 minecraft_version: minecraft_version, neo_version: neo_version]
+    inputs.properties props
+    filesMatching(['META-INF/neoforge.mods.toml', 'META-INF/MANIFEST.MF']) { expand props }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['-Xmaxerrs', '2000']
+}
+
+tasks.named('jar', Jar) {
+    manifest.attributes('FMLModType': 'MOD', 'Implementation-Version': project.version)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'ClassicSpruceNeedles'
+            from components.java
+        }
+    }
+    repositories {
+        maven { name = 'Port'; url = file('../../maven').toURI() }
+    }
+}
+

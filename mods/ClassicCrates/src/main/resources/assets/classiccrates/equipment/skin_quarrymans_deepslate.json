@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "classiccrates:skin_quarrymans_deepslate"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "classiccrates:skin_quarrymans_deepslate"
+      }
+    ],
+    "wings": [
+      {
+        "texture": "classiccrates:skin_quarrymans_deepslate"
+      }
+    ]
+  }
+}
