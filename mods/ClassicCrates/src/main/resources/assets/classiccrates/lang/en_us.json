@@ -121,5 +121,14 @@
   "classiccrates.menu.confirm.kick": "Kick %s from the server?",
   "classiccrates.menu.confirm.ban": "Ban %s from the server? Undo later with /pardon %s.",
   "classiccrates.menu.kit_reset": "Reset starter kit",
-  "classiccrates.menu.land_info_player": "Land info"
+  "classiccrates.menu.land_info_player": "Land info",
+  "classiccrates.chest.sort": "Sort",
+  "classiccrates.chest.sort.tip": "Sort the chest (Sort It Out). The I key or a double-tap on an empty slot does the same.",
+  "classiccrates.chest.sort.missing": "Sorting is not available: Sort It Out is not installed on this side.",
+  "classiccrates.chest.dump": "Dump",
+  "classiccrates.chest.dump.tip": "Move everything from your inventory into the chest. The hotbar stays with you.",
+  "classiccrates.chest.dump.none": "Nothing to move: your inventory rows are empty.",
+  "classiccrates.chest.match": "Match",
+  "classiccrates.chest.match.tip": "Move only the items the chest already holds. The hotbar stays with you.",
+  "classiccrates.chest.match.none": "Nothing to move: the chest holds none of the items in your inventory rows."
 }

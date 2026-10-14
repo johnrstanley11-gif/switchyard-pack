@@ -745,14 +745,14 @@
    "slug": "classic-crates",
    "origin": "private 26.3 build in this workspace",
    "side": "both",
-   "source": "sources/ClassicCrates/build/libs/ClassicCrates-26.3-1.4.1.jar",
-   "filename": "ClassicCrates-26.3-1.4.1.jar",
-   "sha256": "64abbf3a60ad1f532dd4af383e1e4b535cea08bb988a8d3e67a69920e1957b6a",
-   "size": 1520277,
+   "source": "sources/ClassicCrates/build/libs/ClassicCrates-26.3-1.5.0.jar",
+   "filename": "ClassicCrates-26.3-1.5.0.jar",
+   "sha256": "0b07c4904a331d602c0cc485745b6ea67a714c1c6b59ff9c53c0e78810cd0a7f",
+   "size": 1525157,
    "heldBack": null,
    "placed": [
-    "pack-26.3-private/client/mods/ClassicCrates-26.3-1.4.1.jar",
-    "pack-26.3-private/server/mods/ClassicCrates-26.3-1.4.1.jar"
+    "pack-26.3-private/client/mods/ClassicCrates-26.3-1.5.0.jar",
+    "pack-26.3-private/server/mods/ClassicCrates-26.3-1.5.0.jar"
    ]
   },
   {

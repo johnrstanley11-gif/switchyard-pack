@@ -85,6 +85,7 @@ public class SwitchyardClient {
                 minecraft.gui.setScreen(new PhoneHintScreen());
             }
         });
+        NeoForge.EVENT_BUS.addListener(ScreenEvent.Init.Post.class, ContainerButtons::init);
         NeoForge.EVENT_BUS.addListener(ScreenEvent.Init.Post.class, event -> {
             if (event.getScreen() instanceof PauseScreen pause && Minecraft.getInstance().player != null) {
                 // Centred above "Back to Game": the top-left corner is under the launcher's own buttons on phones.
