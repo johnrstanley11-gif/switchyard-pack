@@ -25397,7 +25397,7 @@ index 00a8d3c9..5012d2b6 100644
 \ No newline at end of file
 +}
 diff --git a/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCollectorScreen.java b/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCollectorScreen.java
-index 73ac81b4..89f8604a 100644
+index 73ac81b4..de506c13 100644
 --- a/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCollectorScreen.java
 +++ b/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCollectorScreen.java
 @@ -1,13 +1,14 @@
@@ -25438,11 +25438,11 @@ index 73ac81b4..89f8604a 100644
 +	protected void extractLabels(@NotNull GuiGraphicsExtractor graphics, int x, int y) {
  		//Don't render title or inventory as we don't have space
 -		graphics.drawString(font, Long.toString(menu.emc.get()), 60 + getBonusXShift(), 32, 0x404040, false);
-+		graphics.text(font, Long.toString(menu.emc.get()), 60 + getBonusXShift(), 32, 0x404040, false);
++		graphics.text(font, Long.toString(menu.emc.get()), 60 + getBonusXShift(), 32, 0xFF404040, false);
  		long kleinCharge = menu.kleinEmc.get();
  		if (kleinCharge > 0) {
 -			graphics.drawString(font, EMCHelper.formatEmc(kleinCharge), 60 + getBonusXShift(), 44, 0x404040, false);
-+			graphics.text(font, EMCHelper.formatEmc(kleinCharge), 60 + getBonusXShift(), 44, 0x404040, false);
++			graphics.text(font, EMCHelper.formatEmc(kleinCharge), 60 + getBonusXShift(), 44, 0xFF404040, false);
  		}
  	}
  
@@ -25516,7 +25516,7 @@ index 73ac81b4..89f8604a 100644
  		}
  
 diff --git a/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCondenserScreen.java b/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCondenserScreen.java
-index 81a7fd34..bafd2d73 100644
+index 81a7fd34..c944a98e 100644
 --- a/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCondenserScreen.java
 +++ b/src/main/java/moze_intel/projecte/gameObjs/gui/AbstractCondenserScreen.java
 @@ -1,55 +1,49 @@
@@ -25574,7 +25574,7 @@ index 81a7fd34..bafd2d73 100644
  		long toDisplay = Math.min(menu.displayEmc.get(), menu.requiredEmc.get());
  		Component emc = TransmutationEMCFormatter.formatEMC(toDisplay);
 -		graphics.drawString(font, emc, 140, 10, 0x404040, false);
-+		graphics.text(font, emc, 140, 10, 0x404040, false);
++		graphics.text(font, emc, 140, 10, 0xFF404040, false);
  	}
  
  	@Override
@@ -25929,7 +25929,7 @@ index aa1bbdca..ee4d9f6d 100644
  }
 \ No newline at end of file
 diff --git a/src/main/java/moze_intel/projecte/gameObjs/gui/GUIRelay.java b/src/main/java/moze_intel/projecte/gameObjs/gui/GUIRelay.java
-index 11c5e779..ba347a4b 100644
+index 11c5e779..25d28c40 100644
 --- a/src/main/java/moze_intel/projecte/gameObjs/gui/GUIRelay.java
 +++ b/src/main/java/moze_intel/projecte/gameObjs/gui/GUIRelay.java
 @@ -1,20 +1,21 @@
@@ -25977,10 +25977,10 @@ index 11c5e779..ba347a4b 100644
 -	protected void renderLabels(@NotNull GuiGraphics graphics, int x, int y) {
 -		graphics.drawString(font, title, titleLabelX, titleLabelY, 0x404040, false);
 +	protected void extractLabels(@NotNull GuiGraphicsExtractor graphics, int x, int y) {
-+		graphics.text(font, title, titleLabelX, titleLabelY, 0x404040, false);
++		graphics.text(font, title, titleLabelX, titleLabelY, 0xFF404040, false);
  		//Don't render inventory as we don't have space
 -		graphics.drawString(font, EMCHelper.formatEmc(menu.emc.get()), emcX, emcY, 0x404040, false);
-+		graphics.text(font, EMCHelper.formatEmc(menu.emc.get()), emcX, emcY, 0x404040, false);
++		graphics.text(font, EMCHelper.formatEmc(menu.emc.get()), emcX, emcY, 0xFF404040, false);
  	}
  
  	@Override
@@ -26048,7 +26048,7 @@ index 11c5e779..ba347a4b 100644
  		}
  	}
 diff --git a/src/main/java/moze_intel/projecte/gameObjs/gui/GUITransmutation.java b/src/main/java/moze_intel/projecte/gameObjs/gui/GUITransmutation.java
-index 589fcec4..a32ed068 100644
+index 589fcec4..c8fe48af 100644
 --- a/src/main/java/moze_intel/projecte/gameObjs/gui/GUITransmutation.java
 +++ b/src/main/java/moze_intel/projecte/gameObjs/gui/GUITransmutation.java
 @@ -1,5 +1,8 @@
@@ -26125,13 +26125,13 @@ index 589fcec4..a32ed068 100644
 -	protected void renderLabels(@NotNull GuiGraphics graphics, int x, int y) {
 -		graphics.drawString(font, title, titleLabelX, titleLabelY, 0x404040, false);
 +	protected void extractLabels(@NotNull GuiGraphicsExtractor graphics, int x, int y) {
-+		graphics.text(font, title, titleLabelX, titleLabelY, 0x404040, false);
++		graphics.text(font, title, titleLabelX, titleLabelY, 0xFF404040, false);
  		//Don't render inventory as we don't have space
 -		graphics.drawString(font, PELang.EMC_TOOLTIP.translate(""), 6, this.imageHeight - 104, 0x404040, false);
-+		graphics.text(font, PELang.EMC_TOOLTIP.translate(""), 6, this.imageHeight - 104, 0x404040, false);
++		graphics.text(font, PELang.EMC_TOOLTIP.translate(""), 6, this.imageHeight - 104, 0xFF404040, false);
  		Component emc = TransmutationEMCFormatter.formatEMC(inv.getAvailableEmc());
 -		graphics.drawString(font, emc, 6, this.imageHeight - 94, 0x404040, false);
-+		graphics.text(font, emc, 6, this.imageHeight - 94, 0x404040, false);
++		graphics.text(font, emc, 6, this.imageHeight - 94, 0xFF404040, false);
  
  		if (inv.learnFlag > 0) {
 -			graphics.drawString(font, PELang.TRANSMUTATION_LEARNED_1.translate(), 98, 30, 0x404040, false);
@@ -26142,14 +26142,14 @@ index 589fcec4..a32ed068 100644
 -			graphics.drawString(font, PELang.TRANSMUTATION_LEARNED_6.translate(), 103, 70, 0x404040, false);
 -			graphics.drawString(font, PELang.TRANSMUTATION_LEARNED_7.translate(), 104, 78, 0x404040, false);
 -			graphics.drawString(font, PELang.TRANSMUTATION_LEARNED_8.translate(), 107, 86, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_1.translate(), 98, 30, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_2.translate(), 99, 38, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_3.translate(), 100, 46, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_4.translate(), 101, 54, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_5.translate(), 102, 62, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_6.translate(), 103, 70, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_7.translate(), 104, 78, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_LEARNED_8.translate(), 107, 86, 0x404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_1.translate(), 98, 30, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_2.translate(), 99, 38, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_3.translate(), 100, 46, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_4.translate(), 101, 54, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_5.translate(), 102, 62, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_6.translate(), 103, 70, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_7.translate(), 104, 78, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_LEARNED_8.translate(), 107, 86, 0xFF404040, false);
  
  			inv.learnFlag--;
  		}
@@ -26164,15 +26164,15 @@ index 589fcec4..a32ed068 100644
 -			graphics.drawString(font, PELang.TRANSMUTATION_UNLEARNED_7.translate(), 103, 70, 0x404040, false);
 -			graphics.drawString(font, PELang.TRANSMUTATION_UNLEARNED_8.translate(), 104, 78, 0x404040, false);
 -			graphics.drawString(font, PELang.TRANSMUTATION_UNLEARNED_9.translate(), 107, 86, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_1.translate(), 97, 22, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_2.translate(), 98, 30, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_3.translate(), 99, 38, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_4.translate(), 100, 46, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_5.translate(), 101, 54, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_6.translate(), 102, 62, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_7.translate(), 103, 70, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_8.translate(), 104, 78, 0x404040, false);
-+			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_9.translate(), 107, 86, 0x404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_1.translate(), 97, 22, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_2.translate(), 98, 30, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_3.translate(), 99, 38, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_4.translate(), 100, 46, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_5.translate(), 101, 54, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_6.translate(), 102, 62, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_7.translate(), 103, 70, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_8.translate(), 104, 78, 0xFF404040, false);
++			graphics.text(font, PELang.TRANSMUTATION_UNLEARNED_9.translate(), 107, 86, 0xFF404040, false);
  
  			inv.unlearnFlag--;
  		}

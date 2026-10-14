@@ -311,7 +311,7 @@
         0
       ],
       "dynamicX": "${right} - ${margin}",
-      "dynamicY": "${screen_height} - ${margin} * 5 - 229.5",
+      "dynamicY": "${screen_height} * 0.30",
       "width": 62,
       "height": 26,
       "isToggle": false,
@@ -336,7 +336,7 @@
         0
       ],
       "dynamicX": "${right} - ${margin}",
-      "dynamicY": "${screen_height} - ${margin} * 4 - 203.5",
+      "dynamicY": "${screen_height} * 0.30 + ${height} + ${margin}",
       "width": 62,
       "height": 26,
       "isToggle": false,

@@ -1,7 +1,7 @@
 CBMultipart-26.3-3.6.0-port263.1.jar
 Chunky-NeoForge-1.5.4.jar
 ClassicCastleGuard-26.3-1.10.0-port263.1.jar
-ClassicCrates-26.3-1.4.0.jar
+ClassicCrates-26.3-1.4.1.jar
 ClassicSpruceNeedles-26.3-1.0.0-port263.1.jar
 Clumps-neoforge-26.3-26.3.2.jar
 CodeChickenLib-26.3-4.7.0-port263.1.jar

@@ -1,6 +1,6 @@
 {
   "pack": "Classic Engineering",
-  "version": "26.3-0.1.0-test16",
+  "version": "26.3-0.1.0-test17",
   "mods": [
     {
       "slug": "scalable-cats-force",
@@ -238,7 +238,7 @@
       "slug": "projecte",
       "file": "projecte-1.1.0-port26.3-alpha.1.jar",
       "source": "Built privately for Minecraft 26.3 in this project",
-      "sha256": "8f952aeb5d1923a0a074a576510a9a461beaee16b0b892be4125032b4ca20293",
+      "sha256": "0e27cd28134a71386606f18a0022d8d35e6c67bb4a48ab5d8e4ad2907ab94170",
       "licence": "licenses/ProjectE-LICENSE"
     },
     {
@@ -249,9 +249,9 @@
     },
     {
       "slug": "classic-crates",
-      "file": "ClassicCrates-26.3-1.4.0.jar",
+      "file": "ClassicCrates-26.3-1.4.1.jar",
       "source": "Built privately for Minecraft 26.3 in this project",
-      "sha256": "477706c5db6b6bb33f8660d35f6452277996093b3aea4b9588e702747209eeb7",
+      "sha256": "64abbf3a60ad1f532dd4af383e1e4b535cea08bb988a8d3e67a69920e1957b6a",
       "licence": "licenses/ClassicCrates-LICENSE"
     },
     {

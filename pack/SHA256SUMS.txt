@@ -1,3 +1,3 @@
-474b25d71a0cbdd53c63914b05e7b6332632f3872cf0da3cf91dda43f7502834  Classic-Engineering-26.3-0.1.0-test16.mrpack
-5840c60f5ae3ddc040694a7227b8e78881c86e002d29d47c26588bb2b5dbd3d0  Classic-Engineering-26.3-0.1.0-test16-CurseForge.zip
-9cd097074e2e1b84a94a7a2054653b76ae33d7fb8700064438d82b85dd7b710d  Classic-Engineering-26.3-0.1.0-test16-Phone.mrpack
+1e39d0e202f181ec5d72fc6e7e07df422e7a2da1d178e768f21eaa32ece20c4d  Classic-Engineering-26.3-0.1.0-test17.mrpack
+e41c13316086271ba02f1d57281e7836753f38a854332480dc36a22200edefc9  Classic-Engineering-26.3-0.1.0-test17-CurseForge.zip
+a740d9c6c1cdea5b0f3d4b4bd42f3d45011cbd5be92904a51540c9b389af6c19  Classic-Engineering-26.3-0.1.0-test17-Phone.mrpack
