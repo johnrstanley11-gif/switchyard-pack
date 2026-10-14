@@ -14,7 +14,7 @@ import zipfile
 
 PORT = Path(__file__).resolve().parents[1]
 PACK = PORT / "pack-26.3-private"
-VERSION = "26.3-0.1.0-test15"
+VERSION = "26.3-0.1.0-test16"
 NAME = "Classic Engineering"
 OUT = PACK / "dist" / ("Classic-Engineering-" + VERSION + ".mrpack")
 # slug -> (source folder under sources/, licence file names to carry)
@@ -156,6 +156,15 @@ def build_phone():
         phone.writestr("overrides/options.txt", (PHONE_UI / "options.txt").read_bytes())
         phone.writestr("overrides/Switchyard-controls.json", (PHONE_UI / "Switchyard-controls.json").read_bytes())
         phone.writestr("overrides/PHONE-CONTROLS-README.txt", PHONE_README)
+        # Phone-sized mod configs (since test16; written by build-phone-ui-20261011.py): Xaero minimap/world map
+        # profiles, Jade overlay, AE2 terminal style. Launchers copy overrides on install and on every pack update.
+        configs = 0
+        for path in sorted((PHONE_UI / "config").rglob("*")):
+            if path.is_file():
+                phone.writestr("overrides/config/" + path.relative_to(PHONE_UI / "config").as_posix(), path.read_bytes())
+                configs += 1
+        if configs == 0:
+            raise SystemExit("designs-26.3/phone-ui/config is empty: run claude-session/build-phone-ui-20261011.py first")
     out.with_name(out.name + ".sha256").write_text(digest(out.read_bytes(), "sha256") + "  " + out.name + "\n", encoding="utf-8")
     print(json.dumps({"phonePack": out.relative_to(PORT).as_posix(), "bytes": out.stat().st_size, "downloadedMods": len(index["files"]), "bundledMods": kept}))
     return out

@@ -25,7 +25,7 @@ MODS = {
     "farmers-delight": ("Farmer's Delight", "1.3.4", 0),
     "iron-chests": ("Iron Chests", "16.7", 1), "ender-storage": ("Ender Storage", "2.14.0", 1), "building-wands": ("Building Wands", "3.2.1", 1),
     "sort-it-out": ("Sort It Out!", "1.5.0", 1), "gravestone-mod": ("Gravestone", "1.0.41", 1), "clumps": ("Clumps", "26.3.2", 1),
-    "open-parties-and-claims": ("Open Parties and Claims", "0.32.8", 1), "classic-crates": ("Classic Crates (Switchyard menu, vote crates)", "1.3.0", 1),
+    "open-parties-and-claims": ("Open Parties and Claims", "0.32.8", 1), "classic-crates": ("Classic Crates (Switchyard menu, vote crates)", "1.4.0", 1),
     "classic-spruce-needles": ("Classic Spruce Needles", "1.0.0", 1),
     "jei": ("Just Enough Items", "31.10.0", 2), "jade": ("Jade", "26.3.5", 2), "xaeros-minimap": ("Xaero's Minimap", "26.6.0", 2),
     "xaeros-world-map": ("Xaero's World Map", "1.47.0", 2), "simple-voice-chat": ("Simple Voice Chat", "2.6.24", 2),

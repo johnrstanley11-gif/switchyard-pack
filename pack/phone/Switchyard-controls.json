@@ -23,7 +23,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "◀",
@@ -46,7 +48,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "▶",
@@ -69,7 +73,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "▼",
@@ -92,7 +98,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Sneak",
@@ -115,7 +123,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Run",
@@ -138,7 +148,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Inv",
@@ -161,7 +173,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
     },
     {
       "name": "Pick",
@@ -184,7 +198,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Hit",
@@ -207,7 +223,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Jump",
@@ -230,7 +248,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Use",
@@ -253,7 +273,9 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Swap",
@@ -276,10 +298,62 @@
       "bgColor": 1713379862,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
-      "name": "Menu",
+      "name": "Scroll▲",
+      "keycodes": [
+        -7,
+        0,
+        0,
+        0
+      ],
+      "dynamicX": "${right} - ${margin}",
+      "dynamicY": "${screen_height} - ${margin} * 5 - 229.5",
+      "width": 62,
+      "height": 26,
+      "isToggle": false,
+      "isSwipeable": false,
+      "passThruEnabled": false,
+      "isDynamicBtn": false,
+      "isHideable": false,
+      "opacity": 1,
+      "bgColor": -1725949418,
+      "strokeColor": -3436448,
+      "strokeWidth": 4,
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
+    },
+    {
+      "name": "Scroll▼",
+      "keycodes": [
+        -8,
+        0,
+        0,
+        0
+      ],
+      "dynamicX": "${right} - ${margin}",
+      "dynamicY": "${screen_height} - ${margin} * 4 - 203.5",
+      "width": 62,
+      "height": 26,
+      "isToggle": false,
+      "isSwipeable": false,
+      "passThruEnabled": false,
+      "isDynamicBtn": false,
+      "isHideable": false,
+      "opacity": 1,
+      "bgColor": -1725949418,
+      "strokeColor": -3436448,
+      "strokeWidth": 4,
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
+    },
+    {
+      "name": "Pause",
       "keycodes": [
         256,
         0,
@@ -299,10 +373,12 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
     },
     {
-      "name": "Keys",
+      "name": "Type",
       "keycodes": [
         -1,
         0,
@@ -322,7 +398,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
     },
     {
       "name": "Chat",
@@ -345,7 +423,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Hide",
@@ -368,10 +448,12 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
     },
     {
-      "name": "Stack",
+      "name": "Shift",
       "keycodes": [
         340,
         0,
@@ -391,7 +473,34 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": false,
+      "displayInMenu": true
+    },
+    {
+      "name": "Yard",
+      "keycodes": [
+        268,
+        0,
+        0,
+        0
+      ],
+      "dynamicX": "${screen_width} * 0.1235 + (${width} + ${margin}) * 2",
+      "dynamicY": "${screen_height} * 0.0185 + (${height} + ${margin}) * 1",
+      "width": 62,
+      "height": 26,
+      "isToggle": false,
+      "isSwipeable": false,
+      "passThruEnabled": false,
+      "isDynamicBtn": false,
+      "isHideable": false,
+      "opacity": 1,
+      "bgColor": -1148564960,
+      "strokeColor": -3436448,
+      "strokeWidth": 4,
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Map",
@@ -414,7 +523,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Recipe",
@@ -437,7 +548,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
     },
     {
       "name": "Voice",
@@ -460,7 +573,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Players",
@@ -483,7 +598,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": false
     },
     {
       "name": "Mouse",
@@ -506,7 +623,9 @@
       "bgColor": -1725949418,
       "strokeColor": -3436448,
       "strokeWidth": 4,
-      "cornerRadius": 22
+      "cornerRadius": 22,
+      "displayInGame": true,
+      "displayInMenu": true
     }
   ],
   "mDrawerDataList": []

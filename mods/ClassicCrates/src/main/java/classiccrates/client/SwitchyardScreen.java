@@ -14,10 +14,12 @@ import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * A grid of large tiles, sized for a touch screen: every tile is one tap, nothing needs typing. Used for the Switchyard
- * menu and its sub-pages (crates, cosmetics, rules).
+ * menu and its sub-pages (land, players, shortcuts, crates, cosmetics, rules, admin). The tiles are built by a supplier
+ * so a page can be refreshed when its content changes (rule states arriving from the server, players joining).
  */
 public class SwitchyardScreen extends Screen {
 
@@ -32,30 +34,47 @@ public class SwitchyardScreen extends Screen {
     }
 
     private final @Nullable Screen parent;
-    private final List<Tile> tiles;
-    private final @Nullable Component note;
+    private final Supplier<List<Tile>> tiles;
+    private final Supplier<@Nullable Component> note;
     private int noteY;
+    private List<FormattedCharSequence> noteLines = List.of();
 
     public SwitchyardScreen(Component title, @Nullable Screen parent, List<Tile> tiles, @Nullable Component note) {
+        this(title, parent, () -> tiles, () -> note);
+    }
+
+    public SwitchyardScreen(Component title, @Nullable Screen parent, Supplier<List<Tile>> tiles, Supplier<@Nullable Component> note) {
         super(title);
         this.parent = parent;
         this.tiles = tiles;
         this.note = note;
     }
 
+    /** Rebuilds the tiles from the supplier (same screen, same parent). */
+    public void refresh() {
+        this.clearWidgets();
+        this.init();
+    }
+
     @Override
     protected void init() {
-        int noteLines = this.note == null ? 0 : Math.min(4, this.font.split(this.note, this.width - 40).size());
+        List<Tile> tiles = this.tiles.get();
+        Component note = this.note.get();
+        this.noteLines = note == null ? List.of() : this.font.split(note, this.width - 40);
+        if (this.noteLines.size() > 4) {
+            this.noteLines = this.noteLines.subList(0, 4);
+        }
+        int noteLines = this.noteLines.size();
         int top = 26;
         int bottom = this.height - 30 - noteLines * 10 - (noteLines > 0 ? 4 : 0);
-        int columns = Math.min(this.tiles.size(), this.width >= this.height ? 4 : 2);
-        int rows = (this.tiles.size() + columns - 1) / columns;
+        int columns = Math.max(1, Math.min(tiles.size(), this.width >= this.height ? (tiles.size() > 8 ? 5 : 4) : 2));
+        int rows = Math.max(1, (tiles.size() + columns - 1) / columns);
         int tileWidth = Math.min(120, (this.width - 24 - (columns - 1) * GAP) / columns);
         int tileHeight = Math.max(24, Math.min(76, (bottom - top - (rows - 1) * GAP) / rows));
         int left = (this.width - columns * tileWidth - (columns - 1) * GAP) / 2;
         int gridTop = top + Math.max(0, (bottom - top - rows * tileHeight - (rows - 1) * GAP) / 2);
-        for (int index = 0; index < this.tiles.size(); index++) {
-            Tile tile = this.tiles.get(index);
+        for (int index = 0; index < tiles.size(); index++) {
+            Tile tile = tiles.get(index);
             this.addRenderableWidget(new TileButton(left + (index % columns) * (tileWidth + GAP), gridTop + (index / columns) * (tileHeight + GAP),
                     tileWidth, tileHeight, tile));
         }
@@ -68,13 +87,10 @@ public class SwitchyardScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
         super.extractRenderState(graphics, mouseX, mouseY, a);
         graphics.centeredText(this.font, this.title, this.width / 2, 10, COPPER);
-        if (this.note != null) {
-            int y = this.noteY;
-            List<FormattedCharSequence> lines = this.font.split(this.note, this.width - 40);
-            for (FormattedCharSequence line : lines.subList(0, Math.min(4, lines.size()))) {
-                graphics.centeredText(this.font, line, this.width / 2, y, TEXT);
-                y += 10;
-            }
+        int y = this.noteY;
+        for (FormattedCharSequence line : this.noteLines) {
+            graphics.centeredText(this.font, line, this.width / 2, y, TEXT);
+            y += 10;
         }
     }
 

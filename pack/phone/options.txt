@@ -15,6 +15,10 @@ improvedTransparency:false
 chunkSectionFadeInTime:0.0
 menuBackgroundBlurriness:0
 weatherRadius:6
+renderClouds:"false"
+chatWidth:0.55
+chatHeightUnfocused:0.3
+chatScale:0.9
 autoJump:true
 narrator:0
 narratorHotkey:false
@@ -23,3 +27,4 @@ tutorialStep:none
 onboardAccessibility:false
 skipMultiplayerWarning:true
 joinedFirstServer:true
+key_key.mute_microphone:key.keyboard.unknown

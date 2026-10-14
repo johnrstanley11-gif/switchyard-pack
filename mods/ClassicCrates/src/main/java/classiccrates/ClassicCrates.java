@@ -86,6 +86,7 @@ public class ClassicCrates {
         TABS.register(modBus);
 
         container.registerConfig(ModConfig.Type.LOCAL, Config.SPEC, "classiccrates.toml");
+        modBus.addListener(net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent.class, classiccrates.admin.AdminPayloads::register);
 
         NeoForge.EVENT_BUS.register(VoteHandler.class);
         NeoForge.EVENT_BUS.register(CrateCommands.class);
