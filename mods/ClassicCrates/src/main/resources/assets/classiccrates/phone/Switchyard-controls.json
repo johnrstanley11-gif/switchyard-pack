@@ -225,7 +225,7 @@
       "strokeWidth": 4,
       "cornerRadius": 22,
       "displayInGame": true,
-      "displayInMenu": false
+      "displayInMenu": true
     },
     {
       "name": "Jump",
@@ -275,7 +275,7 @@
       "strokeWidth": 4,
       "cornerRadius": 22,
       "displayInGame": true,
-      "displayInMenu": false
+      "displayInMenu": true
     },
     {
       "name": "Swap",

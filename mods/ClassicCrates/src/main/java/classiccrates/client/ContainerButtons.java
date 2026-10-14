@@ -59,7 +59,9 @@ final class ContainerButtons {
         if (x < 2) {
             x = Math.min(screen.getLeftPos() + screen.getImageWidth() + 4, screen.width - WIDTH - 2);
         }
-        int y = screen.getTopPos();
+        // Bottom-aligned with the screen: on phones the launcher's own buttons sit in the top-left corner (test18 put
+        // these at the top and they were covered).
+        int y = Math.max(2, screen.getTopPos() + screen.getImageHeight() - (3 * HEIGHT + 2 * GAP));
         event.addListener(button(x, y, "sort", () -> sort(screen)));
         event.addListener(button(x, y + HEIGHT + GAP, "dump", () -> move(screen, false)));
         event.addListener(button(x, y + 2 * (HEIGHT + GAP), "match", () -> move(screen, true)));
